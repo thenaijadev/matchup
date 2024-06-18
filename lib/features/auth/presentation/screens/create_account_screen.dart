@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -242,7 +243,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 height: 30,
               ),
               PrimaryButton(
-                  label: "Continue", onPressed: () {}, isEnabled: true)
+                  label: "Continue",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Routes.dateOfBirth);
+                  },
+                  isEnabled: true)
             ],
           ),
         ),

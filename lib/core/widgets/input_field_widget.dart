@@ -29,7 +29,8 @@ class InputFieldWidget extends StatelessWidget {
       this.horizontalContentPadding = 10,
       this.labelPadding =
           const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      this.keyboardType = TextInputType.text});
+      this.keyboardType = TextInputType.text,
+      this.readOnly = false});
   final String? label;
   final String hintText;
   final double hintSize;
@@ -47,6 +48,7 @@ class InputFieldWidget extends StatelessWidget {
   final int? maxLines;
   final double enabledBorderRadius;
   final double verticalContentPadding;
+  final bool readOnly;
   final FontWeight fontWeight;
   final Color hintColor;
   final double labelFontSize;
@@ -75,6 +77,7 @@ class InputFieldWidget extends StatelessWidget {
           key: textFieldkey,
           initialValue: initialValue,
           onChanged: onChanged,
+          readOnly: readOnly,
           maxLines: maxLines,
           validator: validator,
           obscureText: obscureText,

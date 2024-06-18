@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/error_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/create_account_screen.dart';
+import 'package:matchup/features/auth/presentation/screens/date_of_birth_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 
@@ -19,6 +20,10 @@ class AppRouter {
       case Routes.createAccount:
         return MaterialPageRoute(
           builder: (_) => const CreateAccountScreen(),
+        );
+      case Routes.dateOfBirth:
+        return MaterialPageRoute(
+          builder: (_) => const DateOfBirthScreen(),
         );
       default:
         return MaterialPageRoute(

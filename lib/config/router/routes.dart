@@ -4,10 +4,11 @@ class Routes {
   static const String login = '/';
   static const String splash = '/splash';
   static const String onboardingScreen = '/onboardingScreen';
+  static const String createAccount = '/createAccount';
+  static const String dateOfBirth = '/dateOfBirth';
 
   static const String phoneNumber = '/phoneNumber';
   static const String otpVerification = '/otpVerification';
-  static const String createAccount = '/createAccount';
   static const String verificationSuccessful = '/verificationSuccessful';
   static const String forgotPassword = '/forgotPassword';
 
