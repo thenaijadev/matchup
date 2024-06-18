@@ -57,7 +57,7 @@ class OnboardingScreen extends StatelessWidget {
                 label: "Get started",
                 onPressed: () {
                   showModalBottomSheet(
-                    isScrollControlled: true,
+                      isScrollControlled: true,
                       scrollControlDisabledMaxHeightRatio: (1 / 2.5),
                       showDragHandle: true,
                       backgroundColor: Theme.of(context).colorScheme.background,
@@ -116,7 +116,9 @@ class BottomSheetWidget extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: Theme.of(context).colorScheme.secondary,
           ),
-          const Spacer(),
+          const SizedBox(
+            height: 50,
+          ),
           PrimaryButton(
               label: "Create Account", onPressed: () {}, isEnabled: true),
           const SizedBox(
