@@ -1,0 +1,68 @@
+name: matchup
+description: "A new Flutter project."
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  dio: ^5.4.3+1
+  logger: ^2.3.0
+  google_fonts: ^6.2.1
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
+  flutter_native_splash: ^2.4.0
+  otp_text_field: ^1.1.3
+  shimmer: ^3.0.0
+  accordion: ^2.6.0
+  smooth_page_indicator: ^1.1.0
+  dartz: ^0.10.1
+  shared_preferences: ^2.2.3
+  data_connection_checker_tv: ^0.3.5-nullsafety
+  syncfusion_flutter_charts: ^25.2.6
+  location_plus: ^1.0.6
+  geolocator: ^9.0.2
+  geocode: ^1.0.3
+  geocoding: ^3.0.0
+  animated_splash_screen: ^1.3.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/splash_image.png"
+  color: #030E4F
+  min_sdk_android: 21
+  adaptive_icon_background: "assets/images/app_icon_bg.png"
+  adaptive_icon_foreground: "assets/images/app_icon.png"
+
+flutter_native_splash:
+  color: "#030E4F"
+  image: assets/images/splash_background.png
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: splash
+      fonts:
+        - asset: assets/fonts/splash.otf
+    - family: satoshi
+      fonts:
+        - asset: assets/fonts/satoshi/Satoshi-Regular.otf
+
+  assets:
+    - assets/images/
+    # - assets/fonts/splash.otf
+module:
+  androidX: true # Add this line.
