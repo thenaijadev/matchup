@@ -7,7 +7,7 @@ class Routes {
 
   static const String phoneNumber = '/phoneNumber';
   static const String otpVerification = '/otpVerification';
-  static const String signUp = '/signUp';
+  static const String createAccount = '/createAccount';
   static const String verificationSuccessful = '/verificationSuccessful';
   static const String forgotPassword = '/forgotPassword';
 

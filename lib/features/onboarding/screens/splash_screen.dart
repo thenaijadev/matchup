@@ -38,10 +38,20 @@ class _SplashScreenState extends State<SplashScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: const Center(
+                child: Center(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [],
+                  children: [
+                    state.isDark
+                        ? Image.asset(
+                            "assets/images/splash_dark.png",
+                            width: 100,
+                          )
+                        : Image.asset(
+                            "assets/images/splash_light.png",
+                            width: 100,
+                          )
+                  ],
                 )),
               )
             : const SizedBox();
