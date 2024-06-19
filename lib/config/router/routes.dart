@@ -6,6 +6,9 @@ class Routes {
   static const String onboardingScreen = '/onboardingScreen';
   static const String createAccount = '/createAccount';
   static const String dateOfBirth = '/dateOfBirth';
+  static const String genderChoice = '/genderChoice';
+  static const String locationSearch = '/locationSearch';
+  static const String addProfileImage = '/addProfileImage';
 
   static const String phoneNumber = '/phoneNumber';
   static const String otpVerification = '/otpVerification';

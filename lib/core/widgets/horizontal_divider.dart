@@ -16,7 +16,7 @@ class HorizontalDivider extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: paddingVertical),
       child: Container(
         height: thickness,
-        color: color,
+        color: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

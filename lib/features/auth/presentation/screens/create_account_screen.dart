@@ -16,7 +16,7 @@ class CreateAccountScreen extends StatefulWidget {
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool obscureText = false;
   String? countryFlag = "🇳🇬";
-  String? countryCode = "+234";
+  String? countryCode = "234";
 
   bool? acceptTerms = false;
   @override

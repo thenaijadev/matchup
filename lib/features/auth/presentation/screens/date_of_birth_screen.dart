@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -103,7 +104,11 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
                   onChanged: (val) {}),
               SizedBox(height: 280, child: _buildDatePicker(context)),
               PrimaryButton(
-                  label: "Continue", onPressed: () {}, isEnabled: true)
+                  label: "Continue",
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.genderChoice);
+                  },
+                  isEnabled: true)
             ],
           ),
         ),
@@ -173,7 +178,7 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
                 _selectedYear = _selectedDate.year - value;
                 controller.text =
                     '$_selectedDay/$_selectedMonth/$_selectedYear';
-                updateDayList(); // Update days based on new year and month
+                updateDayList();
               });
             },
             children: List.generate(
@@ -187,15 +192,13 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
   }
 
   void updateDayList() {
-    // Update the list of days based on the selected month and year
-    setState(() {}); // Force rebuild to reflect changes
+    setState(() {});
   }
 
   int getDaysInMonth(int year, int month) {
-    // Function to calculate the number of days in a month (considering leap years)
     if (month == 2) {
       if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
-        return 29; // Leap year
+        return 29;
       } else {
         return 28;
       }
