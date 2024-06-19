@@ -116,7 +116,7 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
               child: PrimaryButton(
                   label: "Continue",
                   onPressed: () {
-                    Navigator.of(context).pushNamed(Routes.dateOfBirth);
+                    Navigator.of(context).pushNamed(Routes.sportChoice);
                   },
                   isEnabled: true),
             )

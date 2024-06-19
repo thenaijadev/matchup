@@ -12,6 +12,7 @@ import 'package:matchup/features/auth/presentation/screens/otp_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/profile_image_choice.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
+import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
 
 class AppRouter {
   Route onGenerateRoute(RouteSettings routeSettings) {
@@ -61,6 +62,11 @@ class AppRouter {
       case Routes.newPassword:
         return MaterialPageRoute(
           builder: (_) => const NewPasswordScreen(),
+        );
+
+      case Routes.sportChoice:
+        return MaterialPageRoute(
+          builder: (_) => const SportChoiceScreen(),
         );
       default:
         return MaterialPageRoute(
