@@ -4,14 +4,14 @@ import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class NewPasswordScreen extends StatefulWidget {
+  const NewPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<NewPasswordScreen> createState() => _NewPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _NewPasswordScreenState extends State<NewPasswordScreen> {
   bool obscureText = false;
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         centerTitle: true,
         title: TextWidget(
-          text: "Sign into account",
+          text: "Forgot Password",
           fontSize: 22,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).colorScheme.inversePrimary,
@@ -51,15 +51,37 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
+              child: TextWidget(
+                  textAlign: TextAlign.center,
+                  color: Theme.of(context).colorScheme.secondary,
+                  text: "Enter your new password to update your password"),
+            ),
             InputFieldWidget(
-                hintSize: 12,
                 hintColor: Theme.of(context).colorScheme.inversePrimary,
-                hintText: "Email Address",
+                hintText: "New Password",
+                hintSize: 12,
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
+                  child: Icon(
+                    size: 17,
+                    obscureText
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
                 enabledBorderRadius: 10,
                 onChanged: (val) {}),
             InputFieldWidget(
                 hintColor: Theme.of(context).colorScheme.inversePrimary,
-                hintText: "Password",
+                hintText: "Confirm Password",
                 hintSize: 12,
                 suffixIcon: GestureDetector(
                   onTap: () {
@@ -80,52 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 30,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(
-                        context, Routes.createAccount);
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "Don't have and account?   ",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: "satoshi",
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Sign Up',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: "satoshi",
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                TextWidget(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.forgotPassword);
-                  },
-                  text: "Forgot Password?",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                )
-              ],
-            ),
             const Spacer(),
             PrimaryButton(
-                label: "Sign In",
+                label: "Submit",
                 onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.dateOfBirth);
+                  Navigator.of(context).pushNamed(Routes.login);
                 },
                 isEnabled: true)
           ],

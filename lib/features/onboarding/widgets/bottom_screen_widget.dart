@@ -46,7 +46,9 @@ class BottomSheetWidget extends StatelessWidget {
           PrimaryButton(
               isOutlined: true,
               label: "Login",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.login);
+              },
               isEnabled: true)
         ],
       ),
