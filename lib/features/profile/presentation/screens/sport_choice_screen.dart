@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/profile/presentation/widgets/sport_time_widget.dart';
 
 class SportChoiceScreen extends StatefulWidget {
   const SportChoiceScreen({super.key});
@@ -68,7 +70,8 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
               child: TextWidget(
                   textAlign: TextAlign.center,
                   color: Theme.of(context).colorScheme.secondary,
-                  text: "Enter your new password to update your password"),
+                  text:
+                      "You can select more than one of your favourite sport."),
             ),
             const SizedBox(
               height: 30,
@@ -112,60 +115,17 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
               color: Theme.of(context).colorScheme.secondary,
             ),
             const Spacer(),
-            PrimaryButton(label: "Save", onPressed: () {}, isEnabled: true),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SportItemWidget extends StatelessWidget {
-  const SportItemWidget(
-      {super.key,
-      required this.onTap,
-      required this.chosenIndex,
-      required this.image,
-      required this.title,
-      required this.isSelected});
-  final VoidCallback onTap;
-  final int chosenIndex;
-  final String image;
-  final String title;
-  final bool isSelected;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        // padding: const EdgeInsets.all(30),
-        decoration: BoxDecoration(
-          border: Border.all(
-              width: 1,
-              color: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.transparent),
-          color: isSelected
-              ? Color.fromARGB(22, 254, 94, 8)
-              : const Color(0xff232323),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              image,
-              width: 50,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextWidget(
-              text: title,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
+            Opacity(
+                opacity: selectedItems.isEmpty ? 0.5 : 1,
+                child: PrimaryButton(
+                    label: "Save",
+                    onPressed: () {
+                      if (selectedItems.isNotEmpty) {
+                        Navigator.pushNamed(context, Routes.chooseSportLevel,
+                            arguments: selectedItems);
+                      }
+                    },
+                    isEnabled: true)),
           ],
         ),
       ),

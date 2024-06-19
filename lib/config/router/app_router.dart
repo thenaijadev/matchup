@@ -12,6 +12,7 @@ import 'package:matchup/features/auth/presentation/screens/otp_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/profile_image_choice.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
+import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
 
 class AppRouter {
@@ -67,6 +68,15 @@ class AppRouter {
       case Routes.sportChoice:
         return MaterialPageRoute(
           builder: (_) => const SportChoiceScreen(),
+        );
+
+      case Routes.chooseSportLevel:
+        List<Map<String, String>> selectedItems =
+            routeSettings.arguments as List<Map<String, String>>;
+        return MaterialPageRoute(
+          builder: (_) => ChooseSportLevelScreen(
+            sports: selectedItems,
+          ),
         );
       default:
         return MaterialPageRoute(
