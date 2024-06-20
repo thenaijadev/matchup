@@ -215,7 +215,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           TextSpan(
                             text: 'I Agree to the ',
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 11,
                               fontFamily: "satoshi",
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -223,7 +223,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           TextSpan(
                             text: 'Terms of Use',
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 11,
                                 fontFamily: "satoshi",
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold),
@@ -231,7 +231,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           TextSpan(
                             text: ' and ',
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 11,
                               fontFamily: "satoshi",
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -239,7 +239,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           TextSpan(
                             text: 'Privacy Policy',
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 11,
                                 fontFamily: "satoshi",
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold),
