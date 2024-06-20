@@ -105,8 +105,14 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/splash_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           children: [
             Padding(
@@ -127,6 +133,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   obscureText: true,
                   spaceBetween: MediaQuery.of(context).size.width * .01,
                   otpFieldStyle: OtpFieldStyle(
+                    backgroundColor: Theme.of(context).colorScheme.background,
                     borderColor: const Color(0xff282828),
                     enabledBorderColor: const Color(0xff282828),
                     focusBorderColor: const Color(0xff282828),

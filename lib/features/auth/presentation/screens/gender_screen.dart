@@ -46,8 +46,14 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/splash_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           children: [
             Padding(
@@ -71,6 +77,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5)
                     .copyWith(right: 8),
                 decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: const Color(0xff282828),
@@ -107,6 +114,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5)
                     .copyWith(right: 8),
                 decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: const Color(0xff282828),
@@ -144,6 +152,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
                     .copyWith(right: 8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).colorScheme.background,
                     border: Border.all(
                       color: const Color(0xff282828),
                     )),

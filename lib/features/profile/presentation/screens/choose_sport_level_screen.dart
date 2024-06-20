@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/profile/presentation/widgets/sport_level.dart';
 
-class ChooseSportLevelScreen extends StatelessWidget {
+class ChooseSportLevelScreen extends StatefulWidget {
   const ChooseSportLevelScreen({super.key, required this.sports});
   final List<Map<String, String>> sports;
+
+  @override
+  State<ChooseSportLevelScreen> createState() => _ChooseSportLevelScreenState();
+}
+
+class _ChooseSportLevelScreenState extends State<ChooseSportLevelScreen> {
+  List<Map<String, dynamic>> emojis = [
+    {"name": "Terrible", "image": "😥"},
+    {"name": "Bad", "image": "☹️"},
+    {"name": "Okay", "image": "🙂"},
+    {"name": "Good", "image": "😎"},
+    {"name": "Amazing", "image": "🤗"},
+  ];
+  final int _selectedIndex1 = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,71 +53,35 @@ class ChooseSportLevelScreen extends StatelessWidget {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: SingleChildScrollView(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/splash_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0)
+              .copyWith(bottom: 10),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 30.0,
-                ),
+                padding: const EdgeInsets.symmetric(),
                 child: TextWidget(
                     textAlign: TextAlign.center,
                     color: Theme.of(context).colorScheme.secondary,
                     text:
                         "How well will you rate your skills on each of the sport."),
               ),
-              Column(
-                children: List.generate(
-                  sports.length,
-                  (index) => Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.secondary),
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: const Color.fromARGB(22, 254, 94, 8),
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary)),
-                              height: 50,
-                              width: 50,
-                              child: Image.asset(sports[index]["image"]!),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            TextWidget(
-                              fontSize: 12,
-                              text: sports[index]["title"]!,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+              Expanded(
+                child: ListView(
+                  children: List.generate(
+                      widget.sports.length,
+                      (index) => SportLevelWidget(
+                            index: index,
+                            sports: [...widget.sports],
+                          )),
                 ),
-              ),
-              const SizedBox(
-                height: 30,
               ),
               PrimaryButton(label: "Save", onPressed: () {}, isEnabled: true),
             ],

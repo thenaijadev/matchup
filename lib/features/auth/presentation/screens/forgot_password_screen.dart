@@ -46,8 +46,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/splash_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           children: [
             Padding(

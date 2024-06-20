@@ -59,8 +59,16 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                "assets/images/splash_background.png"), // Replace with your image path
+            fit: BoxFit
+                .fill, // Adjust how the image fills the container (cover, contain, etc.)
+          ),
+        ),
         child: Column(
           children: [
             Padding(

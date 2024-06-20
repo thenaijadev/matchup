@@ -47,8 +47,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/splash_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           children: [
             Padding(
@@ -60,6 +66,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   text: "Enter your new password to update your password"),
             ),
             InputFieldWidget(
+                obscureText: obscureText,
                 hintColor: Theme.of(context).colorScheme.inversePrimary,
                 hintText: "New Password",
                 hintSize: 12,
@@ -80,6 +87,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 enabledBorderRadius: 10,
                 onChanged: (val) {}),
             InputFieldWidget(
+                obscureText: obscureText,
                 hintColor: Theme.of(context).colorScheme.inversePrimary,
                 hintText: "Confirm Password",
                 hintSize: 12,

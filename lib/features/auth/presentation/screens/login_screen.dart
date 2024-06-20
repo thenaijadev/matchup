@@ -47,8 +47,14 @@ class _LoginScreenState extends State<LoginScreen> {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/splash_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           children: [
             InputFieldWidget(
@@ -61,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintColor: Theme.of(context).colorScheme.inversePrimary,
                 hintText: "Password",
                 hintSize: 12,
+                obscureText: obscureText,
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {

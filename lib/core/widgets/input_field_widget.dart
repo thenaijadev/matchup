@@ -85,7 +85,7 @@ class InputFieldWidget extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: prefixicon,
             filled: true,
-            fillColor: Colors.transparent,
+            fillColor: Theme.of(context).colorScheme.background,
             suffixIcon: suffixIcon,
             hintStyle: TextStyle(
                 color: hintColor,
