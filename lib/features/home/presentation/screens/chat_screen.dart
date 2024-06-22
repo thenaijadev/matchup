@@ -139,6 +139,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   const Expanded(
                       child: HorizontalDivider(
                     thickness: 0.5,
+                    color: Color(0xff282828),
                   )),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -149,6 +150,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   const Expanded(
                       child: HorizontalDivider(
+                    color: Color(0xff282828),
                     thickness: 0.5,
                   ))
                 ],
@@ -172,9 +174,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary)),
+                                      color: const Color(0xff282828))),
                               child: Column(
                                 children: [
                                   SizedBox(
