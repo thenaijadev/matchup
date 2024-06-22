@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
             PrimaryButton(
                 label: "Sign In",
                 onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.dateOfBirth);
+                  Navigator.of(context).pushNamed(Routes.home);
                 },
                 isEnabled: true)
           ],

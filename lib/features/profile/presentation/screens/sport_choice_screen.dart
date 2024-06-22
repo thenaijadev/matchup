@@ -63,10 +63,8 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                "assets/images/splash_background.png"), // Replace with your image path
-            fit: BoxFit
-                .fill, // Adjust how the image fills the container (cover, contain, etc.)
+            image: AssetImage("assets/images/splash_background.png"),
+            fit: BoxFit.fill,
           ),
         ),
         child: Column(
@@ -86,10 +84,10 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
             ),
             GridView.count(
               shrinkWrap: true,
-              crossAxisCount: 3, // Number of items in each row
-              childAspectRatio: 1, // Aspect ratio of each item
-              mainAxisSpacing: 10.0, // Spacing between rows
-              crossAxisSpacing: 10.0, // Spacing between items
+              crossAxisCount: 3,
+              childAspectRatio: 1,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
               children: List.generate(
                 items.length,
                 (index) => SportItemWidget(

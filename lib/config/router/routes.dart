@@ -14,4 +14,5 @@ class Routes {
   static const String newPassword = '/newPassword';
   static const String sportChoice = '/sportChoice';
   static const String chooseSportLevel = '/chooseSportLevel';
+  static const String home = '/home';
 }

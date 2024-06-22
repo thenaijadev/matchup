@@ -10,6 +10,7 @@ import 'package:matchup/features/auth/presentation/screens/login_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/new_password_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/otp_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/profile_image_choice.dart';
+import 'package:matchup/features/home/presentation/screens/home_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
@@ -78,6 +79,12 @@ class AppRouter {
             sports: selectedItems,
           ),
         );
+
+      case Routes.home:
+        return MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => const ErrorScreen(),
