@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/widgets/text_widget.dart';
 
 class InputFieldWidget extends StatelessWidget {
   const InputFieldWidget(
@@ -61,16 +60,6 @@ class InputFieldWidget extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (label != null)
-          Padding(
-            padding: labelPadding,
-            child: TextWidget(
-              text: label ?? "",
-              color: labelColor,
-              fontWeight: fontWeight,
-              fontSize: labelFontSize,
-            ),
-          ),
         TextFormField(
           controller: controller,
           onTap: onTap,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/home_widget.dart';
+import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/chat_screen_widget.dart';
+import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/home_widget.dart';
+import 'package:matchup/features/home/presentation/widgets/search_screen_widgets/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,7 +14,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   List<Widget> bodyWidgets = [
-    const HomeWidget(),
+    const HomeScreenWidget(),
+    const SearchScreenWidget(),
+    const ChatScreenWidget()
   ];
   @override
   Widget build(BuildContext context) {
