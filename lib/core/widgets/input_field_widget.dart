@@ -115,6 +115,9 @@ class InputFieldWidget extends StatelessWidget {
             hintText: hintText,
           ),
         ),
+        const SizedBox(
+          height: 10,
+        )
       ]),
     );
   }

@@ -68,6 +68,9 @@ class ChatsWidget extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(
+          height: 20,
+        ),
         InputFieldWidget(
             prefixicon: Icon(
               CupertinoIcons.search,

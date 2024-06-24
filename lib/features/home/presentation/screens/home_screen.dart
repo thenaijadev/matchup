@@ -3,6 +3,7 @@ import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/chat_screen_widget.dart';
 import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/home_widget.dart';
 import 'package:matchup/features/home/presentation/widgets/search_screen_widgets/search_screen.dart';
+import 'package:matchup/features/home/presentation/widgets/settings_screen_widgets/settings_screen_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,7 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> bodyWidgets = [
     const HomeScreenWidget(),
     const SearchScreenWidget(),
-    const ChatScreenWidget()
+    const ChatScreenWidget(),
+    const SettingsScreenWidget(),
   ];
   @override
   Widget build(BuildContext context) {

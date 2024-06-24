@@ -32,13 +32,51 @@ class _ChatScreenState extends State<ChatScreen> {
       "isMe": true,
       "time": "2:30pn"
     },
+    {
+      "message":
+          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
+      "isMe": true,
+      "time": "2:30pn"
+    },
+    {"message": "Hi", "isMe": false, "time": "2:30pn"},
+    {
+      "message":
+          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
+      "isMe": false,
+      "time": "2:30pn"
+    },
+    {
+      "message":
+          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
+      "isMe": true,
+      "time": "2:30pn"
+    },
+    {
+      "message":
+          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
+      "isMe": true,
+      "time": "2:30pn"
+    },
+    {"message": "Hi", "isMe": false, "time": "2:30pn"},
+    {
+      "message":
+          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
+      "isMe": false,
+      "time": "2:30pn"
+    },
+    {
+      "message":
+          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
+      "isMe": true,
+      "time": "2:30pn"
+    },
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20).copyWith(bottom: 0),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/splash_background.png"),
@@ -205,6 +243,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.only(top: 5.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/sad_icon.png",
