@@ -96,7 +96,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                             width: 1,
                             color: _selectedIndex == emojiIndex
                                 ? Theme.of(context).colorScheme.primary
-                                : const Color(0xff282828)),
+                                : Theme.of(context).colorScheme.inverseSurface),
                         color: _selectedIndex == emojiIndex
                             ? const Color.fromARGB(22, 254, 94, 8)
                             : Colors.transparent,

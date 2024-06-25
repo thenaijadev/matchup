@@ -14,32 +14,36 @@ class SettingsItem extends StatelessWidget {
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 17,
-                backgroundColor: const Color(0xff282828),
-                child: Image.asset(
-                  image,
-                  width: 18,
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 17,
+                  backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+                  child: Image.asset(
+                    image,
+                    width: 18,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              TextWidget(
-                text: title,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              )
-            ],
-          ),
-          if (trailing != null) trailing!
-        ],
+                const SizedBox(
+                  width: 10,
+                ),
+                TextWidget(
+                  text: title,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                )
+              ],
+            ),
+            if (trailing != null) trailing!
+          ],
+        ),
       ),
     );
   }

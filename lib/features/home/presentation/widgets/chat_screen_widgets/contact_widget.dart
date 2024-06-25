@@ -58,7 +58,7 @@ class ContactWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(
                     width: 1,
-                    color: const Color(0xff282828),
+                    color: Theme.of(context).colorScheme.inverseSurface,
                   ),
                 ),
                 child: TextWidget(
@@ -78,7 +78,7 @@ class ContactWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(
                     width: 1,
-                    color: const Color(0xff282828),
+                    color: Theme.of(context).colorScheme.inverseSurface,
                   ),
                 ),
                 child: const TextWidget(

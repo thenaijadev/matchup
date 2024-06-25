@@ -112,7 +112,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
                                       border: Border.all(
-                                          color: const Color(0xff282828),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .inverseSurface,
                                           width: 2),
                                     ),
                                     child: const Icon(Icons.close)),
@@ -146,26 +148,41 @@ class _ChatScreenState extends State<ChatScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircleAvatar(
-                            backgroundColor: Color(0xff282828),
-                            child: Icon(Icons.phone),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inverseSurface,
+                            child: Icon(
+                              Icons.phone,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                            ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           CircleAvatar(
-                            backgroundColor: Color(0xff282828),
-                            child: Icon(Icons.videocam),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inverseSurface,
+                            child: Icon(
+                              Icons.videocam,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                            ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           CircleAvatar(
-                            backgroundColor: Color(0xff282828),
-                            child: Icon(Icons.more_vert),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inverseSurface,
+                            child: Icon(
+                              Icons.more_vert,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                            ),
                           ),
                         ],
                       )
@@ -174,10 +191,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                       child: HorizontalDivider(
                     thickness: 0.5,
-                    color: Color(0xff282828),
+                    color: Theme.of(context).colorScheme.inverseSurface,
                   )),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -186,9 +203,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                       child: HorizontalDivider(
-                    color: Color(0xff282828),
+                    color: Theme.of(context).colorScheme.inverseSurface,
                     thickness: 0.5,
                   ))
                 ],
@@ -212,12 +229,15 @@ class _ChatScreenState extends State<ChatScreen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                      color: const Color(0xff282828))),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary)),
                               child: Column(
                                 children: [
                                   SizedBox(
                                       width: 150,
                                       child: TextWidget(
+                                          fontWeight: FontWeight.bold,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary,
@@ -226,6 +246,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       TextWidget(
+                                          fontWeight: FontWeight.bold,
                                           fontSize: 8,
                                           color: Theme.of(context)
                                               .colorScheme

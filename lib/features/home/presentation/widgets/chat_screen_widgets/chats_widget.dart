@@ -37,11 +37,13 @@ class ChatsWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      border:
-                          Border.all(color: const Color(0xff282828), width: 2),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.inverseSurface,
+                          width: 2),
                     ),
                     child: Image.asset(
                       "assets/images/arrow_back_dark.png",
+                      color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                   ),
                 ),
@@ -61,8 +63,9 @@ class ChatsWidget extends StatelessWidget {
                   width: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    border:
-                        Border.all(color: const Color(0xff282828), width: 2),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.inverseSurface,
+                        width: 2),
                   ),
                   child: const Center(child: Icon(Icons.more_vert_outlined))),
             ),

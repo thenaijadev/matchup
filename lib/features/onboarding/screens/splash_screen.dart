@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 decoration: BoxDecoration(
                   color: state.isDark
                       ? AppColors.splashBackgroundDark
-                      : const Color.fromARGB(255, 201, 158, 158),
+                      : AppColors.appBackgroundLight,
                   image: const DecorationImage(
                     image: AssetImage('assets/images/splash_background.png'),
                     fit: BoxFit.cover,

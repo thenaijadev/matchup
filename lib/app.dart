@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/config/dark_mode/presentation/bloc/dark_mode_bloc.dart';
 import 'package:matchup/config/router/app_router.dart';
 import 'package:matchup/config/router/routes.dart';
@@ -29,12 +30,19 @@ class _MyAppState extends State<MyApp> {
         child: BlocBuilder<DarkModeBloc, DarkModeState>(
           builder: (context, state) {
             if (state is DarkModeCurrentState) {
-              return MaterialApp(
-                theme: state.isDark ? darkTheme() : lightTheme(),
-                debugShowCheckedModeBanner: false,
-                title: 'Flutter Demo',
-                initialRoute: Routes.splash,
-                onGenerateRoute: appRouter.onGenerateRoute,
+              return ScreenUtilInit(
+                designSize: const Size(375, 812),
+                minTextAdapt: true,
+                splitScreenMode: true,
+                builder: (context, child) {
+                  return MaterialApp(
+                    theme: state.isDark ? darkTheme() : lightTheme(),
+                    debugShowCheckedModeBanner: false,
+                    title: 'Flutter Demo',
+                    initialRoute: Routes.splash,
+                    onGenerateRoute: appRouter.onGenerateRoute,
+                  );
+                },
               );
             }
             return const SizedBox();

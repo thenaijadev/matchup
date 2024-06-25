@@ -27,8 +27,9 @@ class NewsItemWidget extends StatelessWidget {
                           "assets/images/cnn.png",
                         )),
                     borderRadius: BorderRadius.circular(100),
-                    border:
-                        Border.all(color: const Color(0xff282828), width: 2),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.inverseSurface,
+                        width: 2),
                   ),
                 ),
                 const SizedBox(

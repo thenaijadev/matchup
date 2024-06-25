@@ -4,12 +4,14 @@ import 'package:matchup/core/widgets/text_widget.dart';
 class SettingsHeaderWidget extends StatelessWidget {
   const SettingsHeaderWidget({
     super.key,
+    required this.onTap,
   });
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(

@@ -50,14 +50,14 @@ void changeCountry(context, onSelect) {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
-            borderSide: const BorderSide(
-              color: Color(0xff282828),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.inverseSurface,
               width: 1,
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color(0xff282828),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.inverseSurface,
               width: 0.5,
             ),
             borderRadius: BorderRadius.circular(50),

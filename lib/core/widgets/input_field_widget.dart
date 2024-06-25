@@ -100,14 +100,14 @@ class InputFieldWidget extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(enabledBorderRadius),
-              borderSide: const BorderSide(
-                color: Color(0xff282828),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.inverseSurface,
                 width: 1,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Color(0xff282828),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.inverseSurface,
                 width: 1,
               ),
               borderRadius: BorderRadius.circular(enabledBorderRadius),

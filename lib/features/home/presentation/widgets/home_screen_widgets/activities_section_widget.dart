@@ -32,7 +32,7 @@ class ActivitiesSectionWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               width: 2,
-              color: const Color(0xff282828),
+              color: Theme.of(context).colorScheme.inverseSurface,
             ),
           ),
           child: Column(

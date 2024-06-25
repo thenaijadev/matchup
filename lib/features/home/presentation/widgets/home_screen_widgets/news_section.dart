@@ -65,7 +65,7 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
                         width: 2,
                         color: _chosenIndex == index
                             ? Theme.of(context).colorScheme.primary
-                            : const Color(0xff282828)),
+                            : Theme.of(context).colorScheme.inverseSurface),
                   ),
                   child: Center(
                       child: TextWidget(
