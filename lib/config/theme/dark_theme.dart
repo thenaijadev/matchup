@@ -5,6 +5,11 @@ ThemeData darkTheme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,
     fontFamily: "satoshi",
+    bottomSheetTheme: const BottomSheetThemeData(
+      dragHandleColor: Color(0xff333333),
+      backgroundColor: Color(0xff141414),
+      surfaceTintColor: Colors.transparent,
+    ),
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.light(
         brightness: Brightness.dark,
@@ -13,7 +18,7 @@ ThemeData darkTheme() {
         secondary: AppColors.textSecondaryDark,
         inversePrimary: AppColors.textPrimaryDark,
         inverseSurface: Color(0xff282828)),
-    textTheme: ThemeData.light().textTheme.apply(
+    textTheme: ThemeData.dark().textTheme.apply(
         bodyColor: AppColors.textPrimaryDark, displayColor: Colors.black),
   );
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/presentation/widgets/date_picker_widget.dart';
 
 class ScheduleDateAndTime extends StatefulWidget {
   const ScheduleDateAndTime({
@@ -89,30 +90,28 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                         decoration: BoxDecoration(
                             color:
                                 Theme.of(context).colorScheme.inverseSurface),
-                        child: Expanded(
-                          child: CupertinoPicker(
-                            selectionOverlay:
-                                const CupertinoPickerDefaultSelectionOverlay(
-                              capEndEdge: false,
-                              capStartEdge: false,
-                              background: Colors.transparent,
-                            ),
-                            scrollController: FixedExtentScrollController(
-                                initialItem: _selectedDay - 1),
-                            itemExtent: 32.0,
-                            onSelectedItemChanged: (value) {},
-                            children: List.generate(
-                              24,
-                              (index) => Center(
-                                child: TextWidget(
-                                  text: index.toString().length == 1
-                                      ? '0$index'
-                                      : '$index',
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        child: CupertinoPicker(
+                          selectionOverlay:
+                              const CupertinoPickerDefaultSelectionOverlay(
+                            capEndEdge: false,
+                            capStartEdge: false,
+                            background: Colors.transparent,
+                          ),
+                          scrollController: FixedExtentScrollController(
+                              initialItem: _selectedDay - 1),
+                          itemExtent: 32.0,
+                          onSelectedItemChanged: (value) {},
+                          children: List.generate(
+                            24,
+                            (index) => Center(
+                              child: TextWidget(
+                                text: index.toString().length == 1
+                                    ? '0$index'
+                                    : '$index',
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -286,7 +285,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
             hintText: "Date for game",
             enabledBorderRadius: 10,
             onChanged: (val) {}),
-        SizedBox(height: 300.h, child: _buildDatePicker(context)),
+        SizedBox(height: 300.h, child: const DatePickerWidget()),
       ],
     );
   }
@@ -330,124 +329,4 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
       ),
     );
   }
-
-  Row _buildDatePicker(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: CupertinoPicker(
-            selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
-              capEndEdge: false,
-              background:
-                  Theme.of(context).colorScheme.primary.withOpacity(0.4),
-            ),
-            scrollController:
-                FixedExtentScrollController(initialItem: _selectedDay - 1),
-            itemExtent: 32.0,
-            onSelectedItemChanged: (value) {
-              setState(() {
-                _selectedDay = value + 1;
-                controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
-              });
-            },
-            children: List.generate(
-                getDaysInMonth(_selectedYear, _selectedMonth),
-                (index) => Center(child: Text('${index + 1}'))),
-          ),
-        ),
-        Expanded(
-          child: CupertinoPicker(
-            selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
-              capStartEdge: false,
-              capEndEdge: false,
-              background:
-                  Theme.of(context).colorScheme.primary.withOpacity(0.4),
-            ),
-            scrollController:
-                FixedExtentScrollController(initialItem: _selectedMonth - 1),
-            itemExtent: 32.0,
-            onSelectedItemChanged: (value) {
-              setState(() {
-                _selectedMonth = value + 1;
-                controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
-              });
-            },
-            children: List.generate(
-                12, (index) => Center(child: Text(getMonthByIndex(index + 1)))),
-          ),
-        ),
-        Expanded(
-          child: CupertinoPicker(
-            selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
-              capStartEdge: false,
-              background:
-                  Theme.of(context).colorScheme.primary.withOpacity(0.4),
-            ),
-            scrollController: FixedExtentScrollController(
-                initialItem: _selectedYear - _selectedDate.year),
-            itemExtent: 32.0,
-            onSelectedItemChanged: (value) {
-              setState(() {
-                _selectedYear = _selectedDate.year - value;
-                controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
-                updateDayList();
-              });
-            },
-            children: List.generate(
-                100,
-                (index) =>
-                    Center(child: Text('${_selectedDate.year - index}'))),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void updateDayList() {
-    setState(() {});
-  }
-
-  int getDaysInMonth(int year, int month) {
-    if (month == 2) {
-      if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
-        return 29;
-      } else {
-        return 28;
-      }
-    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-      return 30;
-    } else {
-      return 31;
-    }
-  }
-}
-
-String getMonthByIndex(int index) {
-  // Handle invalid index (less than 1 or greater than 12)
-  if (index < 1 || index > 12) {
-    throw ArgumentError(
-        "Invalid month index: $index. Month index must be between 1 and 12.");
-  }
-
-  // List of month names (adjust for locale if needed)
-  const List<String> months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  // Return the month based on the index (minus 1 for zero-based indexing)
-  return months[index - 1];
 }

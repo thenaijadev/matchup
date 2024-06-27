@@ -29,7 +29,8 @@ class InputFieldWidget extends StatelessWidget {
       this.labelPadding =
           const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       this.keyboardType = TextInputType.text,
-      this.readOnly = false});
+      this.readOnly = false,
+      this.fillColor});
   final String? label;
   final String hintText;
   final double hintSize;
@@ -55,6 +56,7 @@ class InputFieldWidget extends StatelessWidget {
   final Color labelColor;
   final double horizontalContentPadding;
   final EdgeInsets labelPadding;
+  final Color? fillColor;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -75,7 +77,7 @@ class InputFieldWidget extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: prefixicon,
             filled: true,
-            fillColor: Theme.of(context).colorScheme.background,
+            fillColor: fillColor ?? Theme.of(context).colorScheme.background,
             suffixIcon: suffixIcon,
             hintStyle: TextStyle(
                 color: hintColor,

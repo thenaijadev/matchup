@@ -5,6 +5,10 @@ ThemeData lightTheme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,
     fontFamily: "Multi",
+    bottomSheetTheme: const BottomSheetThemeData(
+      // backgroundColor: Colors.white, --> optional if you want to change the background color
+      surfaceTintColor: Colors.transparent,
+    ),
     brightness: Brightness.light,
     colorScheme: const ColorScheme.light(
         brightness: Brightness.light,

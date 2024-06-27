@@ -4,6 +4,8 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/activities/presentation/widgets/create_activity.dart';
+import 'package:matchup/features/activities/presentation/widgets/map_bottom_sheet.dart';
+import 'package:matchup/features/activities/presentation/widgets/payment.dart';
 import 'package:matchup/features/activities/presentation/widgets/schedule_date_and_time.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -29,6 +31,8 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
     super.dispose();
   }
 
+  bool isPageTwo = false;
+
   int page = 0;
 
   @override
@@ -48,6 +52,7 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
             alignment: Alignment.bottomCenter,
             children: [
               ListView(
+                shrinkWrap: true,
                 children: [
                   Row(
                     children: [
@@ -79,54 +84,116 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                       TextWidget(
                         text: page == 0
                             ? "Create Activity"
-                            : "Schedule date & time",
+                            : page == 1
+                                ? "Schedule date & time"
+                                : page == 2
+                                    ? "Set Location"
+                                    : "Payment",
                         fontWeight: FontWeight.bold,
                         fontSize: 20.sp,
                         color: Theme.of(context).colorScheme.inversePrimary,
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Center(
-                      child: SmoothPageIndicator(
-                          controller: _controller, // PageController
-                          count: 4,
-                          effect: ExpandingDotsEffect(
-                              radius: 10,
-                              dotWidth: 6,
-                              dotHeight: 6,
-                              activeDotColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary), // your preferred effect
-                          onDotClicked: (index) {}),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .9,
-                    child: PageView(
-                      onPageChanged: (value) {
-                        setState(() {
-                          page = value;
-                        });
-                      },
-                      controller: _controller,
-                      children: const [CreateActivity(), ScheduleDateAndTime()],
-                    ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Center(
+                          child: SmoothPageIndicator(
+                              controller: _controller, // PageController
+                              count: 4,
+                              effect: ExpandingDotsEffect(
+                                  radius: 10,
+                                  dotWidth: 6,
+                                  dotHeight: 6,
+                                  activeDotColor: Theme.of(context)
+                                      .colorScheme
+                                      .primary), // your preferred effect
+                              onDotClicked: (index) {}),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .9,
+                        child: PageView(
+                          onPageChanged: (value) {
+                            setState(() {
+                              page = value;
+                            });
+                          },
+                          controller: _controller,
+                          children: const [
+                            CreateActivity(),
+                            ScheduleDateAndTime(),
+                            Center(
+                              child: Text("Map Page"),
+                            ),
+                            Payment(),
+                          ],
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
-              PrimaryButton(
-                  label: "Next",
-                  onPressed: () {
-                    _controller.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.decelerate);
-                    if (_controller.page == 1) {
-                      Navigator.pushNamed(context, Routes.setLocation);
-                    }
-                  },
-                  isEnabled: true)
+              if (page != 2)
+                PrimaryButton(
+                    label: "Next",
+                    onPressed: () {
+                      if (page == 1) {
+                        showModalBottomSheet(
+                            isDismissible: false,
+                            isScrollControlled: true,
+                            scrollControlDisabledMaxHeightRatio: (1 / 2.5),
+                            showDragHandle: true,
+                            enableDrag: false,
+                            context: context,
+                            builder: ((builderContext) {
+                              return MapScreenBottomSheet(
+                                  screenContext: context,
+                                  onConfirmTap: () {
+                                    Navigator.of(context).pop();
+                                    _controller.nextPage(
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        curve: Curves.decelerate);
+                                  });
+                            }));
+                      }
+                      _controller.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.decelerate);
+
+                      if (page == 3) {
+                        Navigator.of(context)
+                            .pushNamed(Routes.activityDescripiton);
+                      }
+                    },
+                    isEnabled: true),
+              if (page == 2)
+                PrimaryButton(
+                    label: "Next",
+                    onPressed: () {
+                      showModalBottomSheet(
+                          isDismissible: false,
+                          isScrollControlled: true,
+                          scrollControlDisabledMaxHeightRatio: (1 / 2.5),
+                          showDragHandle: true,
+                          enableDrag: false,
+                          context: context,
+                          builder: ((builderContext) {
+                            return MapScreenBottomSheet(
+                                screenContext: context,
+                                onConfirmTap: () {
+                                  Navigator.of(context).pop();
+                                  _controller.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.decelerate);
+                                });
+                          }));
+                    },
+                    isEnabled: true),
             ],
           ),
         ),

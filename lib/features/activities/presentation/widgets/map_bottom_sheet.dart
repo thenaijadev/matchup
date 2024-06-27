@@ -1,11 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
-class MapScreenBottomSheet extends StatelessWidget {
-  const MapScreenBottomSheet({super.key});
+class MapScreenBottomSheet extends StatefulWidget {
+  const MapScreenBottomSheet(
+      {super.key, required this.screenContext, required this.onConfirmTap});
+  final BuildContext screenContext;
+  final VoidCallback onConfirmTap;
+  @override
+  State<MapScreenBottomSheet> createState() => _MapScreenBottomSheetState();
+}
 
+class _MapScreenBottomSheetState extends State<MapScreenBottomSheet> {
+  bool locationPicked = false;
   @override
   Widget build(BuildContext context) {
     var brightness = View.of(context).platformDispatcher.platformBrightness;
@@ -16,40 +25,96 @@ class MapScreenBottomSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextWidget(
-            text: "Get Started",
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.inversePrimary,
-          ),
+          if (!locationPicked)
+            InputFieldWidget(
+                fillColor: Colors.transparent,
+                prefixicon: Icon(
+                  CupertinoIcons.search,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                hintColor: Theme.of(context).colorScheme.secondary,
+                hintText: "Search for location or venue",
+                onChanged: (val) {}),
           const SizedBox(
-            height: 5,
+            height: 10,
           ),
-          TextWidget(
-            text: "Regissay games.",
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.secondary,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+                  radius: 15,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Image.asset("assets/images/location_pin.png"),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                TextWidget(
+                  text: "Set Location on map",
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                )
+              ],
+            ),
+          ),
+          ...List.generate(
+            3,
+            (index) => GestureDetector(
+              onTap: () {
+                setState(() {
+                  locationPicked = true;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:
+                          Theme.of(context).colorScheme.inverseSurface,
+                      radius: 15,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Image.asset("assets/images/location_pin.png"),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          text: "Computer games",
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                        TextWidget(
+                          text:
+                              "08 festac avenue, ikate, surulere, lagos state",
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
           ),
           const SizedBox(
             height: 50,
           ),
-          PrimaryButton(
-              label: "Create Account",
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.createAccount);
-              },
-              isEnabled: true),
-          const SizedBox(
-            height: 30,
-          ),
-          PrimaryButton(
-              isOutlined: true,
-              label: "Login",
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.login);
-              },
-              isEnabled: true)
+          if (locationPicked)
+            PrimaryButton(
+                label: "Confirm",
+                onPressed: widget.onConfirmTap,
+                isEnabled: true)
         ],
       ),
     );
