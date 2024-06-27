@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/contact_list_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/invite_friends_widget.dart';
+import 'package:matchup/features/chat/presentation/chat_screen_widgets/contact_list_widget.dart';
+import 'package:matchup/features/chat/presentation/chat_screen_widgets/invite_friends_widget.dart';
 
 class ChatScreenWidget extends StatefulWidget {
   const ChatScreenWidget({super.key});

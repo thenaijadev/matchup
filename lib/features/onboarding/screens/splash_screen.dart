@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var brightness = View.of(context).platformDispatcher.platformBrightness;
     return BlocBuilder<DarkModeBloc, DarkModeState>(
       builder: (context, state) {
         return state is DarkModeCurrentState
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: double.infinity,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                  color: state.isDark
+                  color: brightness == Brightness.dark
                       ? AppColors.splashBackgroundDark
                       : AppColors.appBackgroundLight,
                   image: const DecorationImage(
@@ -42,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    state.isDark
+                    brightness == Brightness.dark
                         ? Image.asset(
                             "assets/images/splash_dark.png",
                             width: 100,

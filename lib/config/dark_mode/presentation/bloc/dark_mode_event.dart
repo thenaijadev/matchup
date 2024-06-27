@@ -8,6 +8,8 @@ abstract class DarkModeEvent extends Equatable {
 }
 
 class ToggleDarkModeEvent extends DarkModeEvent {
-  final bool isDark;
-  const ToggleDarkModeEvent({this.isDark = false});
+  final String status;
+  const ToggleDarkModeEvent({this.status = "System"});
 }
+
+class UseSystemTheme extends DarkModeEvent {}

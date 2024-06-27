@@ -30,20 +30,38 @@ class _MyAppState extends State<MyApp> {
         child: BlocBuilder<DarkModeBloc, DarkModeState>(
           builder: (context, state) {
             if (state is DarkModeCurrentState) {
-              return ScreenUtilInit(
-                designSize: const Size(375, 812),
-                minTextAdapt: true,
-                splitScreenMode: true,
-                builder: (context, child) {
-                  return MaterialApp(
-                    theme: state.isDark ? darkTheme() : lightTheme(),
-                    debugShowCheckedModeBanner: false,
-                    title: 'Flutter Demo',
-                    initialRoute: Routes.splash,
-                    onGenerateRoute: appRouter.onGenerateRoute,
-                  );
-                },
-              );
+              return state.status != "System"
+                  ? ScreenUtilInit(
+                      designSize: const Size(375, 812),
+                      minTextAdapt: true,
+                      splitScreenMode: true,
+                      builder: (context, child) {
+                        return MaterialApp(
+                          theme: state.status == "Dark"
+                              ? darkTheme()
+                              : lightTheme(),
+                          debugShowCheckedModeBanner: false,
+                          title: 'Flutter Demo',
+                          initialRoute: Routes.splash,
+                          onGenerateRoute: appRouter.onGenerateRoute,
+                        );
+                      },
+                    )
+                  : ScreenUtilInit(
+                      designSize: const Size(375, 812),
+                      minTextAdapt: true,
+                      splitScreenMode: true,
+                      builder: (context, child) {
+                        return MaterialApp(
+                          theme: lightTheme(),
+                          darkTheme: darkTheme(),
+                          debugShowCheckedModeBanner: false,
+                          title: 'Flutter Demo',
+                          initialRoute: Routes.splash,
+                          onGenerateRoute: appRouter.onGenerateRoute,
+                        );
+                      },
+                    );
             }
             return const SizedBox();
           },

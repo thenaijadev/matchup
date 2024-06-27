@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/presentation/widgets/change_country.dart';
-import 'package:matchup/features/home/presentation/widgets/settings_screen_widgets/verified_badge_widget.dart';
+import 'package:matchup/features/settings/presentation/settings_screen_widgets/verified_badge_widget.dart';
 
 class ProfileSettingsWidget extends StatefulWidget {
   const ProfileSettingsWidget({super.key, required this.onTap});

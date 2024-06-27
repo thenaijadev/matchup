@@ -169,7 +169,7 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
               });
             },
             children: List.generate(
-                12, (index) => Center(child: Text('${index + 1}'))),
+                12, (index) => Center(child: Text(getMonthByIndex(index + 1)))),
           ),
         ),
         Expanded(
@@ -217,4 +217,31 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
       return 31;
     }
   }
+}
+
+String getMonthByIndex(int index) {
+  // Handle invalid index (less than 1 or greater than 12)
+  if (index < 1 || index > 12) {
+    throw ArgumentError(
+        "Invalid month index: $index. Month index must be between 1 and 12.");
+  }
+
+  // List of month names (adjust for locale if needed)
+  const List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // Return the month based on the index (minus 1 for zero-based indexing)
+  return months[index - 1];
 }

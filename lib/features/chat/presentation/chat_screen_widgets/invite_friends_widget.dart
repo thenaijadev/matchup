@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/contact_widget.dart';
+import 'package:matchup/features/chat/presentation/chat_screen_widgets/contact_widget.dart';
 
 class InviteFriendsWidget extends StatefulWidget {
   const InviteFriendsWidget({

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/error_screen.dart';
+import 'package:matchup/features/activities/presentation/screens/create_new_activity_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/create_account_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/date_of_birth_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/forgot_password_screen.dart';
@@ -11,7 +12,7 @@ import 'package:matchup/features/auth/presentation/screens/new_password_screen.d
 import 'package:matchup/features/auth/presentation/screens/otp_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/profile_image_choice.dart';
 import 'package:matchup/features/home/presentation/screens/home_screen.dart';
-import 'package:matchup/features/home/presentation/screens/chat_screen.dart';
+import 'package:matchup/features/chat/presentation/screens/chat_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
@@ -90,7 +91,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ChatScreen(),
         );
-
+      case Routes.createActivity:
+        return MaterialPageRoute(
+          builder: (_) => const CreateNewActivityScreen(),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => const ErrorScreen(),

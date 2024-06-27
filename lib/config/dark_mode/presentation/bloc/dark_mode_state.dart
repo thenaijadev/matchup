@@ -9,11 +9,13 @@ abstract class DarkModeState extends Equatable {
 }
 
 class DarkModeCurrentState extends DarkModeState {
-  final bool isDark;
+  final String status;
   const DarkModeCurrentState({
-    required this.isDark,
+    required this.status,
   });
 
   @override
-  List<Object> get props => [isDark];
+  List<Object> get props => [status];
 }
+
+class DarkModeStateUseSystem extends DarkModeState {}

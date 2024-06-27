@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/chat_messages.dart';
-import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/no_messages_widget.dart';
+import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_messages.dart';
+import 'package:matchup/features/chat/presentation/chat_screen_widgets/no_messages_widget.dart';
 
 class ChatsWidget extends StatelessWidget {
   const ChatsWidget({super.key});

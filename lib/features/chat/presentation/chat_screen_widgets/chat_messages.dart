@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matchup/features/home/presentation/widgets/chat_screen_widgets/chat_message_widget.dart';
+import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_message_widget.dart';
 
 class ChatMessages extends StatelessWidget {
   const ChatMessages({super.key, required this.messages});

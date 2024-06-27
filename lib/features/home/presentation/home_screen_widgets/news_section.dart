@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/news_item.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/news_item.dart';
 
 class NewsSectionWidget extends StatefulWidget {
   const NewsSectionWidget({super.key});

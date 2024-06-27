@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/activities_section_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/events_carousel.dart';
-import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/events_section_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/home_section_header_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/news_section.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/activities_section_widget.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/events_carousel.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/events_section_widget.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/home_section_header_widget.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/news_section.dart';
 
 class HomeScreenWidget extends StatelessWidget {
   const HomeScreenWidget({

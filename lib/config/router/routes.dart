@@ -16,4 +16,5 @@ class Routes {
   static const String chooseSportLevel = '/chooseSportLevel';
   static const String home = '/home';
   static const String chat = '/chat';
+  static const String createActivity = '/createActivity';
 }

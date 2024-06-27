@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
@@ -57,7 +58,9 @@ class ActivitiesSectionWidget extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: PrimaryButton(
                     label: "Create Activity",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.createActivity);
+                    },
                     isEnabled: true),
               )
             ],

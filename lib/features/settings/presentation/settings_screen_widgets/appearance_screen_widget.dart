@@ -19,7 +19,7 @@ class AppearanceWidget extends StatefulWidget {
 class _AppearanceWidgetState extends State<AppearanceWidget> {
   int choice = 1;
   List<String> choices = [
-    "Light Mode", "Dark Mode",
+    "Light", "Dark ", "System"
     //  "System"
   ];
   @override
@@ -27,11 +27,15 @@ class _AppearanceWidgetState extends State<AppearanceWidget> {
     return BlocListener<DarkModeBloc, DarkModeState>(
       listener: (context, state) {
         if (state is DarkModeCurrentState) {
-          if (state.isDark) {
+          if (state.status == "System") {
+            setState(() {
+              choice = 2;
+            });
+          } else if (state.status == "Dark") {
             setState(() {
               choice = 1;
             });
-          } else if (!state.isDark) {
+          } else {
             setState(() {
               choice = 0;
             });
@@ -114,19 +118,30 @@ class _AppearanceWidgetState extends State<AppearanceWidget> {
                                   value: index,
                                   onChanged: (val) {
                                     setState(() {
-                                      if (state.isDark) {
+                                      if (index == 0) {
                                         context.read<DarkModeBloc>().add(
                                             const ToggleDarkModeEvent(
-                                                isDark: false));
+                                                status: "Light"));
                                       }
-                                      if (!state.isDark) {
+
+                                      if (index == 1) {
                                         context.read<DarkModeBloc>().add(
                                             const ToggleDarkModeEvent(
-                                                isDark: true));
+                                                status: "Dark"));
+                                      }
+
+                                      if (index == 2) {
+                                        context.read<DarkModeBloc>().add(
+                                            const ToggleDarkModeEvent(
+                                                status: "System"));
                                       }
                                     });
                                   },
-                                  groupValue: state.isDark ? 1 : 0,
+                                  groupValue: state.status == "Dark"
+                                      ? 1
+                                      : state.status == "Light"
+                                          ? 0
+                                          : 2,
                                 ),
                               )
                             : const SizedBox();

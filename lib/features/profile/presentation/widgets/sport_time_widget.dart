@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
@@ -26,10 +25,10 @@ class SportItemWidget extends StatelessWidget {
               width: 1,
               color: isSelected
                   ? Theme.of(context).colorScheme.primary
-                  : Colors.transparent),
+                  : Theme.of(context).colorScheme.inverseSurface),
           color: isSelected
-              ? Color.fromARGB(22, 254, 94, 8)
-              : const Color(0xff232323),
+              ? const Color.fromARGB(22, 254, 94, 8)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(

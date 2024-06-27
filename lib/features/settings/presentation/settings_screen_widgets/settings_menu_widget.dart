@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/dark_mode/presentation/bloc/dark_mode_bloc.dart';
 import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/settings_screen_widgets/setting_header_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/settings_screen_widgets/settings_item.dart';
-import 'package:matchup/features/home/presentation/widgets/settings_screen_widgets/settings_section.dart';
-import 'package:matchup/features/home/presentation/widgets/settings_screen_widgets/verified_badge_widget.dart';
+import 'package:matchup/features/settings/presentation/settings_screen_widgets/setting_header_widget.dart';
+import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_item.dart';
+import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_section.dart';
+import 'package:matchup/features/settings/presentation/settings_screen_widgets/verified_badge_widget.dart';
 
 class SettingsMenuWidget extends StatelessWidget {
   const SettingsMenuWidget({
@@ -64,7 +64,7 @@ class SettingsMenuWidget extends StatelessWidget {
                       ? TextWidget(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
-                          text: state.isDark ? "Dark" : "Light",
+                          text: state.status,
                           color: Theme.of(context).colorScheme.secondary,
                         )
                       : const SizedBox();

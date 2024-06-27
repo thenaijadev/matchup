@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/settings_screen_widgets/settings_item.dart';
+import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_item.dart';
 
 class SettingsSection extends StatelessWidget {
   const SettingsSection(

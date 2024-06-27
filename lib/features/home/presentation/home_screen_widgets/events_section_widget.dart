@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/home/presentation/widgets/home_screen_widgets/events_carousel.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/events_carousel.dart';
 
 class EventsSection extends StatelessWidget {
   const EventsSection({super.key});
