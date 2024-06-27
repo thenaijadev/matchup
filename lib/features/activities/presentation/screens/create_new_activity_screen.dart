@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/activities/presentation/widgets/create_activity.dart';
@@ -68,6 +69,7 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                           ),
                           child: Image.asset(
                             "assets/images/arrow_back_dark.png",
+                            color: Theme.of(context).colorScheme.inversePrimary,
                           ),
                         ),
                       ),
@@ -120,6 +122,9 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                     _controller.nextPage(
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.decelerate);
+                    if (_controller.page == 1) {
+                      Navigator.pushNamed(context, Routes.setLocation);
+                    }
                   },
                   isEnabled: true)
             ],

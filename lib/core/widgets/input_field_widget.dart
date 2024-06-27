@@ -70,6 +70,7 @@ class InputFieldWidget extends StatelessWidget {
           maxLines: maxLines,
           validator: validator,
           obscureText: obscureText,
+          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
           keyboardType: keyboardType,
           decoration: InputDecoration(
             prefixIcon: prefixicon,

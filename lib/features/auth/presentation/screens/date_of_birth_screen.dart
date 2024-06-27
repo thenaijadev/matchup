@@ -92,6 +92,9 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
                 "assets/images/birthday.png",
                 width: 200,
               ),
+              const SizedBox(
+                height: 20,
+              ),
               InputFieldWidget(
                   controller: controller,
                   onTap: () {},

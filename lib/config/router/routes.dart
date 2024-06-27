@@ -17,4 +17,5 @@ class Routes {
   static const String home = '/home';
   static const String chat = '/chat';
   static const String createActivity = '/createActivity';
+  static const String setLocation = '/setLoaction';
 }
