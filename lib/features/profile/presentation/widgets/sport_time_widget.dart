@@ -20,6 +20,7 @@ class SportItemWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         // padding: const EdgeInsets.all(30),
+
         decoration: BoxDecoration(
           border: Border.all(
               width: 1,
@@ -28,7 +29,7 @@ class SportItemWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.inverseSurface),
           color: isSelected
               ? const Color.fromARGB(22, 254, 94, 8)
-              : Colors.transparent,
+              : Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(

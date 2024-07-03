@@ -20,4 +20,9 @@ class Routes {
   static const String setLocation = '/setLoaction';
   static const String activityDescripiton = '/activityDescripiton';
   static const String activities = '/activities';
+  static const String getDirections = '/getDirections';
+  static const String createTeam = '/createTeam';
+  static const String addTeamMembers = '/addTeamMembers';
+  static const String payToJoinTeam = '/payToJoinTeam';
+  static const String myTeam = '/myTeam';
 }

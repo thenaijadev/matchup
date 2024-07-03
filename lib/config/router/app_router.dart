@@ -14,11 +14,16 @@ import 'package:matchup/features/auth/presentation/screens/new_password_screen.d
 import 'package:matchup/features/auth/presentation/screens/otp_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/profile_image_choice.dart';
 import 'package:matchup/features/chat/presentation/screens/chat_screen.dart';
+import 'package:matchup/features/get_directions/presentation/screens/get_directions_screen.dart';
 import 'package:matchup/features/home/presentation/screens/home_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
+import 'package:matchup/features/teams/presentation/screens/add_team_members_screen.dart';
+import 'package:matchup/features/teams/presentation/screens/create_team_screen.dart';
+import 'package:matchup/features/teams/presentation/screens/my_team_screen.dart';
+import 'package:matchup/features/teams/presentation/screens/pay_to_join_team.dart';
 
 class AppRouter {
   Route onGenerateRoute(RouteSettings routeSettings) {
@@ -104,6 +109,29 @@ class AppRouter {
       case Routes.activities:
         return MaterialPageRoute(
           builder: (_) => const ActivitiesListScreen(),
+        );
+
+      case Routes.getDirections:
+        return MaterialPageRoute(
+          builder: (_) => const GetDirectionScreen(),
+        );
+
+      case Routes.createTeam:
+        return MaterialPageRoute(
+          builder: (_) => const CreateTeamScreen(),
+        );
+      case Routes.addTeamMembers:
+        return MaterialPageRoute(
+          builder: (_) => const AddTeamMembersScreen(),
+        );
+      case Routes.payToJoinTeam:
+        return MaterialPageRoute(
+          builder: (_) => const PayToJoinTeam(),
+        );
+
+      case Routes.myTeam:
+        return MaterialPageRoute(
+          builder: (_) => const MyTeamScreen(),
         );
       // case Routes.setLocation:
       //   return MaterialPageRoute(
