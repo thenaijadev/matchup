@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/app.dart';
+import 'package:matchup/core/utils/bloc_observer.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   appInitialization();
   // await LocationServiceClass.determinePosition();
+  Bloc.observer = AppBlocObserver();
+
   runApp(const MyApp());
 }
 

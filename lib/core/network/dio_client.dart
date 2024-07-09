@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:matchup/core/utils/logger.dart';
 
 import 'api_endpoint.dart';
 
@@ -58,7 +59,12 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
+      logger.f(response.statusCode);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
+        logger.e(response.statusCode);
+        logger.e(response.data);
+
         return response.data;
       }
       throw "something went wrong";

@@ -90,7 +90,7 @@ class InfoSnackBar {
 
   static SnackBar errorSnackBar(String message) {
     return SnackBar(
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 3),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       backgroundColor: const Color(0xffFCD9D7),
       behavior: SnackBarBehavior.floating,
@@ -100,7 +100,7 @@ class InfoSnackBar {
           children: [
             Flexible(
               flex: 1,
-              child: Image.asset("images/caution.png"),
+              child: Image.asset("assets/images/caution.png"),
             ),
             const SizedBox(
               width: 20,

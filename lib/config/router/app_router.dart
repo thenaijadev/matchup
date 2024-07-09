@@ -4,6 +4,7 @@ import 'package:matchup/core/widgets/error_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/activities_list._screen.dart';
 import 'package:matchup/features/activities/presentation/screens/activity_description_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/create_new_activity_screen.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
 import 'package:matchup/features/auth/presentation/screens/create_account_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/date_of_birth_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/forgot_password_screen.dart';
@@ -41,12 +42,17 @@ class AppRouter {
           builder: (_) => const CreateAccountScreen(),
         );
       case Routes.dateOfBirth:
+        UserData user = routeSettings.arguments as UserData;
         return MaterialPageRoute(
-          builder: (_) => const DateOfBirthScreen(),
+          builder: (_) => DateOfBirthScreen(user: user),
         );
       case Routes.genderChoice:
+        UserData user = routeSettings.arguments as UserData;
+
         return MaterialPageRoute(
-          builder: (_) => const GenderChoiceScreen(),
+          builder: (_) => GenderChoiceScreen(
+            user: user,
+          ),
         );
       case Routes.locationSearch:
         return MaterialPageRoute(

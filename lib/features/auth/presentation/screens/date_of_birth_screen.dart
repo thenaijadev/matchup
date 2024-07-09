@@ -4,10 +4,11 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
 
 class DateOfBirthScreen extends StatefulWidget {
-  const DateOfBirthScreen({super.key});
-
+  const DateOfBirthScreen({super.key, required this.user});
+  final UserData user;
   @override
   State<DateOfBirthScreen> createState() => _DateOfBirthScreenState();
 }
@@ -118,7 +119,11 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
               PrimaryButton(
                   label: "Continue",
                   onPressed: () {
-                    Navigator.pushNamed(context, Routes.genderChoice);
+                    final theUser =
+                        widget.user.copyWith(dateOfBirth: controller.text);
+                    // logger.f(theUser);
+                    Navigator.pushNamed(context, Routes.genderChoice,
+                        arguments: theUser);
                   },
                   isEnabled: true)
             ],
@@ -145,7 +150,7 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
               setState(() {
                 _selectedDay = value + 1;
                 controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
+                    '$_selectedYear-$_selectedMonth-$_selectedDay';
               });
             },
             children: List.generate(
@@ -168,7 +173,7 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
               setState(() {
                 _selectedMonth = value + 1;
                 controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
+                    '$_selectedYear-$_selectedMonth-$_selectedDay';
               });
             },
             children: List.generate(
@@ -189,7 +194,7 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
               setState(() {
                 _selectedYear = _selectedDate.year - value;
                 controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
+                    '$_selectedYear-$_selectedMonth-$_selectedDay';
                 updateDayList();
               });
             },

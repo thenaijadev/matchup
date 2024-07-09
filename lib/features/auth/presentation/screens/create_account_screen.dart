@@ -1,9 +1,12 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/validator/validator.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
 import 'package:matchup/features/auth/presentation/widgets/change_country.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -18,7 +21,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String? countryFlag = "🇳🇬";
   String? countryCode = "234";
 
-  bool? acceptTerms = false;
+  String? fullName = '';
+  String? email = '';
+  String? phoneNumber = '';
+  String? password = '';
+  String? confirmPassword = "";
+  bool acceptTerms = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +64,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         ),
       ),
       body: Container(
+        height: double.infinity,
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -82,13 +91,21 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hintText: "Full Name",
                     hintSize: 12,
                     enabledBorderRadius: 10,
-                    onChanged: (val) {}),
+                    onChanged: (val) {
+                      setState(() {
+                        fullName = val;
+                      });
+                    }),
                 InputFieldWidget(
                     hintSize: 12,
                     hintColor: Theme.of(context).colorScheme.inversePrimary,
                     hintText: "Email Address",
                     enabledBorderRadius: 10,
-                    onChanged: (val) {}),
+                    onChanged: (val) {
+                      setState(() {
+                        email = val;
+                      });
+                    }),
                 InputFieldWidget(
                   enabledBorderRadius: 10,
                   hintColor: Theme.of(context).colorScheme.inversePrimary,
@@ -140,7 +157,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ],
                     ),
                   ),
-                  obscureText: obscureText,
                   suffixIcon: Icon(
                     Icons.keyboard_arrow_down_outlined,
                     color: Theme.of(context).colorScheme.secondary,
@@ -149,7 +165,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   keyboardType: TextInputType.number,
                   hintSize: 20,
                   onChanged: (val) {
-                    setState(() {});
+                    setState(() {
+                      setState(() {
+                        phoneNumber = val;
+                      });
+                    });
                   },
                 ),
                 InputFieldWidget(
@@ -172,7 +192,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                     ),
                     enabledBorderRadius: 10,
-                    onChanged: (val) {}),
+                    onChanged: (val) {
+                      setState(() {
+                        password = val;
+                      });
+                    }),
                 InputFieldWidget(
                     obscureText: obscureText,
                     suffixIcon: GestureDetector(
@@ -193,7 +217,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     hintText: "Confirm Password",
                     hintSize: 12,
                     enabledBorderRadius: 10,
-                    onChanged: (val) {}),
+                    onChanged: (val) {
+                      confirmPassword = val;
+                    }),
                 const SizedBox(
                   height: 100,
                 ),
@@ -208,7 +234,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               color: Theme.of(context).colorScheme.secondary),
                           onChanged: (val) {
                             setState(() {
-                              acceptTerms = val;
+                              acceptTerms = val ?? false;
                             });
                           }),
                     ),
@@ -258,7 +284,26 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 PrimaryButton(
                     label: "Continue",
                     onPressed: () {
-                      Navigator.of(context).pushNamed(Routes.dateOfBirth);
+                      final user = UserData(
+                        confirmPassword: confirmPassword ?? "",
+                        password: password ?? "",
+                        email: email ?? "",
+                        fullName: fullName ?? "",
+                        countryCode: countryCode ?? "",
+                        phoneNumber: phoneNumber ?? "",
+                      );
+
+                      final formIsValid =
+                          Validator.validateSignInDetails(user, context);
+                      if (!acceptTerms) {
+                        InfoSnackBar.showErrorSnackBar(context,
+                            "You have to accept the Terms of Use and Privacy Policy to proceed.");
+                      }
+
+                      if (formIsValid && acceptTerms) {
+                        Navigator.of(context)
+                            .pushNamed(Routes.dateOfBirth, arguments: user);
+                      }
                     },
                     isEnabled: true)
               ],

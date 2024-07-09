@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
 
 class GenderChoiceScreen extends StatefulWidget {
-  const GenderChoiceScreen({super.key});
-
+  const GenderChoiceScreen({super.key, required this.user});
+  final UserData user;
   @override
   State<GenderChoiceScreen> createState() => _GenderChoiceScreenState();
 }
@@ -13,6 +18,7 @@ class GenderChoiceScreen extends StatefulWidget {
 class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
   int choice = 1;
   bool showGender = false;
+  String gender = "Male";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +78,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
               onTap: () {
                 setState(() {
                   choice = 1;
+                  gender = "Male";
                 });
               },
               child: Container(
@@ -99,6 +106,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
                         onChanged: (val) {
                           setState(() {
                             choice = 1;
+                            gender = "Male";
                           });
                         })
                   ],
@@ -109,6 +117,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
               onTap: () {
                 setState(() {
                   choice = 2;
+                  gender = "Female";
                 });
               },
               child: Container(
@@ -136,6 +145,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
                         onChanged: (val) {
                           setState(() {
                             choice = 2;
+                            gender = "Female";
                           });
                         })
                   ],
@@ -146,6 +156,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
               onTap: () {
                 setState(() {
                   choice = 3;
+                  gender = "Other";
                 });
               },
               child: Container(
@@ -173,6 +184,7 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
                         onChanged: (val) {
                           setState(() {
                             choice = val!;
+                            gender = "Other";
                           });
                         })
                   ],
@@ -202,12 +214,34 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
               ],
             ),
             const Spacer(),
-            PrimaryButton(
-                label: "Continue",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.locationSearch);
-                },
-                isEnabled: true)
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthStateError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.error.errorMessage);
+                }
+                if (state is AuthStateUserIsRegistered) {
+                  Navigator.pushNamed(context, Routes.locationSearch);
+                }
+              },
+              builder: (context, state) {
+                return state is AuthStateIsLoading
+                    ? SpinKitWave(
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 50.0,
+                      )
+                    : PrimaryButton(
+                        label: "Continue",
+                        onPressed: () {
+                          final userData = widget.user
+                              .copyWith(gender: gender, showGender: showGender);
+                          context
+                              .read<AuthBloc>()
+                              .add(AuthEventRegisterUser(userData: userData));
+                        },
+                        isEnabled: true);
+              },
+            )
           ],
         ),
       ),

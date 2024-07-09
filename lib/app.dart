@@ -7,6 +7,9 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/config/theme/dark_theme.dart';
 import 'package:matchup/config/theme/light_theme.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
+import 'package:matchup/features/auth/data/providers/auth_provider.dart';
+import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -21,8 +24,16 @@ class _MyAppState extends State<MyApp> {
     AppConstraints().initialize(context);
 
     final appRouter = AppRouter();
-    return BlocProvider(
-      create: (context) => DarkModeBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DarkModeBloc(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AuthBloc(authRepo: AuthRepository(provider: AuthProvider())),
+        ),
+      ],
       child: GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();

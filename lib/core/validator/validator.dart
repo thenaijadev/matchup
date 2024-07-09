@@ -1,13 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
+
 class Validator {
-  static String? validateEmail(String? value) {
+  static bool validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email address.';
+      return false;
     }
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegExp.hasMatch(value)) {
-      return 'Please enter a valid email address.';
+      return false;
     }
-    return null;
+    return true;
   }
 
   static String? validateText(String? value, String? label) {
@@ -50,12 +54,36 @@ class Validator {
     }
   }
 
-  static String? validatePassword(String? password) {
-    if (password == null) return 'Password cannot be empty';
+  static bool validatePassword(String? password) {
+    if (password == null) return false;
 
-    if (password.length < 6) {
-      return 'Your password must be at least 6 characters';
+    if (password.length < 8) {
+      return false;
     }
-    return null;
+    return true;
+  }
+
+  static bool validateSignInDetails(UserData user, BuildContext context) {
+    if (user.password != user.confirmPassword) {
+      InfoSnackBar.showErrorSnackBar(
+          context, "Please confirm your password correctly");
+      return false;
+    }
+    if (user.countryCode == "234" && user.phoneNumber.length < 11) {
+      InfoSnackBar.showErrorSnackBar(context, "Invalid Phone Number");
+      return false;
+    }
+    final emailIsValid = Validator.validateEmail(user.email);
+    final passwordIsValid = Validator.validatePassword(user.password);
+    if (!emailIsValid) {
+      InfoSnackBar.showErrorSnackBar(context, "Invalid Email");
+      return false;
+    }
+    if (!passwordIsValid) {
+      InfoSnackBar.showErrorSnackBar(
+          context, "Passord must be 8 characters or more");
+      return false;
+    }
+    return true;
   }
 }
