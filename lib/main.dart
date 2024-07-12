@@ -9,6 +9,7 @@ Future<void> main() async {
 
   appInitialization();
   // await LocationServiceClass.determinePosition();
+
   Bloc.observer = AppBlocObserver();
 
   runApp(const MyApp());

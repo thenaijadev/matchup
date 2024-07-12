@@ -293,8 +293,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         phoneNumber: phoneNumber ?? "",
                       );
 
-                      final formIsValid =
-                          Validator.validateSignInDetails(user, context);
+                      final formIsValid = Validator.validateForm(user, context);
                       if (!acceptTerms) {
                         InfoSnackBar.showErrorSnackBar(context,
                             "You have to accept the Terms of Use and Privacy Policy to proceed.");

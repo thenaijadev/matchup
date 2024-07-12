@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:matchup/core/utils/logger.dart';
 
-import 'api_endpoint.dart';
-
 // import 'package:the_food_hub_nsk_nig/core/network/api_endpoint.dart';
 
 class DioClient {
@@ -11,7 +9,7 @@ class DioClient {
   static final instance = DioClient._();
 
   final Dio _dio = Dio(BaseOptions(
-      baseUrl: RoutesAndPaths.baseUrl,
+      baseUrl: "http://matchup.experthub.ng",
       connectTimeout: const Duration(seconds: 60),
       receiveTimeout: const Duration(seconds: 60),
       responseType: ResponseType.json));
@@ -59,7 +57,6 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      logger.f(response.statusCode);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         logger.e(response.statusCode);

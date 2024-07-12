@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/validator/validator.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = false;
+  String email = '';
+  String password = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintColor: Theme.of(context).colorScheme.inversePrimary,
                 hintText: "Email Address",
                 enabledBorderRadius: 10,
-                onChanged: (val) {}),
+                onChanged: (val) {
+                  setState(() {
+                    email = val ?? "";
+                  });
+                }),
             InputFieldWidget(
                 hintColor: Theme.of(context).colorScheme.inversePrimary,
                 hintText: "Password",
@@ -86,7 +98,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 enabledBorderRadius: 10,
-                onChanged: (val) {}),
+                onChanged: (val) {
+                  setState(() {
+                    password = val ?? "";
+                  });
+                }),
             const SizedBox(
               height: 30,
             ),
@@ -132,12 +148,39 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
             const Spacer(),
-            PrimaryButton(
-                label: "Sign In",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.home);
-                },
-                isEnabled: true)
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthStateError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.error.errorMessage);
+                }
+                if (state is AuthStateIsLoggedIn) {
+                  Navigator.of(context).pushNamed(
+                    Routes.home,
+                    arguments: state.user,
+                  );
+                }
+              },
+              builder: (context, state) {
+                return state is AuthStateIsLoading
+                    ? const LoadingWidget()
+                    : PrimaryButton(
+                        label: "Sign In",
+                        onPressed: () {
+                          final user =
+                              UserData(email: email, password: password);
+                          final bool formIsValid =
+                              Validator.validateForm(user, context);
+
+                          if (formIsValid) {
+                            context
+                                .read<AuthBloc>()
+                                .add(AuthEventLoginUser(userData: user));
+                          }
+                        },
+                        isEnabled: true);
+              },
+            )
           ],
         ),
       ),

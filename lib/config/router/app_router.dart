@@ -5,6 +5,7 @@ import 'package:matchup/features/activities/presentation/screens/activities_list
 import 'package:matchup/features/activities/presentation/screens/activity_description_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/create_new_activity_screen.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
+import 'package:matchup/features/auth/data/models/user_model.dart';
 import 'package:matchup/features/auth/presentation/screens/create_account_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/date_of_birth_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/forgot_password_screen.dart';
@@ -96,8 +97,10 @@ class AppRouter {
         );
 
       case Routes.home:
+        AuthUser user = routeSettings.arguments as AuthUser;
+
         return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
+          builder: (_) => HomeScreen(user: user),
         );
 
       case Routes.chat:

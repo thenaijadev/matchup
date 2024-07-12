@@ -21,7 +21,8 @@ class DioExceptionClass implements Exception {
         errorMessage = "Request send timeout.";
         break;
       case DioExceptionType.badResponse:
-        errorMessage = _handleStatusCode(dioException.response?.statusCode);
+        errorMessage = DioExceptionClass.handleStatusCode(
+            dioException.response?.statusCode);
         break;
       case DioExceptionType.unknown:
         errorMessage = 'Unexpected error occurred.';
@@ -32,7 +33,7 @@ class DioExceptionClass implements Exception {
     }
   }
 
-  String _handleStatusCode(int? statusCode) {
+  static String handleStatusCode(int? statusCode) {
     switch (statusCode) {
       case 400:
         return 'User already exist ';

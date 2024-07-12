@@ -3,22 +3,22 @@ import 'dart:convert';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserData {
   final String email;
-  final String fullName;
+  final String? fullName;
   final String password;
-  final String confirmPassword;
-  final String phoneNumber;
-  final String countryCode;
+  final String? confirmPassword;
+  final String? phoneNumber;
+  final String? countryCode;
   final String? dateOfBirth;
   final String? gender;
   final bool? showGender;
   final String? country;
   UserData({
     required this.email,
-    required this.fullName,
+    this.fullName,
     required this.password,
-    required this.confirmPassword,
-    required this.phoneNumber,
-    required this.countryCode,
+    this.confirmPassword,
+    this.phoneNumber,
+    this.countryCode,
     this.dateOfBirth,
     this.gender,
     this.showGender,

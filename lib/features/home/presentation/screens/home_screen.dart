@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/user_model.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_screen_widget.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/home_widget.dart';
 import 'package:matchup/features/search/presentation/search_screen_widgets/search_screen.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_screen_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({super.key, required this.user});
+  final AuthUser user;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }

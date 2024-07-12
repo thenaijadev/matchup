@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -221,15 +221,16 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
                       context, state.error.errorMessage);
                 }
                 if (state is AuthStateUserIsRegistered) {
-                  Navigator.pushNamed(context, Routes.locationSearch);
+                  Navigator.pushNamed(context, Routes.locationSearch,
+                      arguments: {
+                        "userData": widget.user,
+                        "authUser": state.user
+                      });
                 }
               },
               builder: (context, state) {
                 return state is AuthStateIsLoading
-                    ? SpinKitWave(
-                        color: Theme.of(context).colorScheme.primary,
-                        size: 50.0,
-                      )
+                    ? const LoadingWidget()
                     : PrimaryButton(
                         label: "Continue",
                         onPressed: () {

@@ -27,3 +27,12 @@ class AuthStateUserIsRegistered extends AuthState {
     required this.user,
   });
 }
+
+class AuthStateIsLoggedIn extends AuthState {
+  final AuthUser user;
+  final UserData userData;
+  const AuthStateIsLoggedIn({
+    required this.userData,
+    required this.user,
+  });
+}

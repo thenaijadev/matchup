@@ -14,3 +14,10 @@ class AuthEventRegisterUser extends AuthEvent {
     required this.userData,
   });
 }
+
+class AuthEventLoginUser extends AuthEvent {
+  final UserData userData;
+  AuthEventLoginUser({
+    required this.userData,
+  });
+}

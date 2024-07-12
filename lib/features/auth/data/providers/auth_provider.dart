@@ -1,13 +1,10 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:matchup/core/network/api_endpoint.dart';
 import 'package:matchup/core/network/dio_client.dart';
 import 'package:matchup/core/utils/logger.dart';
-import 'package:matchup/core/utils/typedef.dart';
-import 'package:matchup/features/auth/data/models/auth_error.dart';
-import 'package:matchup/features/auth/data/models/user_model.dart';
 
 class AuthProvider {
-  Future<EitherAuthUserOrAuthError> registerUser(
+  Future<Map<String, dynamic>> registerUser(
       {required String userName,
       required String email,
       required String phoneCode,
@@ -31,7 +28,7 @@ class AuthProvider {
 
     try {
       final response = await DioClient.instance.post(
-        path: "/api/register",
+        path: AiRoutes.signUp,
         data: {
           "name": userName,
           "email": email,
@@ -39,18 +36,39 @@ class AuthProvider {
           "phone_number": phoneNumber,
           "password_confirmation": passwordConfirmation,
           "password": password,
-          "country": country,
-          "date_of_birth": dateOfBirth,
-          "gender": gender,
         },
+        options: Options(
+          headers: {
+            "Accept": "application/json",
+          },
+        ),
       );
-      print(response);
-      return right(AuthUser.fromJson(response));
-    } on DioException catch (e) {
-      return left(AuthError(errorMessage: "From Dio: ${e.message}"));
+
+      return response;
     } catch (e) {
-      logger.e(e.toString());
-      return left(AuthError(errorMessage: "Normal Error: ${e.toString()}"));
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> login({
+    required String email,
+    required String password,
+  }) async {
+    logger.i({
+      "password": password,
+      "email": email,
+    });
+
+    try {
+      final response =
+          await DioClient.instance.post(path: AiRoutes.login, data: {
+        "password": password,
+        "email": email,
+      });
+
+      return response;
+    } catch (e) {
+      rethrow;
     }
   }
 }

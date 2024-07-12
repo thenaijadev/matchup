@@ -63,13 +63,16 @@ class Validator {
     return true;
   }
 
-  static bool validateSignInDetails(UserData user, BuildContext context) {
-    if (user.password != user.confirmPassword) {
-      InfoSnackBar.showErrorSnackBar(
-          context, "Please confirm your password correctly");
-      return false;
+  static bool validateForm(UserData user, BuildContext context) {
+    if (user.confirmPassword != null) {
+      if (user.password != user.confirmPassword) {
+        InfoSnackBar.showErrorSnackBar(
+            context, "Please confirm your password correctly");
+        return false;
+      }
     }
-    if (user.countryCode == "234" && user.phoneNumber.length < 11) {
+
+    if (user.countryCode == "234" && user.phoneNumber!.length < 11) {
       InfoSnackBar.showErrorSnackBar(context, "Invalid Phone Number");
       return false;
     }
