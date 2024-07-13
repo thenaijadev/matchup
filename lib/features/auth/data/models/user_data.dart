@@ -1,28 +1,34 @@
 import 'dart:convert';
 
+import 'package:image_picker/image_picker.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserData {
-  final String email;
+  final String? email;
   final String? fullName;
-  final String password;
+  final String? password;
   final String? confirmPassword;
   final String? phoneNumber;
   final String? countryCode;
   final String? dateOfBirth;
   final String? gender;
   final bool? showGender;
-  final String? country;
+  final String? location;
+  final XFile? profileImage;
+  final String? token;
   UserData({
-    required this.email,
+    this.email,
     this.fullName,
-    required this.password,
+    this.password,
     this.confirmPassword,
     this.phoneNumber,
     this.countryCode,
     this.dateOfBirth,
     this.gender,
     this.showGender,
-    this.country,
+    this.location,
+    this.profileImage,
+    this.token,
   });
 
   UserData copyWith({
@@ -35,7 +41,9 @@ class UserData {
     String? dateOfBirth,
     String? gender,
     bool? showGender,
-    String? country,
+    String? location,
+    XFile? profileImage,
+    String? token,
   }) {
     return UserData(
       email: email ?? this.email,
@@ -47,7 +55,9 @@ class UserData {
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       gender: gender ?? this.gender,
       showGender: showGender ?? this.showGender,
-      country: country ?? this.country,
+      location: location ?? this.location,
+      profileImage: profileImage ?? this.profileImage,
+      token: token ?? this.token,
     );
   }
 
@@ -62,23 +72,32 @@ class UserData {
       'dateOfBirth': dateOfBirth,
       'gender': gender,
       'showGender': showGender,
-      'country': country,
+      'location': location,
+      'profileImage': profileImage,
+      'token': token,
     };
   }
 
   factory UserData.fromMap(Map<String, dynamic> map) {
     return UserData(
-      email: map['email'] as String,
-      fullName: map['fullName'] as String,
-      password: map['password'] as String,
-      confirmPassword: map['confirmPassword'] as String,
-      phoneNumber: map['phoneNumber'] as String,
-      countryCode: map['countryCode'] as String,
+      email: map['email'] != null ? map['email'] as String : null,
+      fullName: map['fullName'] != null ? map['fullName'] as String : null,
+      password: map['password'] != null ? map['password'] as String : null,
+      confirmPassword: map['confirmPassword'] != null
+          ? map['confirmPassword'] as String
+          : null,
+      phoneNumber:
+          map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
+      countryCode:
+          map['countryCode'] != null ? map['countryCode'] as String : null,
       dateOfBirth:
           map['dateOfBirth'] != null ? map['dateOfBirth'] as String : null,
       gender: map['gender'] != null ? map['gender'] as String : null,
       showGender: map['showGender'] != null ? map['showGender'] as bool : null,
-      country: map['country'] as String,
+      location: map['location'] != null ? map['location'] as String : null,
+      profileImage:
+          map['profileImage'] != null ? map['profileImage'] as XFile : null,
+      token: map['token'] != null ? map['token'] as String : null,
     );
   }
 
@@ -89,7 +108,7 @@ class UserData {
 
   @override
   String toString() {
-    return 'UserData(email: $email, fullName: $fullName, password: $password, confirmPassword: $confirmPassword, phoneNumber: $phoneNumber, countryCode: $countryCode, dateOfBirth: $dateOfBirth, gender: $gender, showGender: $showGender, country: $country)';
+    return 'UserData(email: $email, fullName: $fullName, password: $password, confirmPassword: $confirmPassword, phoneNumber: $phoneNumber, countryCode: $countryCode, dateOfBirth: $dateOfBirth, gender: $gender, showGender: $showGender, location: $location, profileImage: $profileImage, token: $token)';
   }
 
   @override
@@ -105,7 +124,9 @@ class UserData {
         other.dateOfBirth == dateOfBirth &&
         other.gender == gender &&
         other.showGender == showGender &&
-        other.country == country;
+        other.location == location &&
+        other.profileImage == profileImage &&
+        other.token == token;
   }
 
   @override
@@ -119,6 +140,8 @@ class UserData {
         dateOfBirth.hashCode ^
         gender.hashCode ^
         showGender.hashCode ^
-        country.hashCode;
+        location.hashCode ^
+        profileImage.hashCode ^
+        token.hashCode;
   }
 }

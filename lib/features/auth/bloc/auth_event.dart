@@ -17,7 +17,14 @@ class AuthEventRegisterUser extends AuthEvent {
 
 class AuthEventLoginUser extends AuthEvent {
   final UserData userData;
-  AuthEventLoginUser({
+  const AuthEventLoginUser({
     required this.userData,
   });
+}
+
+class AuthEventUpdateProfile extends AuthEvent {
+  final UserData userData;
+  final String authToken;
+  const AuthEventUpdateProfile(
+      {required this.userData, required this.authToken});
 }

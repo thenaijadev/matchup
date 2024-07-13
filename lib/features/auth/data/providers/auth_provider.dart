@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:matchup/core/network/api_endpoint.dart';
 import 'package:matchup/core/network/dio_client.dart';
 import 'package:matchup/core/utils/logger.dart';
@@ -68,6 +69,40 @@ class AuthProvider {
 
       return response;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> updateUser({
+    required String dateOfBirth,
+    required String gender,
+    required String location,
+    required XFile image,
+    required String authToken,
+  }) async {
+    final formData = FormData.fromMap({
+      "date_of_birth": dateOfBirth,
+      "gender": gender,
+      "location": location,
+      'profile_image': await MultipartFile.fromFile(
+        image.path,
+        filename: image.path.split('/').last,
+      )
+    });
+
+    logger.f(authToken);
+
+    try {
+      final response = await DioClient.instance.post(
+          path: AiRoutes.updateProfile,
+          data: formData,
+          options: Options(
+            headers: {"Authorization": "Bearer $authToken"},
+          ));
+      logger.f(response);
+      return response;
+    } catch (e) {
+      logger.e(e.toString());
       rethrow;
     }
   }

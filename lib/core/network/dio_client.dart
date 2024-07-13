@@ -41,7 +41,7 @@ class DioClient {
   ///Post Method
   Future<Map<String, dynamic>> post(
       {required String path,
-      required Map<String, dynamic> data,
+      required Object data,
       Map<String, dynamic>? queryParameters,
       Options? options,
       CancelToken? cancelToken,

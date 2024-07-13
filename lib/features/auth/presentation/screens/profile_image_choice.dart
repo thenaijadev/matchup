@@ -1,11 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
+import 'package:matchup/features/auth/presentation/widgets/picture_bottom_sheet.dart';
 
 class ProfileImageChoiceScreen extends StatefulWidget {
-  const ProfileImageChoiceScreen({super.key});
-
+  const ProfileImageChoiceScreen({super.key, required this.user});
+  final UserData user;
   @override
   State<ProfileImageChoiceScreen> createState() =>
       _ProfileImageChoiceScreenState();
@@ -14,6 +22,8 @@ class ProfileImageChoiceScreen extends StatefulWidget {
 class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
   int choice = 1;
   bool showGender = false;
+  XFile? pickedFile;
+  String authToken = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,14 +96,51 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
                     showDragHandle: true,
                     backgroundColor: Theme.of(context).colorScheme.background,
                     context: context,
-                    builder: ((context) {
-                      return const PictureBottomSheet();
+                    builder: ((sheetContext) {
+                      return PictureBottomSheet(
+                        changeImage: (file) {
+                          setState(() {
+                            pickedFile = file;
+                          });
+                          Navigator.pop(sheetContext);
+                        },
+                      );
                     }));
               },
-              child: Image.asset(
-                "assets/images/upload.png",
-                width: 150,
-              ),
+              child: pickedFile == null
+                  ? Image.asset(
+                      "assets/images/upload.png",
+                      width: 150,
+                    )
+                  : Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary, // Set the shadow color to orange
+                            offset: const Offset(
+                                4, 3), // Offset the shadow to the bottom left
+                            blurRadius:
+                                3.0, // Adjust blur radius for shadow softness
+                            spreadRadius:
+                                3.0, // Adjust spread radius for shadow extent
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(150),
+                        image: DecorationImage(
+                          image: FileImage(
+                            File(
+                              pickedFile!.path,
+                            ),
+                          ),
+                          fit: BoxFit
+                              .cover, // Adjust how the image fits the container
+                        ),
+                      ),
+                    ),
             ),
             const SizedBox(
               height: 30,
@@ -120,116 +167,32 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
               ),
             ),
             const Spacer(),
-            Opacity(
-              opacity: .5,
-              child: PrimaryButton(
-                  label: "Continue",
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(Routes.sportChoice);
-                  },
-                  isEnabled: true),
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthStateUserProfileUpdated) {
+                  Navigator.pushNamed(context, Routes.sportChoice);
+                }
+              },
+              builder: (context, state) {
+                return state is AuthStateIsLoading
+                    ? const LoadingWidget()
+                    : Opacity(
+                        opacity: pickedFile != null ? 1 : .5,
+                        child: PrimaryButton(
+                            label: "Continue",
+                            onPressed: () {
+                              context.read<AuthBloc>().add(
+                                  AuthEventUpdateProfile(
+                                      authToken: widget.user.token ?? "",
+                                      userData: widget.user
+                                          .copyWith(profileImage: pickedFile)));
+                            },
+                            isEnabled: true),
+                      );
+              },
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class PictureBottomSheet extends StatefulWidget {
-  const PictureBottomSheet({super.key});
-
-  @override
-  State<PictureBottomSheet> createState() => _PictureBottomSheetState();
-}
-
-class _PictureBottomSheetState extends State<PictureBottomSheet> {
-  int chosenIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 20.0).copyWith(bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    chosenIndex = 0;
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 1,
-                        color: chosenIndex == 0
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.transparent),
-                    color: const Color(0xff232323),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Image.asset(
-                    "assets/images/photo.png",
-                    width: 80,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextWidget(
-                text: "Your Photos",
-                textAlign: TextAlign.center,
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.inversePrimary,
-                fontWeight: FontWeight.w500,
-              ),
-            ],
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    chosenIndex = 1;
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    color: const Color(0xff232323),
-                    border: Border.all(
-                        width: 1,
-                        color: chosenIndex == 1
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.transparent),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Image.asset(
-                    "assets/images/camera.png",
-                    width: 80,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextWidget(
-                text: "Your Photos",
-                textAlign: TextAlign.center,
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.inversePrimary,
-                fontWeight: FontWeight.w500,
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

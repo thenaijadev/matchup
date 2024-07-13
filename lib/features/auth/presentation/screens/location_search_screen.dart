@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
-import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/user_data.dart';
 
 class LocationSearchScreen extends StatefulWidget {
-  const LocationSearchScreen({super.key});
-
+  const LocationSearchScreen({super.key, required this.user});
+  final UserData user;
   @override
   State<LocationSearchScreen> createState() => _LocationSearchScreenState();
 }
@@ -16,6 +15,7 @@ class LocationSearchScreen extends StatefulWidget {
 class _LocationSearchScreenState extends State<LocationSearchScreen> {
   int choice = 1;
   bool showGender = false;
+  String location = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,75 +74,80 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
             ),
             InputFieldWidget(
                 hintColor: Theme.of(context).colorScheme.secondary,
-                hintText: "Search location",
+                hintText: "Eg: Agege, Lagos Nigeria",
                 prefixicon: Icon(
-                  CupertinoIcons.search,
+                  Icons.location_pin,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
                 hintSize: 12,
-                onChanged: (val) {}),
+                onChanged: (val) {
+                  setState(() {
+                    location = val!;
+                  });
+                }),
             const SizedBox(
               height: 30,
             ),
-            GestureDetector(
-              onTap: () {},
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/images/target.png",
-                    width: 18,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  TextWidget(
-                      textAlign: TextAlign.center,
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 12,
-                      text: "Use my current location"),
-                ],
-              ),
-            ),
-            const HorizontalDivider(
-              thickness: 0.2,
-              paddingVertical: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextWidget(
-                    textAlign: TextAlign.center,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 12,
-                    text: "Search Results"),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images/pin.png",
-                      width: 14,
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    TextWidget(
-                        textAlign: TextAlign.center,
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                        fontSize: 12,
-                        text: "75, ST Palmer Avenue, Enugu"),
-                  ],
-                )
-              ],
-            ),
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Row(
+            //     children: [
+            //       Image.asset(
+            //         "assets/images/target.png",
+            //         width: 18,
+            //       ),
+            //       const SizedBox(
+            //         width: 10,
+            //       ),
+            //       TextWidget(
+            //           textAlign: TextAlign.center,
+            //           color: Theme.of(context).colorScheme.secondary,
+            //           fontSize: 12,
+            //           text: "Use my current location"),
+            //     ],
+            //   ),
+            // ),
+            // const HorizontalDivider(
+            //   thickness: 0.2,
+            //   paddingVertical: 20,
+            // ),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     TextWidget(
+            //         textAlign: TextAlign.center,
+            //         color: Theme.of(context).colorScheme.secondary,
+            //         fontSize: 12,
+            //         text: "Search Results"),
+            //     const SizedBox(
+            //       height: 20,
+            //     ),
+            //     Row(
+            //       children: [
+            //         Image.asset(
+            //           "assets/images/pin.png",
+            //           width: 14,
+            //         ),
+            //         const SizedBox(
+            //           width: 20,
+            //         ),
+            //         TextWidget(
+            //             textAlign: TextAlign.center,
+            //             color: Theme.of(context).colorScheme.inversePrimary,
+            //             fontSize: 12,
+            //             text: "75, ST Palmer Avenue, Enugu"),
+            //       ],
+            //     )
+            //   ],
+            // ),
             const Spacer(),
             PrimaryButton(
                 label: "Continue",
                 onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.addProfileImage);
+                  Navigator.of(context).pushNamed(Routes.addProfileImage,
+                      arguments: widget.user.copyWith(location: location));
                 },
-                isEnabled: true)
+                isEnabled: location != "")
           ],
         ),
       ),

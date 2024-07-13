@@ -4,11 +4,11 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/auth/data/models/user_data.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 
 class DateOfBirthScreen extends StatefulWidget {
   const DateOfBirthScreen({super.key, required this.user});
-  final UserData user;
+  final AuthUser user;
   @override
   State<DateOfBirthScreen> createState() => _DateOfBirthScreenState();
 }
@@ -119,11 +119,9 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
               PrimaryButton(
                   label: "Continue",
                   onPressed: () {
-                    final theUser =
-                        widget.user.copyWith(dateOfBirth: controller.text);
                     // logger.f(theUser);
                     Navigator.pushNamed(context, Routes.genderChoice,
-                        arguments: theUser);
+                        arguments: [controller.text, widget.user]);
                   },
                   isEnabled: true)
             ],

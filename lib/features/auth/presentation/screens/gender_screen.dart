@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
-import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
-import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
 
 class GenderChoiceScreen extends StatefulWidget {
-  const GenderChoiceScreen({super.key, required this.user});
-  final UserData user;
+  const GenderChoiceScreen({super.key, required this.data});
+  final List data;
   @override
   State<GenderChoiceScreen> createState() => _GenderChoiceScreenState();
 }
@@ -214,35 +210,17 @@ class _GenderChoiceScreenState extends State<GenderChoiceScreen> {
               ],
             ),
             const Spacer(),
-            BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {
-                if (state is AuthStateError) {
-                  InfoSnackBar.showErrorSnackBar(
-                      context, state.error.errorMessage);
-                }
-                if (state is AuthStateUserIsRegistered) {
+            PrimaryButton(
+                label: "Continue",
+                onPressed: () {
                   Navigator.pushNamed(context, Routes.locationSearch,
-                      arguments: {
-                        "userData": widget.user,
-                        "authUser": state.user
-                      });
-                }
-              },
-              builder: (context, state) {
-                return state is AuthStateIsLoading
-                    ? const LoadingWidget()
-                    : PrimaryButton(
-                        label: "Continue",
-                        onPressed: () {
-                          final userData = widget.user
-                              .copyWith(gender: gender, showGender: showGender);
-                          context
-                              .read<AuthBloc>()
-                              .add(AuthEventRegisterUser(userData: userData));
-                        },
-                        isEnabled: true);
-              },
-            )
+                      arguments: UserData(
+                          token: widget.data[1].token, // one is token
+                          showGender: showGender,
+                          dateOfBirth: widget.data[0], // 0 is date of birth
+                          gender: gender));
+                },
+                isEnabled: true)
           ],
         ),
       ),

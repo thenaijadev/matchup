@@ -1,11 +1,14 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/validator/validator.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
 import 'package:matchup/features/auth/presentation/widgets/change_country.dart';
 
@@ -27,6 +30,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String? password = '';
   String? confirmPassword = "";
   bool acceptTerms = false;
+  UserData? user;
+  bool formIsValid = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -281,30 +286,48 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                PrimaryButton(
-                    label: "Continue",
-                    onPressed: () {
-                      final user = UserData(
-                        confirmPassword: confirmPassword ?? "",
-                        password: password ?? "",
-                        email: email ?? "",
-                        fullName: fullName ?? "",
-                        countryCode: countryCode ?? "",
-                        phoneNumber: phoneNumber ?? "",
-                      );
-
-                      final formIsValid = Validator.validateForm(user, context);
-                      if (!acceptTerms) {
-                        InfoSnackBar.showErrorSnackBar(context,
-                            "You have to accept the Terms of Use and Privacy Policy to proceed.");
-                      }
-
+                BlocConsumer<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthStateError) {
+                      InfoSnackBar.showErrorSnackBar(
+                          context, state.error.errorMessage);
+                    }
+                    if (state is AuthStateUserIsRegistered) {
                       if (formIsValid && acceptTerms) {
-                        Navigator.of(context)
-                            .pushNamed(Routes.dateOfBirth, arguments: user);
+                        Navigator.of(context).pushNamed(Routes.dateOfBirth,
+                            arguments: state.user);
                       }
-                    },
-                    isEnabled: true)
+                    }
+                  },
+                  builder: (context, state) {
+                    return state is AuthStateIsLoading
+                        ? const LoadingWidget()
+                        : PrimaryButton(
+                            label: "Continue",
+                            onPressed: () {
+                              user = UserData(
+                                confirmPassword: confirmPassword ?? "",
+                                password: password ?? "",
+                                email: email ?? "",
+                                fullName: fullName ?? "",
+                                countryCode: countryCode ?? "",
+                                phoneNumber: phoneNumber ?? "",
+                              );
+
+                              formIsValid =
+                                  Validator.validateForm(user!, context);
+                              if (!acceptTerms) {
+                                InfoSnackBar.showErrorSnackBar(context,
+                                    "You have to accept the Terms of Use and Privacy Policy to proceed.");
+                              }
+                              if (formIsValid && acceptTerms) {
+                                context.read<AuthBloc>().add(
+                                    AuthEventRegisterUser(userData: user!));
+                              }
+                            },
+                            isEnabled: true);
+                  },
+                )
               ],
             ),
           ),

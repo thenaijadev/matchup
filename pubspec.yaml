@@ -44,6 +44,7 @@ dependencies:
   flutter_map_cancellable_tile_provider: ^3.0.0
   map: ^2.0.2
   http: ^1.2.1
+  permission_handler: ^11.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

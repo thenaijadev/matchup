@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/auth/data/models/user_model.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_screen_widget.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/home_widget.dart';
 import 'package:matchup/features/search/presentation/search_screen_widgets/search_screen.dart';

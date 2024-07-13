@@ -4,8 +4,8 @@ import 'package:matchup/core/widgets/error_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/activities_list._screen.dart';
 import 'package:matchup/features/activities/presentation/screens/activity_description_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/create_new_activity_screen.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
-import 'package:matchup/features/auth/data/models/user_model.dart';
 import 'package:matchup/features/auth/presentation/screens/create_account_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/date_of_birth_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/forgot_password_screen.dart';
@@ -43,25 +43,33 @@ class AppRouter {
           builder: (_) => const CreateAccountScreen(),
         );
       case Routes.dateOfBirth:
-        UserData user = routeSettings.arguments as UserData;
+        AuthUser user = routeSettings.arguments as AuthUser;
         return MaterialPageRoute(
           builder: (_) => DateOfBirthScreen(user: user),
         );
       case Routes.genderChoice:
-        UserData user = routeSettings.arguments as UserData;
+        List data = routeSettings.arguments as List;
 
         return MaterialPageRoute(
           builder: (_) => GenderChoiceScreen(
-            user: user,
+            data: data,
           ),
         );
       case Routes.locationSearch:
+        UserData user = routeSettings.arguments as UserData;
+
         return MaterialPageRoute(
-          builder: (_) => const LocationSearchScreen(),
+          builder: (_) => LocationSearchScreen(
+            user: user,
+          ),
         );
       case Routes.addProfileImage:
+        UserData user = routeSettings.arguments as UserData;
+
         return MaterialPageRoute(
-          builder: (_) => const ProfileImageChoiceScreen(),
+          builder: (_) => ProfileImageChoiceScreen(
+            user: user,
+          ),
         );
       case Routes.login:
         return MaterialPageRoute(

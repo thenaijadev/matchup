@@ -36,3 +36,10 @@ class AuthStateIsLoggedIn extends AuthState {
     required this.user,
   });
 }
+
+class AuthStateUserProfileUpdated extends AuthState {
+  final UpdatedUserModel updatedUser;
+  AuthStateUserProfileUpdated({
+    required this.updatedUser,
+  });
+}
