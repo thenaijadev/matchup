@@ -15,8 +15,9 @@ class DioClient {
       responseType: ResponseType.json));
 
   ///Get Method
-  Future<Map<String, dynamic>> get(String path,
-      {Map<String, dynamic>? queryParameters,
+  Future<Map<String, dynamic>> get(
+      {required String path,
+      Map<String, dynamic>? queryParameters,
       Options? options,
       CancelToken? cancelToken,
       ProgressCallback? onReceiveProgress}) async {

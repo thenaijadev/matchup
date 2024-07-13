@@ -29,7 +29,7 @@ class AuthProvider {
 
     try {
       final response = await DioClient.instance.post(
-        path: AiRoutes.signUp,
+        path: ApiRoutes.signUp,
         data: {
           "name": userName,
           "email": email,
@@ -62,10 +62,11 @@ class AuthProvider {
 
     try {
       final response =
-          await DioClient.instance.post(path: AiRoutes.login, data: {
+          await DioClient.instance.post(path: ApiRoutes.login, data: {
         "password": password,
         "email": email,
       });
+      logger.i({"Resonse": response});
 
       return response;
     } catch (e) {
@@ -94,11 +95,24 @@ class AuthProvider {
 
     try {
       final response = await DioClient.instance.post(
-          path: AiRoutes.updateProfile,
+          path: ApiRoutes.updateProfile,
           data: formData,
           options: Options(
             headers: {"Authorization": "Bearer $authToken"},
           ));
+      logger.f(response);
+      return response;
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getSports() async {
+    try {
+      final response = await DioClient.instance.get(
+        path: ApiRoutes.getUserSports,
+      );
       logger.f(response);
       return response;
     } catch (e) {
