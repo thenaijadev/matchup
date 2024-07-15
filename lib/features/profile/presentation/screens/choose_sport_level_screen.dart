@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/utils/logger.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/profile/bloc/profile_bloc.dart';
+import 'package:matchup/features/profile/data/models/all_sports_model.dart';
+import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/widgets/sport_level.dart';
 
 class ChooseSportLevelScreen extends StatefulWidget {
-  const ChooseSportLevelScreen({super.key, required this.sports});
-  final List<Map<String, String>> sports;
+  const ChooseSportLevelScreen({super.key, required this.data});
+  final DataTransferModel data;
 
   @override
   State<ChooseSportLevelScreen> createState() => _ChooseSportLevelScreenState();
 }
 
 class _ChooseSportLevelScreenState extends State<ChooseSportLevelScreen> {
-  List<Map<String, dynamic>> emojis = [
-    {"name": "Terrible", "image": "😥"},
-    {"name": "Bad", "image": "☹️"},
-    {"name": "Okay", "image": "🙂"},
-    {"name": "Good", "image": "😎"},
-    {"name": "Amazing", "image": "🤗"},
-  ];
-  final int _selectedIndex1 = -1;
+  List<Sport> screenSports = [];
+  bool screenIsComplete = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,8 @@ class _ChooseSportLevelScreenState extends State<ChooseSportLevelScreen> {
           child: Transform.scale(
             scale: 0.7,
             child: GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: () =>
+                  Navigator.popAndPushNamed(context, Routes.sportChoice),
               child: Container(
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
@@ -79,18 +82,82 @@ class _ChooseSportLevelScreenState extends State<ChooseSportLevelScreen> {
               Expanded(
                 child: ListView(
                   children: List.generate(
-                      widget.sports.length,
+                      widget.data.sports.length,
                       (index) => SportLevelWidget(
+                            moveSport: (sports, isComplete) {
+                              setState(() {
+                                screenSports = sports;
+
+                                logger.e({sports, isComplete});
+                              });
+                            },
                             index: index,
-                            sports: [...widget.sports],
+                            sports: widget.data.sports,
                           )),
                 ),
               ),
-              PrimaryButton(label: "Save", onPressed: () {}, isEnabled: true),
+              BlocConsumer<ProfileBloc, ProfileState>(
+                listener: (context, state) {
+                  if (state is ProfileStateError) {
+                    InfoSnackBar.showErrorSnackBar(
+                        context, state.error.errorMessage);
+                  }
+                  if (state is ProfileStateUserSportCreated) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Routes.home, (route) => route.isFirst);
+                  }
+                },
+                builder: (context, state) {
+                  return state is ProfileStateIsLoading
+                      ? const LoadingWidget()
+                      : PrimaryButton(
+                          label: "Save",
+                          onPressed: () {
+                            final data = screenSports
+                                .map((e) => {
+                                      "sport_id": e.id,
+                                      "skill_level":
+                                          e.skillLevel?.toLowerCase() ?? "",
+                                      "experience_level":
+                                          e.experienceLevel?.toLowerCase() ??
+                                              "",
+                                    })
+                                .toList();
+
+                            if (screenSports.isEmpty) {
+                              InfoSnackBar.showErrorSnackBar(
+                                  context, "Please complete the form");
+                            } else {
+                              for (var item in screenSports) {
+                                if (item.experienceLevel == null ||
+                                    item.skillLevel == null) {
+                                  InfoSnackBar.showErrorSnackBar(
+                                      context, "Please complete the form",
+                                      time: 1);
+                                  setState(() {
+                                    screenIsComplete == false;
+                                  });
+                                }
+                              }
+                            }
+                            if (screenIsComplete) {
+                              context.read<ProfileBloc>().add(
+                                  ProfileEventCreateUserSport(
+                                      sports: data,
+                                      authToken: widget.data.user.token ?? ""));
+                            }
+                          },
+                          isEnabled: true);
+                },
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void createData({required List<Map<String, dynamic>> data}) {
+    logger.d(data);
   }
 }

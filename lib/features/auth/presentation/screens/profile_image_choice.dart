@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -24,6 +25,12 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
   bool showGender = false;
   XFile? pickedFile;
   String authToken = "";
+  @override
+  void initState() {
+    logger.e(widget.user.token);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,7 +177,8 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
             BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is AuthStateUserProfileUpdated) {
-                  Navigator.pushNamed(context, Routes.sportChoice);
+                  Navigator.pushNamed(context, Routes.sportChoice,
+                      arguments: widget.user);
                 }
               },
               builder: (context, state) {
@@ -187,7 +195,7 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
                                       userData: widget.user
                                           .copyWith(profileImage: pickedFile)));
                             },
-                            isEnabled: true),
+                            isEnabled: pickedFile != null),
                       );
               },
             )

@@ -10,6 +10,9 @@ import 'package:matchup/core/utils/app_constraints.dart';
 import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
 import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
+import 'package:matchup/features/profile/bloc/profile_bloc.dart';
+import 'package:matchup/features/profile/data/providers/profile_provider.dart';
+import 'package:matchup/features/profile/data/repositories/profile_repositories.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -32,6 +35,10 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) =>
               AuthBloc(authRepo: AuthRepository(provider: AuthProvider())),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ProfileBloc(repo: ProfileRepository(provider: ProfileProvider())),
         ),
       ],
       child: GestureDetector(

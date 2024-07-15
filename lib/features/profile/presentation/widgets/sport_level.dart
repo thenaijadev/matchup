@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/profile/data/models/all_sports_model.dart';
 
 class SportLevelWidget extends StatefulWidget {
   const SportLevelWidget(
-      {super.key, required this.sports, required this.index});
-  final List<Map<String, String>> sports;
+      {super.key,
+      required this.sports,
+      required this.index,
+      required this.moveSport});
+  final List<Sport> sports;
   final int index;
-
+  final Function(List<Sport>, bool) moveSport;
   @override
   State<SportLevelWidget> createState() => _SportLevelWidgetState();
 }
@@ -25,10 +29,14 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
     "Casual",
     "Just for fun"
   ];
+  bool isComplete = true;
   int _selectedIndex = -1;
   late ExpansionTileController controller;
+  List<Sport> updatedSports = [];
   @override
   void initState() {
+    updatedSports = widget.sports;
+
     controller = ExpansionTileController();
     super.initState();
   }
@@ -59,14 +67,14 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                         color: Theme.of(context).colorScheme.primary)),
                 height: 50,
                 width: 50,
-                child: Image.asset(widget.sports[widget.index]["image"]!),
+                child: Image.asset(widget.sports[widget.index].image!),
               ),
               const SizedBox(
                 width: 10,
               ),
               TextWidget(
                 fontSize: 12,
-                text: widget.sports[widget.index]["title"]!,
+                text: widget.sports[widget.index].name ?? "",
                 color: Theme.of(context).colorScheme.inversePrimary,
                 fontWeight: FontWeight.bold,
               )
@@ -85,6 +93,11 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                     onTap: () {
                       setState(() {
                         _selectedIndex = emojiIndex;
+                        updatedSports[widget.index] = widget
+                            .sports[widget.index]
+                            .copyWith(skillLevel: emojis[emojiIndex]["name"]);
+
+                        widget.moveSport(updatedSports, isComplete);
                       });
                     },
                     child: Container(
@@ -155,6 +168,11 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                               controller.collapse();
                               setState(() {
                                 levelTitle = levels[index];
+                                updatedSports[widget.index] = widget
+                                    .sports[widget.index]
+                                    .copyWith(experienceLevel: levels[index]);
+                                for (var element in updatedSports) {}
+                                widget.moveSport(updatedSports, isComplete);
                               });
                             },
                             text: levels[index],

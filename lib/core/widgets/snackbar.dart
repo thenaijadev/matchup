@@ -88,9 +88,9 @@ class InfoSnackBar {
     );
   }
 
-  static SnackBar errorSnackBar(String message) {
+  static SnackBar errorSnackBar(String message, {int time = 3}) {
     return SnackBar(
-      duration: const Duration(seconds: 3),
+      duration: Duration(seconds: time),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       backgroundColor: const Color(0xffFCD9D7),
       behavior: SnackBarBehavior.floating,
@@ -120,9 +120,10 @@ class InfoSnackBar {
     );
   }
 
-  static void showErrorSnackBar(BuildContext context, String message) {
+  static void showErrorSnackBar(BuildContext context, String message,
+      {int time = 3}) {
     ScaffoldMessenger.of(context)
-        .showSnackBar(InfoSnackBar.errorSnackBar(message));
+        .showSnackBar(InfoSnackBar.errorSnackBar(message, time: time));
   }
 
   static void showSuccessSnackBar(BuildContext context, String message) {

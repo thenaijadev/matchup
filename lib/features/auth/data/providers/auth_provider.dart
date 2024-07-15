@@ -108,16 +108,16 @@ class AuthProvider {
     }
   }
 
-  Future<Map<String, dynamic>> getSports() async {
-    try {
-      final response = await DioClient.instance.get(
-        path: ApiRoutes.getUserSports,
-      );
-      logger.f(response);
-      return response;
-    } catch (e) {
-      logger.e(e.toString());
-      rethrow;
-    }
-  }
+  // Future<Map<String, dynamic>> getSports() async {
+  //   try {
+  //     final response = await DioClient.instance.get(
+  //       path: ApiRoutes.getUserSports,
+  //     );
+  //     logger.f(response);
+  //     return response;
+  //   } catch (e) {
+  //     logger.e(e.toString());
+  //     rethrow;
+  //   }
+  // }
 }

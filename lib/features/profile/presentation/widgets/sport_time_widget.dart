@@ -35,10 +35,16 @@ class SportItemWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              image,
-              width: 50,
-            ),
+            if (image.contains("example.com"))
+              Image.asset(
+                image,
+                width: 50,
+              ),
+            if (!image.contains("example.com"))
+              Image.network(
+                image,
+                width: 50,
+              ),
             const SizedBox(
               height: 10,
             ),

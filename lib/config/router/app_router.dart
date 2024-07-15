@@ -20,6 +20,7 @@ import 'package:matchup/features/get_directions/presentation/screens/get_directi
 import 'package:matchup/features/home/presentation/screens/home_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
+import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
 import 'package:matchup/features/teams/presentation/screens/add_team_members_screen.dart';
@@ -91,21 +92,21 @@ class AppRouter {
         );
 
       case Routes.sportChoice:
+        UserData user = routeSettings.arguments as UserData;
         return MaterialPageRoute(
-          builder: (_) => const SportChoiceScreen(),
+          builder: (_) => SportChoiceScreen(user: user),
         );
 
       case Routes.chooseSportLevel:
-        List<Map<String, String>> selectedItems =
-            routeSettings.arguments as List<Map<String, String>>;
+        DataTransferModel data = routeSettings.arguments as DataTransferModel;
         return MaterialPageRoute(
           builder: (_) => ChooseSportLevelScreen(
-            sports: selectedItems,
+            data: data,
           ),
         );
 
       case Routes.home:
-        AuthUser user = routeSettings.arguments as AuthUser;
+        AuthUser? user = routeSettings.arguments as AuthUser?;
 
         return MaterialPageRoute(
           builder: (_) => HomeScreen(user: user),

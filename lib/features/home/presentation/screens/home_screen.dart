@@ -8,7 +8,7 @@ import 'package:matchup/features/settings/presentation/settings_screen_widgets/s
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.user});
-  final AuthUser user;
+  final AuthUser? user;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
