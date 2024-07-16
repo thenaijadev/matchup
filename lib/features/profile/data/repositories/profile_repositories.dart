@@ -6,6 +6,7 @@ import 'package:matchup/core/utils/typedef.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
 import 'package:matchup/features/profile/data/models/profile_error_model.dart';
+import 'package:matchup/features/profile/data/models/user_profile_model.dart';
 import 'package:matchup/features/profile/data/providers/profile_provider.dart';
 
 class ProfileRepository {
@@ -38,6 +39,26 @@ class ProfileRepository {
       final response =
           await provider.createUserSports(authToken: authToken, sports: sports);
       return right(CreateUserSportModel.fromJson(response));
+    } on DioException catch (e) {
+      return left(
+        ProfileError(
+          errorMessage:
+              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+        ),
+      );
+    } catch (e) {
+      return left(ProfileError(errorMessage: e.toString()));
+    }
+  }
+
+  Future<EitherUserOrProfileError> getUser({
+    required String authToken,
+  }) async {
+    try {
+      final response = await provider.getUser(
+        authToken: authToken,
+      );
+      return right(UserProfileModel.fromJson(response));
     } on DioException catch (e) {
       return left(
         ProfileError(

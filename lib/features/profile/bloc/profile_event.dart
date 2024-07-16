@@ -25,3 +25,10 @@ class ProfileEventCreateUserSport extends ProfileEvent {
     required this.authToken,
   });
 }
+
+class ProfileEventGetUser extends ProfileEvent {
+  final String authToken;
+  const ProfileEventGetUser({
+    required this.authToken,
+  });
+}

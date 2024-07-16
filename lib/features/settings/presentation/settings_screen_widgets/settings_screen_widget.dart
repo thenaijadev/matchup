@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/appearance_screen_widget.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/profile_settings.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_menu_widget.dart';
 
 class SettingsScreenWidget extends StatefulWidget {
-  const SettingsScreenWidget({super.key});
-
+  const SettingsScreenWidget({super.key, required this.user});
+  final AuthUser user;
   @override
   State<SettingsScreenWidget> createState() => _SettingsScreenWidgetState();
 }

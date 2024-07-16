@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_screen_widget.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/home_widget.dart';
+import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 import 'package:matchup/features/search/presentation/search_screen_widgets/search_screen.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_screen_widget.dart';
 
@@ -15,12 +17,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  List<Widget> bodyWidgets = [
-    const HomeScreenWidget(),
-    const SearchScreenWidget(),
-    const ChatScreenWidget(),
-    const SettingsScreenWidget(),
-  ];
+
+  late AuthUser? user;
+  @override
+  void initState() {
+    user = widget.user;
+    context
+        .read<ProfileBloc>()
+        .add(ProfileEventGetUser(authToken: widget.user?.token ?? ""));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> items = [
@@ -28,6 +35,18 @@ class _HomeScreenState extends State<HomeScreen> {
       {"image": "assets/images/search_icon.png", "label": "Search"},
       {"image": "assets/images/chat_icon.png", "label": "Chat"},
       {"image": "assets/images/settings_icon.png", "label": "Settings"},
+    ];
+    List<Widget> bodyWidgets = [
+      HomeScreenWidget(
+        user: widget.user,
+      ),
+      SearchScreenWidget(user: user!),
+      ChatScreenWidget(
+        user: user!,
+      ),
+      SettingsScreenWidget(
+        user: user!,
+      ),
     ];
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,

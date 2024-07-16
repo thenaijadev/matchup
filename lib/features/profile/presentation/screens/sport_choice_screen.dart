@@ -36,6 +36,7 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
     context
         .read<ProfileBloc>()
         .add(ProfileEventGetSports(authToken: widget.user.token ?? ""));
+    setState(() {});
     super.initState();
   }
 

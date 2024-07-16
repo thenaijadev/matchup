@@ -26,6 +26,13 @@ class ProfileStateUserSportCreated extends ProfileState {
   });
 }
 
+class ProfileStateUserGotten extends ProfileState {
+  final UserProfileModel user;
+  const ProfileStateUserGotten({
+    required this.user,
+  });
+}
+
 class ProfileStateError extends ProfileState {
   final ProfileError error;
   const ProfileStateError({

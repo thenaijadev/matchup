@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 
 class SearchScreenWidget extends StatelessWidget {
-  const SearchScreenWidget({super.key});
-
+  const SearchScreenWidget({super.key, required this.user});
+  final AuthUser user;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
