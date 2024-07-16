@@ -7,12 +7,12 @@ class NewsModel {
 
   final String? status;
   final String? message;
-  final List<Datum> data;
+  final List<NewsItem> data;
 
   NewsModel copyWith({
     String? status,
     String? message,
-    List<Datum>? data,
+    List<NewsItem>? data,
   }) {
     return NewsModel(
       status: status ?? this.status,
@@ -27,7 +27,7 @@ class NewsModel {
       message: json["message"],
       data: json["data"] == null
           ? []
-          : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+          : List<NewsItem>.from(json["data"]!.map((x) => NewsItem.fromJson(x))),
     );
   }
 
@@ -43,8 +43,8 @@ class NewsModel {
   }
 }
 
-class Datum {
-  Datum({
+class NewsItem {
+  NewsItem({
     required this.id,
     required this.title,
     required this.slug,
@@ -64,7 +64,7 @@ class Datum {
   final dynamic createdAt;
   final dynamic updatedAt;
 
-  Datum copyWith({
+  NewsItem copyWith({
     int? id,
     String? title,
     String? slug,
@@ -74,7 +74,7 @@ class Datum {
     dynamic createdAt,
     dynamic updatedAt,
   }) {
-    return Datum(
+    return NewsItem(
       id: id ?? this.id,
       title: title ?? this.title,
       slug: slug ?? this.slug,
@@ -86,8 +86,8 @@ class Datum {
     );
   }
 
-  factory Datum.fromJson(Map<String, dynamic> json) {
-    return Datum(
+  factory NewsItem.fromJson(Map<String, dynamic> json) {
+    return NewsItem(
       id: json["id"],
       title: json["title"],
       slug: json["slug"],

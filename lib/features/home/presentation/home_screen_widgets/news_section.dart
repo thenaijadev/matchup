@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/news_item.dart';
+import 'package:matchup/features/news/bloc/news_bloc.dart';
 import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 
 class NewsSectionWidget extends StatefulWidget {
@@ -19,6 +21,7 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
     context
         .read<ProfileBloc>()
         .add(ProfileEventGetSports(authToken: widget.user.token ?? ""));
+    context.read<NewsBloc>().add(NewsEventGetNews());
     super.initState();
   }
 
@@ -140,11 +143,24 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
         const SizedBox(
           height: 20,
         ),
-        ...List.generate(
-          3,
-          (index) => NewsItemWidget(
-            isFirst: index == 0,
-          ),
+        BlocBuilder<NewsBloc, NewsState>(
+          builder: (context, state) {
+            return state is NewsStateIsLoading
+                ? const LoadingWidget()
+                : state is NewsStateNewsError
+                    ? const Center(
+                        child: TextWidget(text: "Click to retry"),
+                      )
+                    : state is NewsStateNewsRetrieved
+                        ? Column(
+                            children: List.generate(
+                                state.news.data.length,
+                                (index) => NewsItemWidget(
+                                    isFirst: index == 0,
+                                    news: state.news.data[index])),
+                          )
+                        : const SizedBox();
+          },
         ),
       ],
     );

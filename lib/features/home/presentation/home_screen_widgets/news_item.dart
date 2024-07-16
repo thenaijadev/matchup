@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/news/data/models/news_model.dart';
 
 class NewsItemWidget extends StatelessWidget {
   const NewsItemWidget({
     super.key,
     required this.isFirst,
+    required this.news,
   });
+  final NewsItem news;
   final bool isFirst;
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,7 @@ class NewsItemWidget extends StatelessWidget {
                   width: 15,
                 ),
                 TextWidget(
-                  text: "2 hours ago",
+                  text: news.createdAt ?? "2 hours ago",
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.secondary,
@@ -57,20 +63,34 @@ class NewsItemWidget extends StatelessWidget {
           height: 30,
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: 230.width,
-              child: TextWidget(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  text:
-                      "Nikola Jokic: Denver Nuggets star named NBA's Most Valuable Player (MVP) for third time in four years"),
+            SizedBox(width: 230.width, child: HtmlWidget(news.content ?? "")),
+            ClipRRect(
+              // borderRadius: BorderRadius.circular(100),
+              child: Image.network(
+                width: 100.w,
+                height: 100.h,
+                fit: BoxFit.fitWidth,
+                news.poster ?? "",
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    "assets/images/news_item.png",
+                    width: 100.width,
+                  );
+                },
+                loadingBuilder: (context, imageProvider, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return imageProvider; // image is already loaded
+                  }
+                  return Center(
+                      child: SpinKitChasingDots(
+                    color: Theme.of(context).colorScheme.primary,
+                  ));
+                },
+              ),
             ),
-            Image.asset(
-              "assets/images/news_item.png",
-              width: 100.width,
-            )
           ],
         ),
         const SizedBox(
