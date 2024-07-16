@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/news_item.dart';
+import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 
 class NewsSectionWidget extends StatefulWidget {
-  const NewsSectionWidget({super.key});
-
+  const NewsSectionWidget({super.key, required this.user});
+  final AuthUser user;
   @override
   State<NewsSectionWidget> createState() => _NewsSectionWidgetState();
 }
 
 class _NewsSectionWidgetState extends State<NewsSectionWidget> {
+  @override
+  void initState() {
+    context
+        .read<ProfileBloc>()
+        .add(ProfileEventGetSports(authToken: widget.user.token ?? ""));
+    super.initState();
+  }
+
   int _chosenIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -45,38 +57,64 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
         ),
         SizedBox(
           height: 35,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: List.generate(
-              items.length,
-              (index) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _chosenIndex = index;
-                  });
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 12),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(
-                        width: 2,
-                        color: _chosenIndex == index
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.inverseSurface),
-                  ),
-                  child: Center(
-                      child: TextWidget(
-                    text: items[index]["title"]!,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  )),
-                ),
-              ),
-            ),
+          child: BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              return state is ProfileStateIsLoading
+                  ? SpinKitChasingDots(
+                      size: 30,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  : state is ProfileStateAllSportsGotten
+                      ? ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(
+                            state.sportsModel.data.length,
+                            (index) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _chosenIndex = index;
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                      width: 2,
+                                      color: _chosenIndex == index
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .inverseSurface),
+                                ),
+                                child: Center(
+                                    child: TextWidget(
+                                  text:
+                                      state.sportsModel.data[index].name ?? "",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
+                                )),
+                              ),
+                            ),
+                          ),
+                        )
+                      : TextWidget(
+                          text: "Try again",
+                          color: Theme.of(context).colorScheme.primary,
+                          onTap: () {
+                            context.read<ProfileBloc>().add(
+                                ProfileEventGetSports(
+                                    authToken: widget.user.token ?? ""));
+                          },
+                        );
+            },
           ),
         ),
         const SizedBox(

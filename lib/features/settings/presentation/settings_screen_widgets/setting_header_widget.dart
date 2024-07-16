@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 
 class SettingsHeaderWidget extends StatelessWidget {
   const SettingsHeaderWidget({
     super.key,
     required this.onTap,
+    required this.user,
   });
   final VoidCallback onTap;
-
+  final AuthUser user;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -19,9 +23,23 @@ class SettingsHeaderWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image.asset(
-                  "assets/images/contact_image.png",
-                  width: 50,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.network(
+                    width: 40.w,
+                    height: 40.h,
+                    fit: BoxFit.fitWidth,
+                    user.user?.profileImage ?? "",
+                    loadingBuilder: (context, imageProvider, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return imageProvider; // image is already loaded
+                      }
+                      return Center(
+                          child: SpinKitChasingDots(
+                        color: Theme.of(context).colorScheme.primary,
+                      ));
+                    },
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
@@ -32,7 +50,7 @@ class SettingsHeaderWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(
-                          text: "Mary Howard",
+                          text: user.user?.name ?? "",
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.inversePrimary,
                         ),

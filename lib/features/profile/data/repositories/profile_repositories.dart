@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:matchup/core/network/dio_exception.dart';
 import 'package:matchup/core/utils/typedef.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
 import 'package:matchup/features/profile/data/models/profile_error_model.dart';
@@ -52,12 +53,14 @@ class ProfileRepository {
   }
 
   Future<EitherUserOrProfileError> getUser({
-    required String authToken,
+    required String? authToken,
   }) async {
     try {
+      final user = await LocalDataSource().getUser();
       final response = await provider.getUser(
-        authToken: authToken,
+        authToken: authToken ?? user?.token ?? "",
       );
+
       return right(UserProfileModel.fromJson(response));
     } on DioException catch (e) {
       return left(

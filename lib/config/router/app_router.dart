@@ -106,7 +106,7 @@ class AppRouter {
         );
 
       case Routes.home:
-        AuthUser? user = routeSettings.arguments as AuthUser?;
+        AuthUser user = routeSettings.arguments as AuthUser;
 
         return MaterialPageRoute(
           builder: (_) => HomeScreen(user: user),

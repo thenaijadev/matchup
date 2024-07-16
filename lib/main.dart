@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/app.dart';
 import 'package:matchup/core/utils/bloc_observer.dart';
+import 'package:matchup/core/utils/logger.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +13,8 @@ Future<void> main() async {
   // await LocationServiceClass.determinePosition();
 
   Bloc.observer = AppBlocObserver();
-
+  final user = await LocalDataSource().getUser();
+  logger.e({"Local": user});
   runApp(const MyApp());
 }
 

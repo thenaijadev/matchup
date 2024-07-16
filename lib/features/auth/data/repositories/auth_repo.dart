@@ -2,15 +2,19 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:matchup/core/network/dio_exception.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/utils/typedef.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 
 class AuthRepository {
   final AuthProvider provider;
+  final LocalDataSource localDataSource;
   AuthRepository({
+    required this.localDataSource,
     required this.provider,
   });
 
@@ -58,6 +62,9 @@ class AuthRepository {
   }) async {
     try {
       final response = await provider.login(email: email, password: password);
+      final isSaved =
+          await localDataSource.saveUser(AuthUser.fromJson(response));
+      logger.f({isSaved: isSaved});
       return right(AuthUser.fromJson(response));
     } on DioException catch (e) {
       return left(

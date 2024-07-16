@@ -21,17 +21,21 @@ class _SettingsScreenWidgetState extends State<SettingsScreenWidget> {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (selectedIndex == 0)
-            SettingsMenuWidget(onTap0: () {
-              setState(() {
-                selectedIndex = 1;
-              });
-            }, onTap4: () {
-              setState(() {
-                selectedIndex = 4;
-              });
-            }),
+            SettingsMenuWidget(
+                onTap0: () {
+                  setState(() {
+                    selectedIndex = 1;
+                  });
+                },
+                onTap4: () {
+                  setState(() {
+                    selectedIndex = 4;
+                  });
+                },
+                user: widget.user),
           if (selectedIndex == 1)
             ProfileSettingsWidget(
+              user: widget.user,
               onTap: () {
                 setState(() {
                   selectedIndex = 0;

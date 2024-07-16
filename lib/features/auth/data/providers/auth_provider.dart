@@ -15,18 +15,6 @@ class AuthProvider {
       required String country,
       required String dateOfBirth,
       required String gender}) async {
-    logger.i({
-      "name": userName,
-      "email": email,
-      "phone_code": phoneCode,
-      "phone_number": phoneNumber,
-      "password_confirmation": passwordConfirmation,
-      "password": password,
-      "country": country,
-      "date_of_birth": dateOfBirth,
-      "gender": gender,
-    });
-
     try {
       final response = await DioClient.instance.post(
         path: ApiRoutes.signUp,
@@ -55,18 +43,12 @@ class AuthProvider {
     required String email,
     required String password,
   }) async {
-    logger.i({
-      "password": password,
-      "email": email,
-    });
-
     try {
       final response =
           await DioClient.instance.post(path: ApiRoutes.login, data: {
         "password": password,
         "email": email,
       });
-      logger.i({"Resonse": response});
 
       return response;
     } catch (e) {
@@ -100,7 +82,7 @@ class AuthProvider {
           options: Options(
             headers: {"Authorization": "Bearer $authToken"},
           ));
-      logger.f(response);
+
       return response;
     } catch (e) {
       logger.e(e.toString());

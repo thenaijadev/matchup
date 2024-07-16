@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_screen_widget.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/home_widget.dart';
-import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 import 'package:matchup/features/search/presentation/search_screen_widgets/search_screen.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_screen_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.user});
-  final AuthUser? user;
+  final AuthUser user;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -18,13 +16,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  late AuthUser? user;
+  late AuthUser user;
   @override
   void initState() {
     user = widget.user;
-    context
-        .read<ProfileBloc>()
-        .add(ProfileEventGetUser(authToken: widget.user?.token ?? ""));
+    // context
+    //     .read<ProfileBloc>()
+    //     .add(ProfileEventGetUser(authToken: widget.user.token ?? ""));
     super.initState();
   }
 
@@ -40,12 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
       HomeScreenWidget(
         user: widget.user,
       ),
-      SearchScreenWidget(user: user!),
+      SearchScreenWidget(user: user),
       ChatScreenWidget(
-        user: user!,
+        user: user,
       ),
       SettingsScreenWidget(
-        user: user!,
+        user: user,
       ),
     ];
     return Scaffold(

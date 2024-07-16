@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/dark_mode/presentation/bloc/dark_mode_bloc.dart';
 import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/setting_header_widget.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_item.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/settings_section.dart';
@@ -13,15 +14,18 @@ class SettingsMenuWidget extends StatelessWidget {
     super.key,
     required this.onTap0,
     required this.onTap4,
+    required this.user,
   });
   final VoidCallback onTap0;
   final VoidCallback onTap4;
+  final AuthUser user;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SettingsHeaderWidget(
+          user: user,
           onTap: onTap0,
         ),
         const HorizontalDivider(

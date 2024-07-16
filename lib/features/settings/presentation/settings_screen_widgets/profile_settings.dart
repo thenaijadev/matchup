@@ -1,14 +1,18 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/presentation/widgets/change_country.dart';
 import 'package:matchup/features/settings/presentation/settings_screen_widgets/verified_badge_widget.dart';
 
 class ProfileSettingsWidget extends StatefulWidget {
-  const ProfileSettingsWidget({super.key, required this.onTap});
+  const ProfileSettingsWidget(
+      {super.key, required this.onTap, required this.user});
   final VoidCallback onTap;
+  final AuthUser user;
   @override
   State<ProfileSettingsWidget> createState() => _ProfileSettingsWidgetState();
 }
@@ -28,6 +32,8 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
   String name = "Gienna Richards";
   @override
   void initState() {
+    // context.read<ProfileBloc>().add(const ProfileEventGetUser());
+
     _nameController = TextEditingController();
     _emailController = TextEditingController();
 
@@ -77,45 +83,60 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
           height: 30,
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextWidget(
-                  text: "Gienna Richards",
-                  fontSize: 24.sp,
+                  text: widget.user.user?.name ?? "",
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                TextWidget(
-                  text: "Gienna Richards",
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.inversePrimary,
+                SizedBox(
+                  height: 15.h,
                 ),
+                Row(
+                  children: [
+                    TextWidget(
+                      text: widget.user.user?.email ?? "",
+                      fontSize: 12.sp,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    SizedBox(
+                      width: 50.w,
+                    ),
+                    const VerifiedBadgeWidget(),
+                  ],
+                ),
+                // TextWidget(
+                //   text: "Gienna Richards",
+                //   fontSize: 14.sp,
+                //   fontWeight: FontWeight.bold,
+                //   color: Theme.of(context).colorScheme.inversePrimary,
+                // ),
               ],
             ),
-            Image.asset(
-              "assets/images/contact_image.png",
-              width: 50.w,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.network(
+                width: 55.w,
+                height: 55.h,
+                fit: BoxFit.fitWidth,
+                widget.user.user?.profileImage ?? "",
+                loadingBuilder: (context, imageProvider, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return imageProvider; // image is already loaded
+                  }
+                  return Center(
+                      child: SpinKitChasingDots(
+                    color: Theme.of(context).colorScheme.primary,
+                  ));
+                },
+              ),
             ),
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            TextWidget(
-              text: "giennarichards@mail.com",
-              fontSize: 12.sp,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-            SizedBox(
-              width: 50.w,
-            ),
-            const VerifiedBadgeWidget(),
           ],
         ),
         GestureDetector(

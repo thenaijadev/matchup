@@ -9,9 +9,9 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: SpinKitWave(
+        child: SpinKitChasingDots(
+      size: 30,
       color: Theme.of(context).colorScheme.primary,
-      size: 50.0,
     ));
   }
 }

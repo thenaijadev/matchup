@@ -9,7 +9,11 @@ import 'package:matchup/config/theme/light_theme.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
 import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
+import 'package:matchup/features/news/bloc/news_bloc.dart';
+import 'package:matchup/features/news/data/providers/news_providers.dart';
+import 'package:matchup/features/news/data/repositories/news_repository.dart';
 import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 import 'package:matchup/features/profile/data/providers/profile_provider.dart';
 import 'package:matchup/features/profile/data/repositories/profile_repositories.dart';
@@ -33,12 +37,18 @@ class _MyAppState extends State<MyApp> {
           create: (context) => DarkModeBloc(),
         ),
         BlocProvider(
-          create: (context) =>
-              AuthBloc(authRepo: AuthRepository(provider: AuthProvider())),
+          create: (context) => AuthBloc(
+              authRepo: AuthRepository(
+                  provider: AuthProvider(),
+                  localDataSource: LocalDataSource())),
         ),
         BlocProvider(
           create: (context) =>
               ProfileBloc(repo: ProfileRepository(provider: ProfileProvider())),
+        ),
+        BlocProvider(
+          create: (context) =>
+              NewsBloc(repo: NewsRepository(newsProvider: NewsProvider())),
         ),
       ],
       child: GestureDetector(

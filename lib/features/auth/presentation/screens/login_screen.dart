@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       context, state.error.errorMessage);
                 }
                 if (state is AuthStateIsLoggedIn) {
-                  Navigator.of(context).pushNamed(
+                  Navigator.of(context).popAndPushNamed(
                     Routes.home,
                     arguments: state.user,
                   );
