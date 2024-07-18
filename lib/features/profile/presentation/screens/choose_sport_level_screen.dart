@@ -104,7 +104,7 @@ class _ChooseSportLevelScreenState extends State<ChooseSportLevelScreen> {
                   }
                   if (state is ProfileStateUserSportCreated) {
                     Navigator.pushNamedAndRemoveUntil(
-                        context, Routes.home, (route) => route.isFirst);
+                        context, Routes.login, (route) => route.isFirst);
                   }
                 },
                 builder: (context, state) {

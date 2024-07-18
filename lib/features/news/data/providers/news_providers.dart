@@ -19,4 +19,20 @@ class NewsProvider {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> getNewsBySport({required String sport}) async {
+    final user = await LocalDataSource().getUser();
+
+    try {
+      final response = await DioClient.instance.get(
+          path: "${ApiRoutes.getNewsBySport}/$sport",
+          options: Options(
+            headers: {"Authorization": "Bearer ${user?.token}"},
+          ));
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

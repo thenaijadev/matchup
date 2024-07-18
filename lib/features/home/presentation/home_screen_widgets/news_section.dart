@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
-import 'package:matchup/features/home/presentation/home_screen_widgets/news_item.dart';
+import 'package:matchup/features/home/presentation/home_screen_widgets/news_item_widget.dart';
 import 'package:matchup/features/news/bloc/news_bloc.dart';
 import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 
@@ -70,12 +70,16 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
                   : state is ProfileStateAllSportsGotten
                       ? ListView(
                           scrollDirection: Axis.horizontal,
-                          children: List.generate(
-                            state.sportsModel.data.length,
-                            (index) => GestureDetector(
+                          children: [
+                            GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  _chosenIndex = index;
+                                  _chosenIndex =
+                                      state.sportsModel.data.length + 1;
+
+                                  context
+                                      .read<NewsBloc>()
+                                      .add(NewsEventGetNews());
                                 });
                               },
                               child: Container(
@@ -86,7 +90,8 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
                                   borderRadius: BorderRadius.circular(100),
                                   border: Border.all(
                                       width: 2,
-                                      color: _chosenIndex == index
+                                      color: _chosenIndex ==
+                                              state.sportsModel.data.length + 1
                                           ? Theme.of(context)
                                               .colorScheme
                                               .primary
@@ -96,8 +101,7 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
                                 ),
                                 child: Center(
                                     child: TextWidget(
-                                  text:
-                                      state.sportsModel.data[index].name ?? "",
+                                  text: "All",
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
                                   color: Theme.of(context)
@@ -106,7 +110,53 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
                                 )),
                               ),
                             ),
-                          ),
+                            ...List.generate(
+                              state.sportsModel.data.length,
+                              (index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _chosenIndex = index;
+                                      context.read<NewsBloc>().add(
+                                          NewsEventGetSportNews(
+                                              sport: state.sportsModel
+                                                      .data[index].name
+                                                      ?.toLowerCase() ??
+                                                  ""));
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 12),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(
+                                          width: 2,
+                                          color: _chosenIndex == index
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .inverseSurface),
+                                    ),
+                                    child: Center(
+                                        child: TextWidget(
+                                      text:
+                                          state.sportsModel.data[index].name ??
+                                              "",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inversePrimary,
+                                    )),
+                                  ),
+                                );
+                              },
+                            )
+                          ],
                         )
                       : TextWidget(
                           text: "Try again",
@@ -159,7 +209,25 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
                                     isFirst: index == 0,
                                     news: state.news.data[index])),
                           )
-                        : const SizedBox();
+                        : state is NewsStateSportNewsRetrieved
+                            ? state.sportNews.data.isEmpty
+                                ? const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: TextWidget(
+                                        text: "No News",
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                : Column(
+                                    children: List.generate(
+                                        state.sportNews.data.length,
+                                        (index) => NewsItemWidget(
+                                            isFirst: index == 0,
+                                            news: state.sportNews.data[index])),
+                                  )
+                            : const SizedBox();
           },
         ),
       ],

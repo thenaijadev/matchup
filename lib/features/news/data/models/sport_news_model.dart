@@ -1,7 +1,8 @@
 import 'package:matchup/features/news/data/models/news_item.dart';
+import 'package:matchup/features/news/data/models/news_model.dart';
 
-class NewsModel {
-  NewsModel({
+class SportsNewsModel {
+  SportsNewsModel({
     required this.status,
     required this.message,
     required this.data,
@@ -11,20 +12,20 @@ class NewsModel {
   final String? message;
   final List<NewsItem> data;
 
-  NewsModel copyWith({
+  SportsNewsModel copyWith({
     String? status,
     String? message,
     List<NewsItem>? data,
   }) {
-    return NewsModel(
+    return SportsNewsModel(
       status: status ?? this.status,
       message: message ?? this.message,
       data: data ?? this.data,
     );
   }
 
-  factory NewsModel.fromJson(Map<String, dynamic> json) {
-    return NewsModel(
+  factory SportsNewsModel.fromJson(Map<String, dynamic> json) {
+    return SportsNewsModel(
       status: json["status"],
       message: json["message"],
       data: json["data"] == null

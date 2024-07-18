@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/news/data/models/news_model.dart';
+import 'package:matchup/features/news/data/models/news_item.dart';
 
 class NewsItemWidget extends StatelessWidget {
   const NewsItemWidget({
@@ -66,7 +66,15 @@ class NewsItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: 230.width, child: HtmlWidget(news.content ?? "")),
+            SizedBox(
+              width: 230.width,
+              child: HtmlWidget(
+                news.content ?? "",
+                textStyle: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.inversePrimary),
+              ),
+            ),
             ClipRRect(
               // borderRadius: BorderRadius.circular(100),
               child: Image.network(

@@ -113,7 +113,7 @@ class _PictureBottomSheetState extends State<PictureBottomSheet> {
                 height: 10,
               ),
               TextWidget(
-                text: "Your Photos",
+                text: "Your Camera",
                 textAlign: TextAlign.center,
                 fontSize: 16,
                 color: Theme.of(context).colorScheme.inversePrimary,

@@ -25,3 +25,10 @@ class NewsStateNewsRetrieved extends NewsState {
     required this.news,
   });
 }
+
+class NewsStateSportNewsRetrieved extends NewsState {
+  final SportsNewsModel sportNews;
+  const NewsStateSportNewsRetrieved({
+    required this.sportNews,
+  });
+}

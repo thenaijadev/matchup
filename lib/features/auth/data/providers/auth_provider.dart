@@ -73,8 +73,6 @@ class AuthProvider {
       )
     });
 
-    logger.f(authToken);
-
     try {
       final response = await DioClient.instance.post(
           path: ApiRoutes.updateProfile,

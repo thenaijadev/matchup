@@ -98,6 +98,7 @@ class AuthRepository {
 
       return right(UpdatedUserModel.fromJson(response));
     } on DioException catch (e) {
+      logger.f(e.response?.data);
       return left(
         AuthError(
           errorMessage:
