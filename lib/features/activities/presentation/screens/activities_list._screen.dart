@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
+import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/bloc/activities_bloc.dart';
 import 'package:matchup/features/activities/presentation/widgets/completed_activities.dart';
 import 'package:matchup/features/activities/presentation/widgets/ongoing_activities_widgets.dart';
 import 'package:matchup/features/activities/presentation/widgets/upcoming_activities.dart';
@@ -23,6 +27,7 @@ class _ActivitiesListScreenState extends State<ActivitiesListScreen> {
   @override
   void initState() {
     _controller = PageController();
+    context.read<ActivitiesBloc>().add(ActivitiesEventGetAllActivities());
     super.initState();
   }
 
@@ -118,6 +123,9 @@ class _ActivitiesListScreenState extends State<ActivitiesListScreen> {
                                 Image.asset(
                                   items[index]["image"]!,
                                   width: 15.w,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -140,20 +148,47 @@ class _ActivitiesListScreenState extends State<ActivitiesListScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Expanded(
-                    child: PageView(
-                      onPageChanged: (value) {
-                        setState(() {
-                          _chosenIndex = value;
-                        });
-                      },
-                      controller: _controller,
-                      children: const [
-                        OngoingActivities(),
-                        CompletedActivities(),
-                        UpcomingActivities()
-                      ],
-                    ),
+                  BlocBuilder<ActivitiesBloc, ActivitiesState>(
+                    builder: (context, state) {
+                      return state is ActivitiesStateIsLoading
+                          ? const Center(child: LoadingWidget())
+                          : state is ActivitiesStateError
+                              ? Center(
+                                  child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const TextWidget(
+                                        text: "There has been an error"),
+                                    PrimaryButton(
+                                        label: "Retry",
+                                        onPressed: () {},
+                                        isEnabled: true)
+                                  ],
+                                ))
+                              : state is ActivitiesStateAllActivitiesRetreived
+                                  ? Expanded(
+                                      child: PageView(
+                                        onPageChanged: (value) {
+                                          setState(() {
+                                            _chosenIndex = value;
+                                          });
+                                        },
+                                        controller: _controller,
+                                        children: [
+                                          OngoingActivities(
+                                              activities: state
+                                                  .activitiesModel.activities),
+                                          CompletedActivities(
+                                              activities: state
+                                                  .activitiesModel.activities),
+                                          UpcomingActivities(
+                                              activities: state
+                                                  .activitiesModel.activities)
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox();
+                    },
                   )
                 ],
               ),

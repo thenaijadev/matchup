@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:matchup/features/activities/data/models/activities_error.dart';
+import 'package:matchup/features/activities/data/models/all_activities_model.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
@@ -20,7 +22,23 @@ typedef EitherCreateUserSportModelOrProfileError
 
 typedef EitherUserOrProfileError = Either<ProfileError, UserProfileModel>;
 typedef EitherNewsModelOrNewsError = Either<NewsError, NewsModel>;
+
 typedef EitherSportNewsModelOrNewsError = Either<NewsError, SportsNewsModel>;
+
+typedef EitherAllActivitiesModelOrActivitiesError
+    = Either<ActivitiesError, AllActivitiesModel>;
+
+typedef EitherMapOrActivitiesError
+    = Either<ActivitiesError, Map<String, dynamic>>;
+
+
+
+
+
+
+
+
+
 
 
 // typedef EitherFutureTrueOrAuthError = Future<Either<AuthError, bool>>;

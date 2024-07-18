@@ -7,6 +7,9 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/config/theme/dark_theme.dart';
 import 'package:matchup/config/theme/light_theme.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
+import 'package:matchup/features/activities/bloc/activities_bloc.dart';
+import 'package:matchup/features/activities/data/providers/activities_providers.dart';
+import 'package:matchup/features/activities/data/repositories/activities_repository.dart';
 import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
@@ -31,6 +34,7 @@ class _MyAppState extends State<MyApp> {
     AppConstraints().initialize(context);
 
     final appRouter = AppRouter();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -49,6 +53,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) =>
               NewsBloc(repo: NewsRepository(newsProvider: NewsProvider())),
+        ),
+        BlocProvider(
+          create: (context) => ActivitiesBloc(
+              repo: ActivitiesRepository(
+                  activitiesProvider: ActivitiesProvider())),
         ),
       ],
       child: GestureDetector(

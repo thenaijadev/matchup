@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/data/models/activities_model.dart';
 
 class UpcomingActivities extends StatefulWidget {
-  const UpcomingActivities({super.key});
-
+  const UpcomingActivities({super.key, required this.activities});
+  final List<Activities> activities;
   @override
   State<UpcomingActivities> createState() => _UpcomingActivitiesState();
 }
