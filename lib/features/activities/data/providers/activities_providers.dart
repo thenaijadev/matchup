@@ -37,4 +37,20 @@ class ActivitiesProvider {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> getActivityById({required String id}) async {
+    try {
+      final AuthUser? user = await LocalDataSource().getUser();
+
+      final response = DioClient.instance.get(
+        path: "${ApiRoutes.getAllActivities}/$id",
+        options: Options(
+          headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
+        ),
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

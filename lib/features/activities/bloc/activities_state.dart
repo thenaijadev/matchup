@@ -33,3 +33,10 @@ class ActivitiesStateAllActivitiesRetreivedByStatus extends ActivitiesState {
     required this.activities,
   });
 }
+
+class ActivitiesStateAllActivitiesRetreivedById extends ActivitiesState {
+  final SingleActivityByIdModel activity;
+  const ActivitiesStateAllActivitiesRetreivedById({
+    required this.activity,
+  });
+}

@@ -16,3 +16,10 @@ class ActivitiesEventGetAllActivitiesByStatus extends ActivitiesEvent {
     required this.status,
   });
 }
+
+class ActivitiesEventGetAllActivitiesById extends ActivitiesEvent {
+  final String id;
+  const ActivitiesEventGetAllActivitiesById({
+    required this.id,
+  });
+}

@@ -5,6 +5,7 @@ import 'package:matchup/core/network/dio_exception.dart';
 import 'package:matchup/core/utils/typedef.dart';
 import 'package:matchup/features/activities/data/models/activities_error.dart';
 import 'package:matchup/features/activities/data/models/all_activities_model.dart';
+import 'package:matchup/features/activities/data/models/single_activity_model.dart';
 import 'package:matchup/features/activities/data/providers/activities_providers.dart';
 
 class ActivitiesRepository {
@@ -37,6 +38,22 @@ class ActivitiesRepository {
       // final AllActivitiesModel model = AllActivitiesModel.fromJson(response);
       // return right(model);
       return right(response);
+    } on DioException catch (e) {
+      return left(ActivitiesError(
+          errorMessage:
+              DioExceptionClass.handleStatusCode(e.response?.statusCode)));
+    } catch (e) {
+      return left(ActivitiesError(errorMessage: e.toString()));
+    }
+  }
+
+  Future<EitherSingleActivityByIdModelOrActivitiesError> getActivitiesById(
+      {required String id}) async {
+    try {
+      final Map<String, dynamic> response =
+          await activitiesProvider.getActivityById(id: id);
+      final model = SingleActivityByIdModel.fromJson(response);
+      return right(model);
     } on DioException catch (e) {
       return left(ActivitiesError(
           errorMessage:
