@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/error_screen.dart';
-import 'package:matchup/features/activities/data/models/activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
 import 'package:matchup/features/activities/presentation/screens/activities_list._screen.dart';
 import 'package:matchup/features/activities/presentation/screens/activity_description_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/create_new_activity_screen.dart';

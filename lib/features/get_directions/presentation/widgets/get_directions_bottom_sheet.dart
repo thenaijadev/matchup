@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/activities/data/models/activities_model.dart';
+import 'package:matchup/features/activities/blocs/reviews/reviews_bloc.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
 
@@ -28,7 +31,9 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
     LocalDataSource().getUser().then((value) => setState(() {
           user = value!;
         }));
-
+    context.read<ReviewsBloc>().add(
+          ReviewsEventGetReviews(activityId: "${widget.activity.id}"),
+        );
     super.initState();
   }
 
@@ -38,9 +43,9 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
     bool isDarkMode = brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
+      child: ListView(
         // crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        shrinkWrap: true,
         children: [
           Container(
               padding: const EdgeInsets.all(3),
@@ -363,8 +368,60 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                     )
                   ],
                 ),
-                SizedBox(
-                  height: 100.h,
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    TextWidget(
+                      fontWeight: FontWeight.w700,
+                      text: "Other Reviews",
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ],
+                ),
+                BlocBuilder<ReviewsBloc, ReviewsState>(
+                  builder: (context, state) {
+                    return state is ReviewsIsLoading
+                        ? const LoadingWidget()
+                        : state is ReviewsStateReviewsError
+                            ? const Center(
+                                child: TextWidget(
+                                    text:
+                                        "Tap to load reviews for this activity"),
+                              )
+                            : state is ReviewsStateReviewsRetrieved
+                                ? Column(
+                                    children: List.generate(
+                                        state.reviews.data.length,
+                                        (index) => Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  TextWidget(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                      text:
+                                                          "${state.reviews.data[index].comment}"),
+                                                  const SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  TextWidget(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                      text:
+                                                          "${double.parse(state.reviews.data[index].rating!)}/ 5.0")
+                                                ],
+                                              ),
+                                            )),
+                                  )
+                                : const SizedBox();
+                  },
                 ),
                 TextWidget(
                   text:

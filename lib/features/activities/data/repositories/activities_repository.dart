@@ -3,9 +3,9 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:matchup/core/network/dio_exception.dart';
 import 'package:matchup/core/utils/typedef.dart';
-import 'package:matchup/features/activities/data/models/activities_error.dart';
-import 'package:matchup/features/activities/data/models/all_activities_model.dart';
-import 'package:matchup/features/activities/data/models/single_activity_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
+import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/single_activity_model.dart';
 import 'package:matchup/features/activities/data/providers/activities_providers.dart';
 
 class ActivitiesRepository {

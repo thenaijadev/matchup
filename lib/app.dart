@@ -8,8 +8,11 @@ import 'package:matchup/config/theme/dark_theme.dart';
 import 'package:matchup/config/theme/light_theme.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
 import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
+import 'package:matchup/features/activities/blocs/reviews/reviews_bloc.dart';
 import 'package:matchup/features/activities/data/providers/activities_providers.dart';
+import 'package:matchup/features/activities/data/providers/reviews_provider.dart';
 import 'package:matchup/features/activities/data/repositories/activities_repository.dart';
+import 'package:matchup/features/activities/data/repositories/reviews_repository.dart';
 import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
@@ -58,6 +61,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => ActivitiesBloc(
               repo: ActivitiesRepository(
                   activitiesProvider: ActivitiesProvider())),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ReviewsBloc(repo: ReviewsRepository(provider: ReviewsProvider())),
         ),
       ],
       child: GestureDetector(

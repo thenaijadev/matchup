@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:matchup/features/activities/data/models/activities_error.dart';
-import 'package:matchup/features/activities/data/models/all_activities_model.dart';
-import 'package:matchup/features/activities/data/models/single_activity_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
+import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/single_activity_model.dart';
 import 'package:matchup/features/activities/data/repositories/activities_repository.dart';
 
 part 'activities_event.dart';

@@ -1,4 +1,4 @@
-import 'package:matchup/features/activities/data/models/activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 
 class AllActivitiesModel {

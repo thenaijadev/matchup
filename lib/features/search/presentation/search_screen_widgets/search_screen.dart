@@ -7,7 +7,7 @@ import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
-import 'package:matchup/features/activities/data/models/activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 
 class SearchScreenWidget extends StatefulWidget {

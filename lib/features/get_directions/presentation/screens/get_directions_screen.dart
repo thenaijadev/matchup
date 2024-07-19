@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
-import 'package:matchup/features/activities/data/models/activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
 import 'package:matchup/features/get_directions/presentation/widgets/get_directions_bottom_sheet.dart';
 
 class GetDirectionScreen extends StatefulWidget {

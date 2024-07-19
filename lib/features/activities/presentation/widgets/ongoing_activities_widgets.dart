@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/activities/data/models/activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
 
 class OngoingActivities extends StatefulWidget {
   const OngoingActivities({super.key, required this.activities});

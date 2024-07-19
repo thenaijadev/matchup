@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:matchup/features/activities/data/models/activities_error.dart';
-import 'package:matchup/features/activities/data/models/all_activities_model.dart';
-import 'package:matchup/features/activities/data/models/reviews_error.dart';
-import 'package:matchup/features/activities/data/models/reviews_model.dart';
-import 'package:matchup/features/activities/data/models/single_activity_model.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
+import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
+import 'package:matchup/features/activities/data/models/reviews/reviews_error.dart';
+import 'package:matchup/features/activities/data/models/reviews/reviews_model.dart';
+import 'package:matchup/features/activities/data/models/activities/single_activity_model.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
