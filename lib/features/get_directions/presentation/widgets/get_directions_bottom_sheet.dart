@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/data/models/activities_model.dart';
+import 'package:matchup/features/auth/data/models/auth_user.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 
 class GetDirectionsBottomSheet extends StatefulWidget {
-  const GetDirectionsBottomSheet({super.key});
-
+  const GetDirectionsBottomSheet({super.key, required this.activity});
+  final Activities activity;
   @override
   State<GetDirectionsBottomSheet> createState() =>
       _GetDirectionsBottomSheetState();
@@ -17,6 +22,16 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
   int chosenIndex = 0;
   bool isAccepted = false;
   int rating = -1;
+  late AuthUser user;
+  @override
+  void initState() {
+    LocalDataSource().getUser().then((value) => setState(() {
+          user = value!;
+        }));
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
@@ -70,7 +85,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextWidget(
-                  text: "Indoor Friday Afternoon Games",
+                  text: widget.activity.name ?? "",
                   fontSize: 20.sp,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
@@ -78,7 +93,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                   height: 10.h,
                 ),
                 TextWidget(
-                  text: "Shooting Drills",
+                  text: widget.activity.type ?? "",
                   fontSize: 14.sp,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
@@ -86,8 +101,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                   height: 10.h,
                 ),
                 TextWidget(
-                  text:
-                      "We are openly and actively looking for more players to join us for a weekly indoor friday game by 5pm noon. All skills are welcome",
+                  text: widget.activity.description ?? "",
                   fontSize: 16.sp,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
@@ -134,6 +148,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.0.h),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
                         "assets/images/location_pin.png",
@@ -143,17 +158,21 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                       const SizedBox(
                         width: 20,
                       ),
-                      TextWidget(
-                        text: "Muritala Mohammed Square - Lagos State",
-                        fontSize: 15,
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
+                      Flexible(
+                        child: TextWidget(
+                          text:
+                              "${widget.activity.address} - ${widget.activity.locationName}",
+                          fontSize: 15,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                      )
                     ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
                         "assets/images/male_icon.png",
@@ -167,7 +186,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
-                            text: "Males Only",
+                            text: "${widget.activity.allowedGenders}",
                             fontSize: 15.sp,
                             color: Theme.of(context).colorScheme.inversePrimary,
                           ),
@@ -184,6 +203,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
                         "assets/images/clock.png",
@@ -197,12 +217,14 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
-                            text: "Today",
+                            text: DateFormat('d \'th\' MMMM, yyyy')
+                                .format(widget.activity.startDate!),
                             fontSize: 15.sp,
                             color: Theme.of(context).colorScheme.inversePrimary,
                           ),
                           TextWidget(
-                            text: "05:00pm | 1hour",
+                            text:
+                                "${DateFormat('hh:mm a').format(widget.activity.startTime!)} Duration: ${widget.activity.endTime?.difference(widget.activity.startTime!).inHours}hr(s)",
                             fontSize: 12.sp,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
@@ -224,8 +246,9 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // TODO: This should be corrected
                       TextWidget(
-                        text: "Slots open, chat with michael",
+                        text: "Slots open, chat with owner",
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.inversePrimary,
                       ),
@@ -254,7 +277,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                   height: 10,
                 ),
                 TextWidget(
-                  text: "The Indoor Friday Afternoon Games",
+                  text: widget.activity.name ?? "",
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                   color: Theme.of(context).colorScheme.secondary,
@@ -294,16 +317,31 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                     verticalContentPadding: 10,
                     hintColor: Theme.of(context).colorScheme.inversePrimary,
                     hintText:
-                        "Share your feedback and experience about the indoor games with us to better improve it.",
+                        "Share your feedback and experience about the ${widget.activity.name} with us to better improve it.",
                     onChanged: (val) {}),
                 const SizedBox(
                   height: 10,
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      "assets/images/profile_image.png",
-                      width: 40,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.network(
+                        width: 40.w,
+                        height: 40.h,
+                        fit: BoxFit.fitWidth,
+                        user.user?.profileImage ?? "",
+                        loadingBuilder:
+                            (context, imageProvider, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return imageProvider; // image is already loaded
+                          }
+                          return Center(
+                              child: SpinKitChasingDots(
+                            color: Theme.of(context).colorScheme.primary,
+                          ));
+                        },
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
@@ -312,12 +350,12 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(
-                          text: "Nickname (from your profile)",
+                          text: "${user.user?.name}",
                           color: Theme.of(context).colorScheme.inversePrimary,
                           fontWeight: FontWeight.bold,
                         ),
                         TextWidget(
-                          text: "GR",
+                          text: user.user?.location ?? "",
                           fontSize: 13,
                           color: Theme.of(context).colorScheme.secondary,
                         ),
@@ -340,7 +378,9 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
             height: 20.h,
           ),
           PrimaryButton(
-              label: chosenIndex == 0 ? "\$12.00" : "Leave review",
+              label: chosenIndex == 0
+                  ? "\$${widget.activity.fee}"
+                  : "Leave review",
               onPressed: chosenIndex == 0 ? () {} : () {},
               isEnabled: true),
           SizedBox(

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/features/activities/data/models/activities_model.dart';
 import 'package:matchup/features/get_directions/presentation/widgets/get_directions_bottom_sheet.dart';
 
 class GetDirectionScreen extends StatefulWidget {
-  const GetDirectionScreen({super.key});
-
+  const GetDirectionScreen({super.key, required this.activity});
+  final Activities activity;
   @override
   State<GetDirectionScreen> createState() => _GetDirectionScreenState();
 }
@@ -21,7 +22,7 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
           enableDrag: false,
           context: context,
           builder: ((builderContext) {
-            return const GetDirectionsBottomSheet();
+            return GetDirectionsBottomSheet(activity: widget.activity);
           }));
     });
     super.initState();
@@ -63,7 +64,8 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
                         enableDrag: false,
                         context: context,
                         builder: ((builderContext) {
-                          return const GetDirectionsBottomSheet();
+                          return GetDirectionsBottomSheet(
+                              activity: widget.activity);
                         }));
                   },
                   isEnabled: true),

@@ -7,7 +7,7 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/config/theme/dark_theme.dart';
 import 'package:matchup/config/theme/light_theme.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
-import 'package:matchup/features/activities/bloc/activities_bloc.dart';
+import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
 import 'package:matchup/features/activities/data/providers/activities_providers.dart';
 import 'package:matchup/features/activities/data/repositories/activities_repository.dart';
 import 'package:matchup/features/auth/bloc/auth_bloc.dart';

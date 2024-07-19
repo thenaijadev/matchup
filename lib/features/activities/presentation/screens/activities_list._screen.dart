@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/activities/bloc/activities_bloc.dart';
+import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
 import 'package:matchup/features/activities/presentation/widgets/completed_activities.dart';
 import 'package:matchup/features/activities/presentation/widgets/ongoing_activities_widgets.dart';
 import 'package:matchup/features/activities/presentation/widgets/upcoming_activities.dart';

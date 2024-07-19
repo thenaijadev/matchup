@@ -6,7 +6,7 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
-import 'package:matchup/features/activities/bloc/activities_bloc.dart';
+import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
 import 'package:matchup/features/activities/data/models/activities_model.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 
@@ -77,7 +77,9 @@ class _SearchScreenWidgetState extends State<SearchScreenWidget> {
                                         .length, // Use filteredActivities for display
                                     (index) => GestureDetector(
                                           onTap: () => Navigator.pushNamed(
-                                              context, Routes.getDirections),
+                                              context, Routes.getDirections,
+                                              arguments: state.activitiesModel
+                                                  .activities[index]),
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 15.h),
