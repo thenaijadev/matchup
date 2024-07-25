@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:matchup/app.dart';
 import 'package:matchup/core/utils/bloc_observer.dart';
-import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
 
 Future<void> main() async {
@@ -14,7 +14,8 @@ Future<void> main() async {
 
   Bloc.observer = AppBlocObserver();
   final user = await LocalDataSource().getUser();
-  logger.e({"Local": user});
+
+  await FlutterContacts.requestPermission();
   runApp(const MyApp());
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -69,78 +70,94 @@ class _InviteFriendsWidgetState extends State<InviteFriendsWidget> {
       "number": "+(234) 90-0000-9000"
     },
   ];
-  List<Map<String, dynamic>> invitedContacts = [];
+  List<dynamic> invitedContacts = [];
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            GestureDetector(
-              onTap: widget.changePage,
-              child: Container(
-                height: 40,
-                width: 40,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.inverseSurface,
-                      width: 2),
-                ),
-                child: Image.asset(
-                  "assets/images/arrow_back_dark.png",
-                  color: Theme.of(context).colorScheme.inversePrimary,
+    return FutureBuilder(
+        future:
+            FlutterContacts.getContacts(withProperties: true, withPhoto: true),
+        builder: (contex, snapShot) {
+          return Column(
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: widget.changePage,
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.inverseSurface,
+                            width: 2),
+                      ),
+                      child: Image.asset(
+                        "assets/images/arrow_back_dark.png",
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  TextWidget(
+                    text: "Invite friends",
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              InputFieldWidget(
+                  prefixicon: Icon(
+                    CupertinoIcons.search,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  hintColor: Theme.of(context).colorScheme.secondary,
+                  hintText: "Search for friends...",
+                  onChanged: (val) {}),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: ListView(
+                  children: List.generate(
+                    snapShot.data?.length ?? 0,
+                    (index) => ContactWidget(
+                      name: snapShot.data?[index].displayName ?? "",
+                      number: snapShot.data == null
+                          ? ""
+                          : snapShot.data![index].phones.isEmpty
+                              ? ""
+                              : snapShot.data?[index].phones[0].number ?? "",
+                      // isInvited: true,
+                      isInvited:
+                          invitedContacts.contains(snapShot.data?[index]),
+                      profileImage: snapShot.data?[index].photo,
+                      onInvite: () {
+                        setState(() {
+                          if (invitedContacts.contains(snapShot.data?[index])) {
+                            invitedContacts.remove(snapShot.data?[index]);
+                          } else {
+                            invitedContacts.add(snapShot.data?[index]);
+                          }
+                        });
+                      },
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              width: 30,
-            ),
-            TextWidget(
-              text: "Invite friends",
-              fontSize: 20,
-              color: Theme.of(context).colorScheme.inversePrimary,
-            )
-          ],
-        ),
-        InputFieldWidget(
-            prefixicon: Icon(
-              CupertinoIcons.search,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-            hintColor: Theme.of(context).colorScheme.secondary,
-            hintText: "Search for nearby friends...",
-            onChanged: (val) {}),
-        const SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: ListView(
-              children: List.generate(
-                  contacts.length,
-                  (index) => ContactWidget(
-                        name: contacts[index]["name"],
-                        number: contacts[index]["number"],
-                        isInvited: invitedContacts.contains(contacts[index]),
-                        profileImage: contacts[index]["profileImage"],
-                        onInvite: () {
-                          setState(() {
-                            if (invitedContacts.contains(contacts[index])) {
-                              invitedContacts.remove(contacts[index]);
-                            } else {
-                              invitedContacts.add(contacts[index]);
-                            }
-                          });
-                        },
-                      ))),
-        ),
-        if (invitedContacts.isNotEmpty)
-          PrimaryButton(label: "Done", onPressed: () {}, isEnabled: true),
-        const SizedBox(
-          height: 10,
-        )
-      ],
-    );
+              if (invitedContacts.isNotEmpty)
+                PrimaryButton(label: "Done", onPressed: () {}, isEnabled: true),
+              const SizedBox(
+                height: 10,
+              )
+            ],
+          );
+        });
   }
 }

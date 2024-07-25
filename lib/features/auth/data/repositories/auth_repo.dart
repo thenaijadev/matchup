@@ -67,6 +67,8 @@ class AuthRepository {
       logger.f({isSaved: isSaved});
       return right(AuthUser.fromJson(response));
     } on DioException catch (e) {
+      logger.f(e.response);
+
       return left(
         AuthError(
           errorMessage:

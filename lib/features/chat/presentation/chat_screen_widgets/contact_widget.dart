@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
@@ -13,7 +15,7 @@ class ContactWidget extends StatelessWidget {
   final String name;
   final String number;
   final bool isInvited;
-  final String profileImage;
+  final Uint8List? profileImage;
   final VoidCallback onInvite;
   @override
   Widget build(BuildContext context) {
@@ -24,20 +26,32 @@ class ContactWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image.asset(
-                profileImage,
-                width: 40,
-              ),
+              if (profileImage == null)
+                const CircleAvatar(
+                  child: Icon(Icons.person),
+                ),
+              if (profileImage != null)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.memory(
+                    profileImage!,
+                    width: 40,
+                  ),
+                ),
               const SizedBox(
                 width: 20,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextWidget(
-                    text: name,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                  SizedBox(
+                    width: 100,
+                    child: TextWidget(
+                      text: name,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
                   ),
                   TextWidget(
                     text: number,

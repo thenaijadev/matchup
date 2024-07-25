@@ -71,8 +71,8 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                                   ? const Color(0xff231F20)
                                   : const Color(0xff231F20)
                               : Colors.transparent),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 8),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 60.w, vertical: 8),
                       child: TextWidget(
                           text: index == 0 ? "Details" : "Ratings",
                           color: index == chosenIndex

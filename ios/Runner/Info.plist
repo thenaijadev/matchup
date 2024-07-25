@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSContactsUsageDescription</key>
+	<!-- TODO : What is the reason -->
+    <string>Reason we need access to the contact list</string>
+	
 	<key>CFBundleDisplayName</key>
 	<string>Matchup</string>
 	<key>CFBundleExecutable</key>
