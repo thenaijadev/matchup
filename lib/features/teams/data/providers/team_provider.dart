@@ -1,7 +1,4 @@
-import 'dart:html';
-
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:matchup/core/network/api_endpoint.dart';
 import 'package:matchup/core/network/dio_client.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';

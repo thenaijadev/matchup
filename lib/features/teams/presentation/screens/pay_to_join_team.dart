@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
-import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/teams/bloc/team_bloc.dart';
 
 class PayToJoinTeam extends StatefulWidget {
   const PayToJoinTeam({super.key, required this.details});
@@ -142,17 +144,33 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
               ]),
             ]),
             const Spacer(),
-            PrimaryButton(
-                label: "Done",
-                onPressed: () {
-                  final details = {
-                    ...widget.details,
-                    "fee": controller.text,
-                  };
-                  logger.f(details);
+            BlocConsumer<TeamBloc, TeamState>(
+              listener: (context, state) {
+                if (state is TeamStateError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.error.errorMessage);
+                }
+                if (state is TeamStateTeamCreated) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.teamCreated.toString());
                   Navigator.pushNamed(context, Routes.myTeam);
-                },
-                isEnabled: true),
+                }
+              },
+              builder: (context, state) {
+                return PrimaryButton(
+                    label: "Done",
+                    onPressed: () {
+                      final details = {
+                        ...widget.details,
+                        "fee": controller.text,
+                      };
+                      context
+                          .read<TeamBloc>()
+                          .add(TeamEventCreateTeam(details: details));
+                    },
+                    isEnabled: true);
+              },
+            ),
             const SizedBox(
               height: 20,
             ),
