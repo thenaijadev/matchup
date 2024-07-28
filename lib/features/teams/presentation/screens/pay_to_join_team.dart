@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -157,18 +158,20 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
                 }
               },
               builder: (context, state) {
-                return PrimaryButton(
-                    label: "Done",
-                    onPressed: () {
-                      final details = {
-                        ...widget.details,
-                        "fee": controller.text,
-                      };
-                      context
-                          .read<TeamBloc>()
-                          .add(TeamEventCreateTeam(details: details));
-                    },
-                    isEnabled: true);
+                return state is TeamStateIsLoading
+                    ? const LoadingWidget()
+                    : PrimaryButton(
+                        label: "Done",
+                        onPressed: () {
+                          final details = {
+                            ...widget.details,
+                            "fee": controller.text,
+                          };
+                          context
+                              .read<TeamBloc>()
+                              .add(TeamEventCreateTeam(details: details));
+                        },
+                        isEnabled: true);
               },
             ),
             const SizedBox(

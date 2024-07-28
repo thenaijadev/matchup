@@ -13,6 +13,7 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
     required this.repo,
   }) : super(TeamInitial()) {
     on<TeamEventCreateTeam>((event, emit) async {
+      emit(TeamStateIsLoading());
       final res = await repo.updateUser(details: event.details);
       res.fold((l) => emit(TeamStateError(error: l)),
           (r) => emit(TeamStateTeamCreated(teamCreated: r)));
