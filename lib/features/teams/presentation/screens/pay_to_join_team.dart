@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
 class PayToJoinTeam extends StatefulWidget {
-  const PayToJoinTeam({super.key});
-
+  const PayToJoinTeam({super.key, required this.details});
+  final Map<String, dynamic> details;
   @override
   State<PayToJoinTeam> createState() => _PayToJoinTeamState();
 }
@@ -17,7 +18,15 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
     super.initState();
   }
 
-  bool isOnline = false;
+  String? paymentAmount;
+
+  bool isFree = false;
+  final TextEditingController controller = TextEditingController();
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +100,14 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
               ),
               InputFieldWidget(
                 hintColor: Theme.of(context).colorScheme.secondary,
-                hintText: "",
-                onChanged: (val) {},
+                hintText: "20",
+                controller: controller,
+                readOnly: isFree ? true : false,
+                onChanged: (val) {
+                  setState(() {
+                    paymentAmount = val;
+                  });
+                },
                 keyboardType: TextInputType.number,
                 enabledBorderRadius: 10,
               ),
@@ -106,7 +121,7 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
                 Transform.scale(
                   scale: 0.7,
                   child: Switch(
-                    value: isOnline,
+                    value: isFree,
                     trackColor: MaterialStatePropertyAll(
                         Theme.of(context).colorScheme.background),
                     inactiveThumbColor: Theme.of(context).colorScheme.primary,
@@ -116,7 +131,10 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
                         Theme.of(context).colorScheme.inverseSurface),
                     onChanged: (val) {
                       setState(() {
-                        isOnline = val;
+                        isFree = val;
+                        if (isFree == true) {
+                          controller.text = "0";
+                        }
                       });
                     },
                   ),
@@ -127,6 +145,11 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
             PrimaryButton(
                 label: "Done",
                 onPressed: () {
+                  final details = {
+                    ...widget.details,
+                    "fee": controller.text,
+                  };
+                  logger.f(details);
                   Navigator.pushNamed(context, Routes.myTeam);
                 },
                 isEnabled: true),

@@ -1,11 +1,40 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/presentation/widgets/picture_bottom_sheet.dart';
 
-class CreateTeamScreen extends StatelessWidget {
+class CreateTeamScreen extends StatefulWidget {
   const CreateTeamScreen({super.key});
+
+  @override
+  State<CreateTeamScreen> createState() => _CreateTeamScreenState();
+}
+
+class _CreateTeamScreenState extends State<CreateTeamScreen> {
+  String? teamName;
+  String? teamSlogan;
+  XFile? pickedFile;
+  void pickFile({required String source}) async {
+    if (source == "Gallery") {
+      final picker = ImagePicker();
+
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      setState(() {});
+    } else {
+      final picker = ImagePicker();
+
+      pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +102,11 @@ class CreateTeamScreen extends StatelessWidget {
                 hintColor: Theme.of(context).colorScheme.secondary,
                 hintText: "Enter the name of your team",
                 enabledBorderRadius: 10,
-                onChanged: (val) {}),
+                onChanged: (val) {
+                  setState(() {
+                    teamName = val;
+                  });
+                }),
             TextWidget(
               text: "You can change this later in the team settings.",
               fontSize: 10,
@@ -94,9 +127,13 @@ class CreateTeamScreen extends StatelessWidget {
             ),
             InputFieldWidget(
                 hintColor: Theme.of(context).colorScheme.secondary,
-                hintText: "Enter the name of your team",
+                hintText: "Enter your team slogan",
                 enabledBorderRadius: 10,
-                onChanged: (val) {}),
+                onChanged: (val) {
+                  setState(() {
+                    teamSlogan = val;
+                  });
+                }),
             const SizedBox(
               height: 30,
             ),
@@ -123,17 +160,58 @@ class CreateTeamScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.inverseSurface,
-                        radius: 30,
-                        child: Image.asset(
-                          "assets/images/photo_icon.png",
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          width: 28,
-                        ),
+                      pickedFile == null
+                          ? CircleAvatar(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.inverseSurface,
+                              radius: 30,
+                              child: Image.asset(
+                                "assets/images/photo_icon.png",
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                width: 28,
+                              ),
+                            )
+                          : Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(150),
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    File(
+                                      pickedFile!.path,
+                                    ),
+                                  ),
+                                  fit: BoxFit
+                                      .cover, // Adjust how the image fits the container
+                                ),
+                              ),
+                            ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       TextWidget(
+                        onTap: () {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              scrollControlDisabledMaxHeightRatio: (1 / 2.5),
+                              showDragHandle: true,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.background,
+                              context: context,
+                              builder: ((sheetContext) {
+                                return PictureBottomSheet(
+                                  changeImage: (file) {
+                                    setState(() {
+                                      pickedFile = file;
+                                    });
+                                    Navigator.pop(sheetContext);
+                                  },
+                                );
+                              }));
+                        },
                         text: "Click to upload Logo",
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -165,8 +243,17 @@ class CreateTeamScreen extends StatelessWidget {
             const Spacer(),
             PrimaryButton(
                 label: "Next",
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.addTeamMembers);
+                onPressed: () async {
+                  final details = {
+                    "name": teamName,
+                    "slogan": teamSlogan,
+                    "badge": await MultipartFile.fromFile(
+                      pickedFile?.path ?? "",
+                      filename: pickedFile?.path.split('/').last,
+                    ),
+                  };
+                  Navigator.pushNamed(context, Routes.addTeamMembers,
+                      arguments: details);
                 },
                 isEnabled: true),
             const SizedBox(

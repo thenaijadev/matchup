@@ -143,12 +143,19 @@ class AppRouter {
           builder: (_) => const CreateTeamScreen(),
         );
       case Routes.addTeamMembers:
+        var details = routeSettings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder: (_) => const AddTeamMembersScreen(),
+          builder: (_) => AddTeamMembersScreen(
+            details: details,
+          ),
         );
       case Routes.payToJoinTeam:
+        var details = routeSettings.arguments as Map<String, dynamic>;
+
         return MaterialPageRoute(
-          builder: (_) => const PayToJoinTeam(),
+          builder: (_) => PayToJoinTeam(
+            details: details,
+          ),
         );
 
       case Routes.myTeam:

@@ -23,6 +23,9 @@ import 'package:matchup/features/news/data/repositories/news_repository.dart';
 import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 import 'package:matchup/features/profile/data/providers/profile_provider.dart';
 import 'package:matchup/features/profile/data/repositories/profile_repositories.dart';
+import 'package:matchup/features/teams/bloc/team_bloc.dart';
+import 'package:matchup/features/teams/data/providers/team_provider.dart';
+import 'package:matchup/features/teams/data/repositories/team_repository.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -66,6 +69,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) =>
               ReviewsBloc(repo: ReviewsRepository(provider: ReviewsProvider())),
         ),
+        BlocProvider(
+          create: (context) =>
+              TeamBloc(repo: TeamRepository(provider: TeamProvider())),
+        ),
       ],
       child: GestureDetector(
         onTap: () {
@@ -86,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                               : lightTheme(),
                           debugShowCheckedModeBanner: false,
                           title: 'Flutter Demo',
-                          initialRoute: Routes.splash,
+                          initialRoute: Routes.createTeam,
                           onGenerateRoute: appRouter.onGenerateRoute,
                         );
                       },
@@ -101,7 +108,7 @@ class _MyAppState extends State<MyApp> {
                           darkTheme: darkTheme(),
                           debugShowCheckedModeBanner: false,
                           title: 'Flutter Demo',
-                          initialRoute: Routes.splash,
+                          initialRoute: Routes.createTeam,
                           onGenerateRoute: appRouter.onGenerateRoute,
                         );
                       },

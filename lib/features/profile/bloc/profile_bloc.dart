@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
+import 'package:matchup/features/profile/data/models/all_users_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
 import 'package:matchup/features/profile/data/models/profile_error_model.dart';
 import 'package:matchup/features/profile/data/models/user_profile_model.dart';
@@ -37,6 +38,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
       response.fold((l) => emit(ProfileStateError(error: l)),
           (r) => emit(ProfileStateUserGotten(user: r)));
+    });
+
+    on<ProfileEventGetAllUsers>((event, emit) async {
+      emit(ProfileStateIsLoading());
+
+      final response = await repo.getUsers();
+      response.fold((l) => emit(ProfileStateError(error: l)),
+          (r) => emit(ProfileStateUsersRetrieved(user: r)));
     });
   }
 }

@@ -11,9 +11,11 @@ import 'package:matchup/features/news/data/models/news_error.dart';
 import 'package:matchup/features/news/data/models/news_model.dart';
 import 'package:matchup/features/news/data/models/sport_news_model.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
+import 'package:matchup/features/profile/data/models/all_users_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
 import 'package:matchup/features/profile/data/models/profile_error_model.dart';
 import 'package:matchup/features/profile/data/models/user_profile_model.dart';
+import 'package:matchup/features/teams/data/models/team_error.dart';
 
 typedef EitherAuthUserOrAuthError = Either<AuthError, AuthUser>;
 typedef EitherTrueOrAuthError = Either<AuthError, bool>;
@@ -24,6 +26,10 @@ typedef EitherCreateUserSportModelOrProfileError
     = Either<ProfileError, CreateUserSportModel>;
 
 typedef EitherUserOrProfileError = Either<ProfileError, UserProfileModel>;
+typedef EitherTeamMapOrTeamError = Either<TeamError, Map<String, dynamic>>;
+
+typedef EitherAllUsersOrProfileError = Either<ProfileError, AllUsersModel>;
+
 typedef EitherNewsModelOrNewsError = Either<NewsError, NewsModel>;
 
 typedef EitherSportNewsModelOrNewsError = Either<NewsError, SportsNewsModel>;

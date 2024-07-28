@@ -50,4 +50,20 @@ class ProfileProvider {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> getUsers({
+    required String authToken,
+  }) async {
+    try {
+      final response = await DioClient.instance.get(
+          path: ApiRoutes.getAllUsers,
+          options: Options(
+            headers: {"Authorization": "Bearer $authToken"},
+          ));
+      logger.e(response);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

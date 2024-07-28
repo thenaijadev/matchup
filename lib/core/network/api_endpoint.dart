@@ -8,4 +8,5 @@ class ApiRoutes {
   static const String getNews = "/api/news";
   static const String getNewsBySport = "/api/news/tag";
   static const String getAllActivities = "/api/activities";
+  static const String getAllUsers = "/api/users/cc";
 }

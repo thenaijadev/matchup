@@ -2,9 +2,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:matchup/core/network/dio_exception.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/utils/typedef.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
+import 'package:matchup/features/profile/data/models/all_users_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
 import 'package:matchup/features/profile/data/models/profile_error_model.dart';
 import 'package:matchup/features/profile/data/models/user_profile_model.dart';
@@ -62,6 +64,24 @@ class ProfileRepository {
       );
 
       return right(UserProfileModel.fromJson(response));
+    } on DioException catch (e) {
+      return left(
+        ProfileError(
+          errorMessage:
+              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+        ),
+      );
+    } catch (e) {
+      return left(ProfileError(errorMessage: e.toString()));
+    }
+  }
+
+  Future<EitherAllUsersOrProfileError> getUsers() async {
+    try {
+      final user = await LocalDataSource().getUser();
+      final response = await provider.getUsers(authToken: user?.token ?? "");
+      logger.e(response);
+      return right(AllUsersModel.fromJson(response));
     } on DioException catch (e) {
       return left(
         ProfileError(

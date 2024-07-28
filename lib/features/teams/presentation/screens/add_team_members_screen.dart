@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
 class AddTeamMembersScreen extends StatefulWidget {
-  const AddTeamMembersScreen({super.key});
-
+  const AddTeamMembersScreen({super.key, required this.details});
+  final Map<String, dynamic> details;
   @override
   State<AddTeamMembersScreen> createState() => _AddTeamMembersScreenState();
 }
@@ -24,9 +25,11 @@ class _AddTeamMembersScreenState extends State<AddTeamMembersScreen> {
   @override
   void initState() {
     _newPlayerController = ExpansionTileController();
+    logger.d(widget.details);
     super.initState();
   }
 
+  String? numberOfPlayers;
   bool isOnline = false;
 
   @override
@@ -152,7 +155,11 @@ class _AddTeamMembersScreenState extends State<AddTeamMembersScreen> {
                 hintText: "Enter the name of your team",
                 verticalContentPadding: 15,
                 enabledBorderRadius: 10,
-                onChanged: (val) {}),
+                onChanged: (val) {
+                  setState(() {
+                    numberOfPlayers = val;
+                  });
+                }),
             TextWidget(
               text:
                   "A game of tennis may have 2 min players and a max player of 4",
@@ -208,7 +215,13 @@ class _AddTeamMembersScreenState extends State<AddTeamMembersScreen> {
             PrimaryButton(
                 label: "Next",
                 onPressed: () {
-                  Navigator.pushNamed(context, Routes.payToJoinTeam);
+                  final details = {
+                    ...widget.details,
+                    "number_of_players": numberOfPlayers,
+                    "is_online": isOnline
+                  };
+                  Navigator.pushNamed(context, Routes.payToJoinTeam,
+                      arguments: details);
                 },
                 isEnabled: true),
             const SizedBox(

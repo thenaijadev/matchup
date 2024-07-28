@@ -33,6 +33,13 @@ class ProfileStateUserGotten extends ProfileState {
   });
 }
 
+class ProfileStateUsersRetrieved extends ProfileState {
+  final AllUsersModel user;
+  const ProfileStateUsersRetrieved({
+    required this.user,
+  });
+}
+
 class ProfileStateError extends ProfileState {
   final ProfileError error;
   const ProfileStateError({

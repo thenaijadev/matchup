@@ -32,3 +32,5 @@ class ProfileEventGetUser extends ProfileEvent {
     this.authToken,
   });
 }
+
+class ProfileEventGetAllUsers extends ProfileEvent {}
