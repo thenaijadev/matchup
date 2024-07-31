@@ -21,7 +21,7 @@ class TeamRepository {
 
       return (right(response));
     } on DioException catch (e) {
-      logger.f(e.response);
+      logger.f(e.response?.statusCode);
 
       return left(
         TeamError(

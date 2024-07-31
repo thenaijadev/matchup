@@ -247,10 +247,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                   final details = {
                     "name": teamName,
                     "slogan": teamSlogan,
-                    "badge": await MultipartFile.fromFile(
-                      pickedFile?.path ?? "",
-                      filename: pickedFile?.path.split('/').last,
-                    ),
+                    "badge": pickedFile
                   };
                   Navigator.pushNamed(context, Routes.addTeamMembers,
                       arguments: details);
