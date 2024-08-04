@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/teams/data/models/team_creation_model.dart';
 
@@ -68,11 +69,34 @@ class _PayToJoinTeamState extends State<MyTeamScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextWidget(
-              text: "The Unleashed Team ✌🏻",
-              fontSize: 15.sp,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.inversePrimary,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextWidget(
+                  text: "${widget.teamModel.team?.name} ✌🏻",
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.network(
+                    width: 40.w,
+                    height: 40.h,
+                    fit: BoxFit.fitWidth,
+                    widget.teamModel.team?.badge ?? "",
+                    loadingBuilder: (context, imageProvider, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return imageProvider; // image is already loaded
+                      }
+                      return Center(
+                          child: SpinKitChasingDots(
+                        color: Theme.of(context).colorScheme.primary,
+                      ));
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 20,
@@ -86,31 +110,29 @@ class _PayToJoinTeamState extends State<MyTeamScreen> {
                       color: Theme.of(context).colorScheme.inverseSurface)),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                      5,
-                      (index) => Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.inverseSurface,
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                color:
-                                    Theme.of(context).colorScheme.secondary)),
-                        child: Center(
-                            child: index == 4
-                                ? TextWidget(
-                                    text: "10+",
-                                    fontSize: 20,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  )
-                                : const TextWidget(
-                                    text: "👳🏻‍♀️",
-                                    fontSize: 20,
-                                  )),
+                  SizedBox(
+                    height: 50,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: List.generate(
+                        int.parse(widget.teamModel.team!.numberOfPlayers!),
+                        (index) => Container(
+                          height: 55,
+                          width: 55,
+                          margin: const EdgeInsets.only(left: 5),
+                          decoration: BoxDecoration(
+                              color:
+                                  Theme.of(context).colorScheme.inverseSurface,
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary)),
+                          child: const Center(
+                              child: TextWidget(
+                            text: "👳🏻",
+                            fontSize: 20,
+                          )),
+                        ),
                       ),
                     ),
                   ),
@@ -167,20 +189,24 @@ class _PayToJoinTeamState extends State<MyTeamScreen> {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.inverseSurface,
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                color:
-                                    Theme.of(context).colorScheme.secondary)),
-                        child: const Center(
-                            child: TextWidget(
-                          text: "👳🏻‍♀️",
-                          fontSize: 20,
-                        )),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          widget.teamModel.user?.profileImage ?? "",
+                          width: 40.w,
+                          height: 40.h,
+                          fit: BoxFit.fitWidth,
+                          loadingBuilder:
+                              (context, imageProvider, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return imageProvider; // image is already loaded
+                            }
+                            return Center(
+                                child: SpinKitChasingDots(
+                              color: Theme.of(context).colorScheme.primary,
+                            ));
+                          },
+                        ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -189,13 +215,14 @@ class _PayToJoinTeamState extends State<MyTeamScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
-                            text: "Nelson Mousaf",
+                            text: widget.teamModel.user?.name ?? "",
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.inversePrimary,
                           ),
                           TextWidget(
-                            text: "Head of the unleashed team",
+                            text:
+                                "Head of ${widget.teamModel.team?.name ?? ""}",
                             fontSize: 10,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
