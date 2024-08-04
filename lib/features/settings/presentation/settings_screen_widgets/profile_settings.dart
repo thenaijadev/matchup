@@ -29,14 +29,17 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
 
   late TextEditingController _nameController;
   late TextEditingController _emailController;
+  late TextEditingController _phoneNumberController;
+
   String name = "Gienna Richards";
   @override
   void initState() {
     // context.read<ProfileBloc>().add(const ProfileEventGetUser());
 
-    _nameController = TextEditingController();
-    _emailController = TextEditingController();
-
+    _nameController = TextEditingController(text: widget.user.user?.name);
+    _emailController = TextEditingController(text: widget.user.user?.email);
+    _phoneNumberController =
+        TextEditingController(text: widget.user.user?.phoneNumber ?? "");
     super.initState();
   }
 
@@ -64,6 +67,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
                     ),
                     child: Image.asset(
                       "assets/images/arrow_back_dark.png",
+                      color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                   ),
                 ),
@@ -312,6 +316,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
           ),
           hintText: "",
           keyboardType: TextInputType.number,
+
           hintSize: 20,
           onChanged: (val) {
             setState(() {});

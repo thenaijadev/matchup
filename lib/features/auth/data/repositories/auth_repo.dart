@@ -71,8 +71,7 @@ class AuthRepository {
 
       return left(
         AuthError(
-          errorMessage:
-              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+          errorMessage: e.response?.statusMessage ?? "",
         ),
       );
     } catch (e) {

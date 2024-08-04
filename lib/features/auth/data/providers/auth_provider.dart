@@ -49,7 +49,7 @@ class AuthProvider {
         "password": password,
         "email": email,
       });
-      logger.f(response);
+
       return response;
     } catch (e) {
       rethrow;

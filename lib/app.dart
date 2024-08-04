@@ -93,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                               : lightTheme(),
                           debugShowCheckedModeBanner: false,
                           title: 'Flutter Demo',
-                          initialRoute: Routes.createTeam,
+                          initialRoute: Routes.splash,
                           onGenerateRoute: appRouter.onGenerateRoute,
                         );
                       },
@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
                           darkTheme: darkTheme(),
                           debugShowCheckedModeBanner: false,
                           title: 'Flutter Demo',
-                          initialRoute: Routes.createTeam,
+                          initialRoute: Routes.splash,
                           onGenerateRoute: appRouter.onGenerateRoute,
                         );
                       },
