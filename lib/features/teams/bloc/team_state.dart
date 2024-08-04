@@ -13,9 +13,9 @@ final class TeamInitial extends TeamState {}
 class TeamStateIsLoading extends TeamState {}
 
 class TeamStateTeamCreated extends TeamState {
-  final Map<String, dynamic> teamCreated;
+  final TeamCreationModel teamCreationModel;
   const TeamStateTeamCreated({
-    required this.teamCreated,
+    required this.teamCreationModel,
   });
 }
 

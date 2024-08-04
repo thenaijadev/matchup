@@ -18,15 +18,20 @@ class TeamProvider {
       ),
     };
     final formData = FormData.fromMap(formDetails);
-    logger.i(formDetails);
+    logger.e(formDetails);
     try {
       final user = await LocalDataSource().getUser();
+      logger.e(user?.token);
       final response = await DioClient.instance.post(
-          path: ApiRoutes.updateProfile,
+          path: ApiRoutes.createTeam,
           data: formData,
           options: Options(
-            headers: {"Authorization": "Bearer ${user?.token}"},
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "Bearer ${user?.token}"
+            },
           ));
+      logger.i(response);
 
       return response;
     } catch (e) {

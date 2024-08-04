@@ -152,7 +152,7 @@ class _AddTeamMembersScreenState extends State<AddTeamMembersScreen> {
             ),
             InputFieldWidget(
                 hintColor: Theme.of(context).colorScheme.secondary,
-                hintText: "Enter the name of your team",
+                hintText: "Eg 10",
                 verticalContentPadding: 15,
                 enabledBorderRadius: 10,
                 onChanged: (val) {

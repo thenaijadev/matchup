@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
 import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
+import 'package:matchup/features/activities/data/models/activities/single_activity_model.dart';
 import 'package:matchup/features/activities/data/models/reviews/reviews_error.dart';
 import 'package:matchup/features/activities/data/models/reviews/reviews_model.dart';
-import 'package:matchup/features/activities/data/models/activities/single_activity_model.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
@@ -15,6 +15,7 @@ import 'package:matchup/features/profile/data/models/all_users_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
 import 'package:matchup/features/profile/data/models/profile_error_model.dart';
 import 'package:matchup/features/profile/data/models/user_profile_model.dart';
+import 'package:matchup/features/teams/data/models/team_creation_model.dart';
 import 'package:matchup/features/teams/data/models/team_error.dart';
 
 typedef EitherAuthUserOrAuthError = Either<AuthError, AuthUser>;
@@ -26,7 +27,8 @@ typedef EitherCreateUserSportModelOrProfileError
     = Either<ProfileError, CreateUserSportModel>;
 
 typedef EitherUserOrProfileError = Either<ProfileError, UserProfileModel>;
-typedef EitherTeamMapOrTeamError = Either<TeamError, Map<String, dynamic>>;
+typedef EitherTeamCreationModelOrTeamError
+    = Either<TeamError, TeamCreationModel>;
 
 typedef EitherAllUsersOrProfileError = Either<ProfileError, AllUsersModel>;
 

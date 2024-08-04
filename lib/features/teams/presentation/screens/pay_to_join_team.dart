@@ -152,9 +152,8 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
                       context, state.error.errorMessage);
                 }
                 if (state is TeamStateTeamCreated) {
-                  InfoSnackBar.showErrorSnackBar(
-                      context, state.teamCreated.toString());
-                  Navigator.pushNamed(context, Routes.myTeam);
+                  Navigator.pushNamed(context, Routes.myTeam,
+                      arguments: state.teamCreationModel);
                 }
               },
               builder: (context, state) {

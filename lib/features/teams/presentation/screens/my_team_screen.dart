@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/teams/data/models/team_creation_model.dart';
 
 class MyTeamScreen extends StatefulWidget {
-  const MyTeamScreen({super.key});
-
+  const MyTeamScreen({super.key, required this.teamModel});
+  final TeamCreationModel teamModel;
   @override
   State<MyTeamScreen> createState() => _PayToJoinTeamState();
 }

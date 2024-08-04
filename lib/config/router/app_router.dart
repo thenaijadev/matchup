@@ -24,6 +24,7 @@ import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
+import 'package:matchup/features/teams/data/models/team_creation_model.dart';
 import 'package:matchup/features/teams/presentation/screens/add_team_members_screen.dart';
 import 'package:matchup/features/teams/presentation/screens/create_team_screen.dart';
 import 'package:matchup/features/teams/presentation/screens/my_team_screen.dart';
@@ -159,8 +160,11 @@ class AppRouter {
         );
 
       case Routes.myTeam:
+        TeamCreationModel team = routeSettings.arguments as TeamCreationModel;
         return MaterialPageRoute(
-          builder: (_) => const MyTeamScreen(),
+          builder: (_) => MyTeamScreen(
+            teamModel: team,
+          ),
         );
       // case Routes.setLocation:
       //   return MaterialPageRoute(
