@@ -2,14 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:matchup/core/network/api_endpoint.dart';
 import 'package:matchup/core/network/dio_client.dart';
 import 'package:matchup/core/utils/logger.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 
 class ProfileProvider {
   Future<Map<String, dynamic>> getSports({required String authToken}) async {
     try {
+      final user = await LocalDataSource().getUser();
       final response = await DioClient.instance.get(
           path: ApiRoutes.getAllSports,
           options: Options(
-            headers: {"Authorization": "Bearer $authToken"},
+            headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
           ));
       logger.e(response);
       return response;
