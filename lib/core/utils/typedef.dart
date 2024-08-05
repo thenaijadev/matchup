@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:matchup/features/activities/data/models/activities/activities_created_model.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
 import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
 import 'package:matchup/features/activities/data/models/activities/single_activity_model.dart';
@@ -44,7 +45,8 @@ typedef EitherMapOrActivitiesError
 
 typedef EitherSingleActivityByIdModelOrActivitiesError
     = Either<ActivitiesError, SingleActivityByIdModel>;
-
+typedef EitherActivitiesCreatedModelOrActivitiesError
+    = Either<ActivitiesError, ActivityCreationModel>;
 typedef EitherReviewsErrorOrReviewsModel = Either<ReviewsError, ReviewsModel>;
 
 

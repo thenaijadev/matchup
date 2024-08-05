@@ -23,3 +23,14 @@ class ActivitiesEventGetAllActivitiesById extends ActivitiesEvent {
     required this.id,
   });
 }
+
+class ActivityEventCreateActivity extends ActivitiesEvent {
+  const ActivityEventCreateActivity();
+}
+
+class ActivityEventGatherInfoEvent extends ActivitiesEvent {
+  final Map<String, dynamic> keyValue;
+  const ActivityEventGatherInfoEvent({
+    required this.keyValue,
+  });
+}

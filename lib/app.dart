@@ -78,45 +78,53 @@ class _MyAppState extends State<MyApp> {
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
-        child: BlocBuilder<DarkModeBloc, DarkModeState>(
-          builder: (context, state) {
-            if (state is DarkModeCurrentState) {
-              return state.status != "System"
-                  ? ScreenUtilInit(
-                      designSize: const Size(375, 812),
-                      minTextAdapt: true,
-                      splitScreenMode: true,
-                      builder: (context, child) {
-                        return MaterialApp(
-                          theme: state.status == "Dark"
-                              ? darkTheme()
-                              : lightTheme(),
-                          debugShowCheckedModeBanner: false,
-                          title: 'Flutter Demo',
-                          initialRoute: Routes.splash,
-                          onGenerateRoute: appRouter.onGenerateRoute,
-                        );
-                      },
-                    )
-                  : ScreenUtilInit(
-                      designSize: const Size(375, 812),
-                      minTextAdapt: true,
-                      splitScreenMode: true,
-                      builder: (context, child) {
-                        return MaterialApp(
-                          theme: lightTheme(),
-                          darkTheme: darkTheme(),
-                          debugShowCheckedModeBanner: false,
-                          title: 'Flutter Demo',
-                          initialRoute: Routes.splash,
-                          onGenerateRoute: appRouter.onGenerateRoute,
-                        );
-                      },
-                    );
-            }
-            return const SizedBox();
-          },
-        ),
+        child: FutureBuilder(
+            future: LocalDataSource().getUser(),
+            builder: (context, snapShot) {
+              return BlocBuilder<DarkModeBloc, DarkModeState>(
+                builder: (context, state) {
+                  if (state is DarkModeCurrentState) {
+                    return state.status != "System"
+                        ? ScreenUtilInit(
+                            designSize: const Size(375, 812),
+                            minTextAdapt: true,
+                            splitScreenMode: true,
+                            builder: (context, child) {
+                              return MaterialApp(
+                                theme: state.status == "Dark"
+                                    ? darkTheme()
+                                    : lightTheme(),
+                                debugShowCheckedModeBanner: false,
+                                title: 'Flutter Demo',
+                                initialRoute: snapShot.hasData
+                                    ? Routes.home
+                                    : Routes.splash,
+                                onGenerateRoute: appRouter.onGenerateRoute,
+                              );
+                            },
+                          )
+                        : ScreenUtilInit(
+                            designSize: const Size(375, 812),
+                            minTextAdapt: true,
+                            splitScreenMode: true,
+                            builder: (context, child) {
+                              return MaterialApp(
+                                theme: lightTheme(),
+                                darkTheme: darkTheme(),
+                                debugShowCheckedModeBanner: false,
+                                title: 'Flutter Demo',
+                                initialRoute: snapShot.hasData
+                                    ? Routes.home
+                                    : Routes.splash,
+                                onGenerateRoute: appRouter.onGenerateRoute,
+                              );
+                            },
+                          );
+                  }
+                  return const SizedBox();
+                },
+              );
+            }),
       ),
     );
   }

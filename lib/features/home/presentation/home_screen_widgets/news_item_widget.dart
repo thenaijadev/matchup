@@ -56,7 +56,7 @@ class NewsItemWidget extends StatelessWidget {
                 )
               ],
             ),
-            if (isFirst) const TextWidget(text: "Read More")
+            if (isFirst) const Flexible(child: TextWidget(text: "Read More"))
           ],
         ),
         const SizedBox(

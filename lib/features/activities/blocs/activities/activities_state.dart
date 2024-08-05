@@ -40,3 +40,18 @@ class ActivitiesStateAllActivitiesRetreivedById extends ActivitiesState {
     required this.activity,
   });
 }
+
+class ActivityStateActivityCreated extends ActivitiesState {
+  final ActivityCreationModel activityModel;
+  const ActivityStateActivityCreated({
+    required this.activityModel,
+  });
+}
+
+class ActivitiesInfoGathering extends ActivitiesState {
+  final List<Map<String, dynamic>> values;
+
+  const ActivitiesInfoGathering({
+    required this.values,
+  });
+}
