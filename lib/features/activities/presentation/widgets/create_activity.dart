@@ -54,209 +54,259 @@ class _CreateActivityState extends State<CreateActivity> {
         return state is ProfileStateIsLoading
             ? const LoadingWidget()
             : state is ProfileStateAllSportsGotten
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color: Theme.of(context).colorScheme.secondary),
-                          color: Theme.of(context).colorScheme.background,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ExpansionTile(
-                          controller: _eventController,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          collapsedIconColor:
-                              Theme.of(context).colorScheme.secondary,
-                          title: TextWidget(
-                            text: eventType ?? "Event type",
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                          children: List.generate(
-                              eventTypes.length,
-                              (index) => Container(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0),
-                                      child: TextWidget(
-                                        onTap: () {
-                                          _eventController.collapse();
-                                          setState(() {
-                                            eventType = eventTypes[index];
-                                            context
-                                                .read<ActivityDetailsBloc>()
-                                                .add(
-                                                    ActivityEventGatherInfoEvent(
-                                                        keyValue: {
-                                                      "type": eventType
-                                                    }));
-                                          });
-                                        },
-                                        text: eventTypes[index],
+                ? BlocBuilder<ActivityDetailsBloc, ActivityDetailsState>(
+                    builder: (context, activitiesDetaisState) {
+                      return activitiesDetaisState is ActivitiesInfoGathering
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .secondary,
-                                        textAlign: TextAlign.start,
-                                      ),
+                                            .secondary),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: ExpansionTile(
+                                    controller: _eventController,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    collapsedIconColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                    title: TextWidget(
+                                      text: activitiesDetaisState
+                                              .formDetails["type"] ??
+                                          "Event type",
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
-                                  )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      BlocBuilder<ActivityDetailsBloc, ActivityDetailsState>(
-                        builder: (context, state) {
-                          return state is ActivitiesInfoGathering
-                              ? TextWidget(text: state.formDetails.toString())
-                              : const SizedBox();
-                        },
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextWidget(
-                                  textAlign: TextAlign.center,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  text: "Choose an activity"),
-                              TextWidget(
-                                  textAlign: TextAlign.center,
-                                  fontSize: 11,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  text:
-                                      "Choose a sport to create new activity."),
-                            ],
-                          ),
-                          CircleAvatar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.inverseSurface,
-                            radius: 15,
-                            child: Image.asset(
-                              "assets/images/search.png",
-                              width: 15,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 3,
-                        childAspectRatio: 1,
-                        mainAxisSpacing: 10.0,
-                        crossAxisSpacing: 10.0,
-                        children: List.generate(
-                          state.sportsModel.data.length,
-                          (index) => SportItemWidget(
-                            isSelected: _selectedSport == index,
-                            onTap: () {
-                              setState(() {
-                                _selectedSport = index;
-                                context.read<ActivityDetailsBloc>().add(
-                                        ActivityEventGatherInfoEvent(keyValue: {
-                                      "sport_id":
-                                          state.sportsModel.data[index].id
-                                    }));
-                              });
-                            },
-                            image: state.sportsModel.data[index].image ?? "",
-                            title: state.sportsModel.data[index].name!,
-                            chosenIndex: _selectedSport,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextWidget(
-                              textAlign: TextAlign.center,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary,
-                              text: "Selected gender"),
-                          TextWidget(
-                              textAlign: TextAlign.center,
-                              fontSize: 11,
-                              color: Theme.of(context).colorScheme.secondary,
-                              text: "Select gender specific for the game"),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color: Theme.of(context).colorScheme.secondary),
-                          color: Theme.of(context).colorScheme.background,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ExpansionTile(
-                          controller: _genderController,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          collapsedIconColor:
-                              Theme.of(context).colorScheme.secondary,
-                          title: TextWidget(
-                            text: gender ?? "Select gender",
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                          children: List.generate(
-                              genders.length,
-                              (index) => Container(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0),
-                                      child: TextWidget(
-                                        onTap: () {
-                                          _genderController.collapse();
+                                    children: List.generate(
+                                        eventTypes.length,
+                                        (index) => Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20),
+                                              width: double.infinity,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10.0),
+                                                child: TextWidget(
+                                                  onTap: () {
+                                                    _eventController.collapse();
+                                                    setState(() {
+                                                      context
+                                                          .read<
+                                                              ActivityDetailsBloc>()
+                                                          .add(
+                                                              ActivityEventGatherInfoEvent(
+                                                                  keyValue: {
+                                                                "type":
+                                                                    eventTypes[
+                                                                        index]
+                                                              }));
+                                                      // eventType =
+                                                      //     eventTypes[index];
+                                                    });
+                                                  },
+                                                  text: eventTypes[index],
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ),
+                                            )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextWidget(
+                                            textAlign: TextAlign.center,
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary,
+                                            text: "Choose an activity"),
+                                        TextWidget(
+                                            textAlign: TextAlign.center,
+                                            fontSize: 11,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            text:
+                                                "Choose a sport to create new activity."),
+                                      ],
+                                    ),
+                                    CircleAvatar(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .inverseSurface,
+                                      radius: 15,
+                                      child: Image.asset(
+                                        "assets/images/search.png",
+                                        width: 15,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .inversePrimary,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                GridView.count(
+                                  shrinkWrap: true,
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 1,
+                                  mainAxisSpacing: 10.0,
+                                  crossAxisSpacing: 10.0,
+                                  children: List.generate(
+                                    state.sportsModel.data.length,
+                                    (index) => SportItemWidget(
+                                      isSelected: activitiesDetaisState
+                                                  .formDetails["sport_id"] !=
+                                              null
+                                          ? state.sportsModel.data[index].id ==
+                                              activitiesDetaisState
+                                                  .formDetails["sport_id"]
+                                          : false,
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedSport = index;
                                           context
                                               .read<ActivityDetailsBloc>()
                                               .add(ActivityEventGatherInfoEvent(
                                                   keyValue: {
-                                                    "allowed_genders":
-                                                        genders[index]
+                                                    "sport_id": state
+                                                        .sportsModel
+                                                        .data[index]
+                                                        .id
                                                   }));
-                                          setState(() {
-                                            gender = genders[index];
-                                          });
-                                        },
-                                        text: genders[index],
+                                        });
+                                      },
+                                      image:
+                                          state.sportsModel.data[index].image ??
+                                              "",
+                                      title:
+                                          state.sportsModel.data[index].name!,
+                                      chosenIndex: _selectedSport,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextWidget(
+                                        textAlign: TextAlign.center,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .inversePrimary,
+                                        text: "Selected gender"),
+                                    TextWidget(
+                                        textAlign: TextAlign.center,
+                                        fontSize: 11,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .secondary,
-                                        textAlign: TextAlign.start,
-                                      ),
+                                        text:
+                                            "Select gender specific for the game"),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: ExpansionTile(
+                                    controller: _genderController,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    collapsedIconColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                    title: TextWidget(
+                                      text: activitiesDetaisState
+                                              .formDetails["allowed_genders"] ??
+                                          "Gender",
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
-                                  )),
-                        ),
-                      ),
-                      const Spacer(),
-                    ],
+                                    children: List.generate(
+                                        genders.length,
+                                        (index) => Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20),
+                                              width: double.infinity,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10.0),
+                                                child: TextWidget(
+                                                  onTap: () {
+                                                    _genderController
+                                                        .collapse();
+                                                    context
+                                                        .read<
+                                                            ActivityDetailsBloc>()
+                                                        .add(
+                                                            ActivityEventGatherInfoEvent(
+                                                                keyValue: {
+                                                              "allowed_genders":
+                                                                  genders[index]
+                                                            }));
+                                                    setState(() {
+                                                      gender = genders[index];
+                                                    });
+                                                  },
+                                                  text: genders[index],
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ),
+                                            )),
+                                  ),
+                                ),
+                                const Spacer(),
+                              ],
+                            )
+                          : const SizedBox();
+                    },
                   )
                 : const SizedBox();
       },
