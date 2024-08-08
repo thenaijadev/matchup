@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/blocs/bloc/activity_details_bloc.dart';
 import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
 import 'package:matchup/features/profile/presentation/widgets/sport_time_widget.dart';
@@ -44,7 +45,8 @@ class _CreateActivityState extends State<CreateActivity> {
   ];
 
   final List<Sport> selectedItems = [];
-
+  int _selectedSport = -1;
+  Map<String, dynamic> value = {};
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
@@ -86,6 +88,13 @@ class _CreateActivityState extends State<CreateActivity> {
                                           _eventController.collapse();
                                           setState(() {
                                             eventType = eventTypes[index];
+                                            context
+                                                .read<ActivityDetailsBloc>()
+                                                .add(
+                                                    ActivityEventGatherInfoEvent(
+                                                        keyValue: {
+                                                      "type": eventType
+                                                    }));
                                           });
                                         },
                                         text: eventTypes[index],
@@ -100,6 +109,13 @@ class _CreateActivityState extends State<CreateActivity> {
                       ),
                       SizedBox(
                         height: 20.h,
+                      ),
+                      BlocBuilder<ActivityDetailsBloc, ActivityDetailsState>(
+                        builder: (context, state) {
+                          return state is ActivitiesInfoGathering
+                              ? TextWidget(text: state.formDetails.toString())
+                              : const SizedBox();
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,31 +165,20 @@ class _CreateActivityState extends State<CreateActivity> {
                         children: List.generate(
                           state.sportsModel.data.length,
                           (index) => SportItemWidget(
-                            isSelected: selectedItems
-                                .contains(state.sportsModel.data[index]),
+                            isSelected: _selectedSport == index,
                             onTap: () {
                               setState(() {
-                                if (selectedItems.isNotEmpty) {
-                                  if (selectedItems.contains(
-                                      state.sportsModel.data[index])) {
-                                    selectedItems
-                                        .remove(state.sportsModel.data[index]);
-                                  }
-                                } else {
-                                  if (selectedItems.contains(
-                                      state.sportsModel.data[index])) {
-                                    selectedItems
-                                        .remove(state.sportsModel.data[index]);
-                                  } else {
-                                    selectedItems
-                                        .add(state.sportsModel.data[index]);
-                                  }
-                                }
+                                _selectedSport = index;
+                                context.read<ActivityDetailsBloc>().add(
+                                        ActivityEventGatherInfoEvent(keyValue: {
+                                      "sport_id":
+                                          state.sportsModel.data[index].id
+                                    }));
                               });
                             },
                             image: state.sportsModel.data[index].image ?? "",
                             title: state.sportsModel.data[index].name!,
-                            chosenIndex: index,
+                            chosenIndex: _selectedSport,
                           ),
                         ),
                       ),
@@ -229,6 +234,13 @@ class _CreateActivityState extends State<CreateActivity> {
                                       child: TextWidget(
                                         onTap: () {
                                           _genderController.collapse();
+                                          context
+                                              .read<ActivityDetailsBloc>()
+                                              .add(ActivityEventGatherInfoEvent(
+                                                  keyValue: {
+                                                    "allowed_genders":
+                                                        genders[index]
+                                                  }));
                                           setState(() {
                                             gender = genders[index];
                                           });

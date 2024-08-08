@@ -8,6 +8,7 @@ import 'package:matchup/config/theme/dark_theme.dart';
 import 'package:matchup/config/theme/light_theme.dart';
 import 'package:matchup/core/utils/app_constraints.dart';
 import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
+import 'package:matchup/features/activities/blocs/bloc/activity_details_bloc.dart';
 import 'package:matchup/features/activities/blocs/reviews/reviews_bloc.dart';
 import 'package:matchup/features/activities/data/providers/activities_providers.dart';
 import 'package:matchup/features/activities/data/providers/reviews_provider.dart';
@@ -72,6 +73,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) =>
               TeamBloc(repo: TeamRepository(provider: TeamProvider())),
+        ),
+        BlocProvider(
+          create: (context) => ActivityDetailsBloc(),
         ),
       ],
       child: GestureDetector(

@@ -49,6 +49,7 @@ class NewsItemWidget extends StatelessWidget {
                   width: 15,
                 ),
                 TextWidget(
+                  // text: DateFormat('hh:mm a').format(news.createdAt!),
                   text: news.createdAt ?? "2 hours ago",
                   fontSize: 10,
                   fontWeight: FontWeight.bold,

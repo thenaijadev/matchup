@@ -47,11 +47,3 @@ class ActivityStateActivityCreated extends ActivitiesState {
     required this.activityModel,
   });
 }
-
-class ActivitiesInfoGathering extends ActivitiesState {
-  final List<Map<String, dynamic>> values;
-
-  const ActivitiesInfoGathering({
-    required this.values,
-  });
-}

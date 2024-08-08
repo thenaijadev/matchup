@@ -139,7 +139,7 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * .9,
+                            height: MediaQuery.of(context).size.height * 1.2,
                             child: PageView(
                               onPageChanged: (value) {
                                 setState(() {
