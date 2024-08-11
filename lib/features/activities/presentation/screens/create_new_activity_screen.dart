@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/blocs/bloc/activity_details_bloc.dart';
 import 'package:matchup/features/activities/presentation/widgets/create_activity.dart';
 import 'package:matchup/features/activities/presentation/widgets/map_bottom_sheet.dart';
 import 'package:matchup/features/activities/presentation/widgets/payment.dart';
@@ -147,11 +149,12 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                                 });
                               },
                               controller: _controller,
-                              children: const [
-                                CreateActivity(),
-                                ScheduleDateAndTime(),
-                                SizedBox(),
-                                Payment(),
+                              children: [
+                                const CreateActivity(),
+                                ScheduleDateAndTime(
+                                    pageController: _controller),
+                                const SizedBox(),
+                                const Payment(),
                               ],
                             ),
                           ),
@@ -159,7 +162,7 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                       )
                     ],
                   ),
-                  if (page != 2)
+                  if (page != 2 && page != 1)
                     PrimaryButton(
                         label: "Next",
                         onPressed: () {
@@ -211,7 +214,17 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                         options: MapOptions(
                             onTap: (tapPosition, point) {
                               setState(() {
+                                tappedPoints.clear();
                                 tappedPoints.add(point);
+                                final longLat = {
+                                  "long_lat": {
+                                    "latitude": point.latitude,
+                                    "longitude": point.longitude,
+                                  },
+                                };
+                                context.read<ActivityDetailsBloc>().add(
+                                    ActivityEventGatherInfoEvent(
+                                        keyValue: longLat));
                               });
                             },
                             minZoom: 5,

@@ -1,14 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/blocs/bloc/activity_details_bloc.dart';
 import 'package:matchup/features/activities/presentation/widgets/date_picker_widget.dart';
 
 class ScheduleDateAndTime extends StatefulWidget {
   const ScheduleDateAndTime({
     super.key,
+    required this.pageController,
   });
+
+  final PageController pageController;
 
   @override
   State<ScheduleDateAndTime> createState() => _ScheduleDateAndTimeState();
@@ -17,6 +23,7 @@ class ScheduleDateAndTime extends StatefulWidget {
 class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
   late ExpansionTileController _eventController;
   late ExpansionTileController _genderController;
+  late ExpansionTileController _dateController;
 
   @override
   void initState() {
@@ -41,7 +48,10 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
   String? eventType;
 
   String? gender;
-
+  String? startTimeHour;
+  String? startTimeMin;
+  String? endTimeHour;
+  String? endTimeMin;
   List<String> gameFrame = ["Daily", "Weekly", "Monthly"];
   List<String> genders = ["Males", "Females", "Mixed"];
 
@@ -100,7 +110,11 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                           scrollController: FixedExtentScrollController(
                               initialItem: _selectedDay - 1),
                           itemExtent: 32.0,
-                          onSelectedItemChanged: (value) {},
+                          onSelectedItemChanged: (value) {
+                            setState(() {
+                              startTimeHour = value.toString();
+                            });
+                          },
                           children: List.generate(
                             24,
                             (index) => Center(
@@ -137,7 +151,11 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                             scrollController: FixedExtentScrollController(
                                 initialItem: _selectedDay - 1),
                             itemExtent: 32.0,
-                            onSelectedItemChanged: (value) {},
+                            onSelectedItemChanged: (value) {
+                              setState(() {
+                                startTimeMin = value.toString();
+                              });
+                            },
                             children: List.generate(
                               60,
                               (index) => Center(
@@ -200,7 +218,11 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                             scrollController: FixedExtentScrollController(
                                 initialItem: _selectedDay - 1),
                             itemExtent: 32.0,
-                            onSelectedItemChanged: (value) {},
+                            onSelectedItemChanged: (value) {
+                              setState(() {
+                                endTimeHour = value.toString();
+                              });
+                            },
                             children: List.generate(
                               24,
                               (index) => Center(
@@ -238,7 +260,11 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                             scrollController: FixedExtentScrollController(
                                 initialItem: _selectedDay - 1),
                             itemExtent: 32.0,
-                            onSelectedItemChanged: (value) {},
+                            onSelectedItemChanged: (value) {
+                              setState(() {
+                                endTimeMin = value.toString();
+                              });
+                            },
                             children: List.generate(
                               60,
                               (index) => Center(
@@ -285,48 +311,82 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
             hintText: "Date for game",
             enabledBorderRadius: 10,
             onChanged: (val) {}),
-        SizedBox(height: 300.h, child: const DatePickerWidget()),
+        SizedBox(
+            height: 300.h,
+            child: DatePickerWidget(
+              controller: controller,
+            )),
+        PrimaryButton(
+            label: "Next",
+            onPressed: () {
+              final startTime = {
+                "start_time":
+                    "${controller.text} ${startTimeHour ?? "00"}:${startTimeMin ?? "00"}"
+              };
+              final endTime = {
+                "end_time":
+                    "${controller.text} ${endTimeHour ?? "00"}:${endTimeMin ?? "00"}"
+              };
+
+              context.read<ActivityDetailsBloc>().add(
+                  ActivityEventGatherInfoEvent(
+                      keyValue: {...startTime, ...endTime}));
+              widget.pageController.nextPage(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.decelerate);
+            },
+            isEnabled: true),
       ],
     );
   }
 
-  Container _startAndEndTimeContainerWidget(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-            width: 1, color: Theme.of(context).colorScheme.secondary),
-        color: Theme.of(context).colorScheme.background,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ExpansionTile(
-        controller: _eventController,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        collapsedIconColor: Theme.of(context).colorScheme.secondary,
-        title: TextWidget(
-          text: eventType ?? "Select game frame",
-          color: Theme.of(context).colorScheme.secondary,
-        ),
-        children: List.generate(
-            gameFrame.length,
-            (index) => Container(
-                  padding: const EdgeInsets.only(left: 20),
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: TextWidget(
-                      onTap: () {
-                        _eventController.collapse();
-                        setState(() {
-                          eventType = gameFrame[index];
-                        });
-                      },
-                      text: gameFrame[index],
-                      color: Theme.of(context).colorScheme.secondary,
-                      textAlign: TextAlign.start,
-                    ),
+  BlocBuilder _startAndEndTimeContainerWidget(BuildContext context) {
+    return BlocBuilder<ActivityDetailsBloc, ActivityDetailsState>(
+      builder: (context, state) {
+        return state is ActivitiesInfoGathering
+            ? Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 1, color: Theme.of(context).colorScheme.secondary),
+                  color: Theme.of(context).colorScheme.background,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ExpansionTile(
+                  controller: _eventController,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  collapsedIconColor: Theme.of(context).colorScheme.secondary,
+                  title: TextWidget(
+                    text: state.formDetails["frequency"] ?? "Frequency",
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
-                )),
-      ),
+                  children: List.generate(
+                      gameFrame.length,
+                      (index) => Container(
+                            padding: const EdgeInsets.only(left: 20),
+                            width: double.infinity,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: TextWidget(
+                                onTap: () {
+                                  _eventController.collapse();
+                                  context.read<ActivityDetailsBloc>().add(
+                                          ActivityEventGatherInfoEvent(
+                                              keyValue: {
+                                            "frequency": gameFrame[index]
+                                          }));
+                                },
+                                text: gameFrame[index],
+                                color: Theme.of(context).colorScheme.secondary,
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          )),
+                ),
+              )
+            : const SizedBox();
+      },
     );
   }
 }

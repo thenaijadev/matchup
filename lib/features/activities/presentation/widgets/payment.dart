@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/blocs/bloc/activity_details_bloc.dart';
 
 class Payment extends StatefulWidget {
   const Payment({super.key});
@@ -10,6 +12,13 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
+  late TextEditingController paymentController;
+  @override
+  void initState() {
+    paymentController = TextEditingController();
+    super.initState();
+  }
+
   bool isAccepted = false;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +45,11 @@ class _PaymentState extends State<Payment> {
       InputFieldWidget(
         hintColor: Theme.of(context).colorScheme.secondary,
         hintText: "",
-        onChanged: (val) {},
+        controller: paymentController,
+        onChanged: (val) {
+          context.read<ActivityDetailsBloc>().add(ActivityEventGatherInfoEvent(
+              keyValue: {"fee": paymentController.text}));
+        },
         keyboardType: TextInputType.number,
         enabledBorderRadius: 10,
       ),
@@ -61,6 +74,10 @@ class _PaymentState extends State<Payment> {
             onChanged: (val) {
               setState(() {
                 isAccepted = val;
+                paymentController.text = 0.toString();
+                context.read<ActivityDetailsBloc>().add(
+                    ActivityEventGatherInfoEvent(
+                        keyValue: {"fee": paymentController.text}));
               });
             },
           ),

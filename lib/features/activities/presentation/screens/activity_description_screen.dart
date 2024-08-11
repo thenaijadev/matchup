@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
+import 'package:matchup/features/activities/blocs/bloc/activity_details_bloc.dart';
 
 class ActivityDescripitonScreen extends StatefulWidget {
   const ActivityDescripitonScreen({super.key});
@@ -22,6 +26,9 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
     {"name": "Amazing", "image": "🤗"},
   ];
   int _selectedIndex = -1;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +100,7 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
                     hintColor: Theme.of(context).colorScheme.secondary,
                     hintText: "Name of the game",
                     onChanged: (val) {},
+                    controller: nameController,
                     enabledBorderRadius: 10,
                   ),
                   const SizedBox(
@@ -107,6 +115,7 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
                     ),
                   ),
                   InputFieldWidget(
+                    controller: descriptionController,
                     maxLines: 7,
                     hintColor: Theme.of(context).colorScheme.secondary,
                     hintText: "",
@@ -131,6 +140,10 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
                             onTap: () {
                               setState(() {
                                 _selectedIndex = emojiIndex;
+                                context.read<ActivityDetailsBloc>().add(
+                                        ActivityEventGatherInfoEvent(keyValue: {
+                                      "level": emojis[emojiIndex]["name"]
+                                    }));
                               });
                             },
                             child: Container(
@@ -176,12 +189,45 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
                   ),
                 ],
               ),
-              PrimaryButton(
-                  label: "Done",
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.activities);
+              BlocListener<ActivitiesBloc, ActivitiesState>(
+                listener: (context, state) {
+                  if (state is ActivitiesStateError) {
+                    InfoSnackBar.showErrorSnackBar(
+                        context, state.error.errorMessage);
+                  }
+                },
+                child: BlocBuilder<ActivitiesBloc, ActivitiesState>(
+                  builder: (context, state) {
+                    return state is ActivitiesStateIsLoading
+                        ? const LoadingWidget()
+                        : BlocBuilder<ActivityDetailsBloc,
+                            ActivityDetailsState>(
+                            builder: (context, state) {
+                              return state is ActivitiesInfoGathering
+                                  ? PrimaryButton(
+                                      label: "Done",
+                                      onPressed: () {
+                                        context.read<ActivityDetailsBloc>().add(
+                                                ActivityEventGatherInfoEvent(
+                                                    keyValue: {
+                                                  "name": nameController.text,
+                                                  "description":
+                                                      descriptionController
+                                                          .text,
+                                                }));
+
+                                        context.read<ActivitiesBloc>().add(
+                                            ActivityEventCreateActivity(
+                                                state.formDetails));
+                                        // Navigator.pushNamed(context, Routes.activities);
+                                      },
+                                      isEnabled: true)
+                                  : const SizedBox();
+                            },
+                          );
                   },
-                  isEnabled: true),
+                ),
+              ),
             ],
           ),
         ),

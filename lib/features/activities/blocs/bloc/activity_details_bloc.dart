@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:matchup/core/utils/logger.dart';
 
 part 'activity_details_event.dart';
 part 'activity_details_state.dart';
@@ -13,6 +14,7 @@ class ActivityDetailsBloc
       if (state is ActivitiesInfoGathering) {
         final updatedValues = {...state.formDetails, ...event.keyValue};
         emit(ActivitiesInfoGathering(formDetails: updatedValues));
+        logger.e(state.formDetails);
       }
     });
   }

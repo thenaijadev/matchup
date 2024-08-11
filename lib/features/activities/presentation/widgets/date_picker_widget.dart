@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DatePickerWidget extends StatefulWidget {
-  const DatePickerWidget({super.key});
-
+  const DatePickerWidget({super.key, required this.controller});
+  final TextEditingController controller;
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
 }
@@ -14,14 +14,12 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     _selectedYear = _selectedDate.year;
     _selectedMonth = _selectedDate.month;
     _selectedDay = _selectedDate.day;
-    controller = TextEditingController();
 
     super.initState();
   }
 
   String theDate = "Date of birth";
   final DateTime _selectedDate = DateTime.now();
-  late TextEditingController controller;
 
   int _selectedYear = DateTime.now().year;
   int _selectedMonth = DateTime.now().month;
@@ -44,8 +42,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             onSelectedItemChanged: (value) {
               setState(() {
                 _selectedDay = value + 1;
-                controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
+                widget.controller.text =
+                    '$_selectedYear-$_selectedMonth-$_selectedDay';
               });
             },
             children: List.generate(
@@ -68,8 +66,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             onSelectedItemChanged: (value) {
               setState(() {
                 _selectedMonth = value + 1;
-                controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
+                widget.controller.text =
+                    '$_selectedYear-$_selectedMonth-$_selectedDay';
               });
             },
             children: List.generate(
@@ -90,8 +88,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             onSelectedItemChanged: (value) {
               setState(() {
                 _selectedYear = _selectedDate.year - value;
-                controller.text =
-                    '$_selectedDay/$_selectedMonth/$_selectedYear';
+                widget.controller.text =
+                    '$_selectedYear-$_selectedMonth-$_selectedDay';
                 updateDayList();
               });
             },

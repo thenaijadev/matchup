@@ -7,6 +7,7 @@ import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/activities/blocs/reviews/reviews_bloc.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
@@ -37,6 +38,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
     super.initState();
   }
 
+  final TextEditingController commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
@@ -318,6 +320,7 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                 InputFieldWidget(
                     enabledBorderRadius: 10,
                     maxLines: 5,
+                    controller: commentController,
                     fillColor: Theme.of(context).colorScheme.inverseSurface,
                     verticalContentPadding: 10,
                     hintColor: Theme.of(context).colorScheme.inversePrimary,
@@ -434,12 +437,34 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
           SizedBox(
             height: 20.h,
           ),
-          PrimaryButton(
-              label: chosenIndex == 0
-                  ? "\$${widget.activity.fee}"
-                  : "Leave review",
-              onPressed: chosenIndex == 0 ? () {} : () {},
-              isEnabled: true),
+          BlocListener<ReviewsBloc, ReviewsState>(
+            listener: (context, state) {
+              if (state is ReviewsStateReviewPost) {
+                InfoSnackBar.showSuccessSnackBar(context, "Review posted");
+              }
+            },
+            child: BlocBuilder<ReviewsBloc, ReviewsState>(
+              builder: (context, state) {
+                return state is ReviewsIsLoading
+                    ? const LoadingWidget()
+                    : PrimaryButton(
+                        label: chosenIndex == 0
+                            ? "\$${widget.activity.fee}"
+                            : "Leave review",
+                        onPressed: chosenIndex == 0
+                            ? () {}
+                            : () {
+                                context.read<ReviewsBloc>().add(
+                                    ReviewEventPostReview(
+                                        activityId:
+                                            widget.activity.id.toString(),
+                                        comment: commentController.text,
+                                        rating: rating.toString()));
+                              },
+                        isEnabled: true);
+              },
+            ),
+          ),
           SizedBox(
             height: 20.h,
           ),

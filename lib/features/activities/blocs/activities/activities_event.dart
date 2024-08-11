@@ -25,6 +25,6 @@ class ActivitiesEventGetAllActivitiesById extends ActivitiesEvent {
 }
 
 class ActivityEventCreateActivity extends ActivitiesEvent {
-  final List<Map<String, dynamic>> values;
+  final Map<String, dynamic> values;
   const ActivityEventCreateActivity(this.values);
 }

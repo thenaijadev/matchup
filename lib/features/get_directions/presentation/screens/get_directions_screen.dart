@@ -26,7 +26,19 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
           builder: ((builderContext) {
             return GetDirectionsBottomSheet(activity: widget.activity);
           }));
+      setState(() {
+        tappedPoints.add(
+          LatLng(
+              widget.activity.longLat["latitude"] is String
+                  ? double.parse(widget.activity.longLat["latitude"])
+                  : widget.activity.longLat["latitude"],
+              widget.activity.longLat["longitude"] is String
+                  ? double.parse(widget.activity.longLat["longitude"])
+                  : widget.activity.longLat["longitude"]),
+        );
+      });
     });
+
     super.initState();
   }
 
@@ -41,7 +53,6 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
   final MapController controller = MapController();
   List<LatLng> tappedPoints = [
     const LatLng(50.5, -0.09),
-    const LatLng(51.5006678, -0.09724),
   ];
 
   @override
@@ -58,20 +69,25 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Stack(
         children: [
-          Expanded(
-              child: SizedBox(
+          SizedBox(
             child: FlutterMap(
                 mapController: controller,
                 options: MapOptions(
                     onTap: (tapPosition, point) {
-                      setState(() {
-                        tappedPoints.add(point);
-                      });
+                      // setState(() {
+                      //   tappedPoints.add(point);
+                      // });
                     },
                     minZoom: 5,
                     maxZoom: 18,
-                    initialCenter: const LatLng(1.509364, -0.128928),
-                    initialZoom: 10),
+                    initialCenter: LatLng(
+                        widget.activity.longLat["latitude"] is String
+                            ? double.parse(widget.activity.longLat["latitude"])
+                            : widget.activity.longLat["latitude"],
+                        widget.activity.longLat["longitude"] is String
+                            ? double.parse(widget.activity.longLat["longitude"])
+                            : widget.activity.longLat["longitude"]),
+                    initialZoom: 20),
                 children: [
                   TileLayer(
                     urlTemplate:
@@ -80,7 +96,7 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
                   ),
                   MarkerLayer(markers: markers)
                 ]),
-          )),
+          ),
           Container(
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(

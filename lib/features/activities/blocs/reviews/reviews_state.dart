@@ -14,14 +14,21 @@ class ReviewsIsLoading extends ReviewsState {}
 
 class ReviewsStateReviewsError extends ReviewsState {
   final ReviewsError error;
-  ReviewsStateReviewsError({
+  const ReviewsStateReviewsError({
     required this.error,
   });
 }
 
 class ReviewsStateReviewsRetrieved extends ReviewsState {
   final ReviewsModel reviews;
-  ReviewsStateReviewsRetrieved({
+  const ReviewsStateReviewsRetrieved({
     required this.reviews,
+  });
+}
+
+class ReviewsStateReviewPost extends ReviewsState {
+  final ReviewPostModel review;
+  const ReviewsStateReviewPost({
+    required this.review,
   });
 }

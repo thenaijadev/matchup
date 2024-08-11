@@ -16,4 +16,21 @@ class ReviewsProvider {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> postReview(
+      {required String id,
+      required String comment,
+      required String rating}) async {
+    try {
+      final user = await LocalDataSource().getUser();
+      final response = await DioClient.instance.post(
+          data: {"rating": int.parse(rating), "comment": comment},
+          path: "${ApiRoutes.getAllActivities}/$id/reviews",
+          options: Options(
+              headers: {"Authorization": "Bearer ${user?.token ?? ""}"}));
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

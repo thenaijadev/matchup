@@ -14,3 +14,15 @@ class ReviewsEventGetReviews extends ReviewsEvent {
     required this.activityId,
   });
 }
+
+class ReviewEventPostReview extends ReviewsEvent {
+  final String activityId;
+
+  final String comment;
+  final String rating;
+  const ReviewEventPostReview({
+    required this.activityId,
+    required this.comment,
+    required this.rating,
+  });
+}

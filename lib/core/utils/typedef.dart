@@ -3,6 +3,7 @@ import 'package:matchup/features/activities/data/models/activities/activities_cr
 import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
 import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
 import 'package:matchup/features/activities/data/models/activities/single_activity_model.dart';
+import 'package:matchup/features/activities/data/models/reviews/review_post_model.dart';
 import 'package:matchup/features/activities/data/models/reviews/reviews_error.dart';
 import 'package:matchup/features/activities/data/models/reviews/reviews_model.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
@@ -48,6 +49,12 @@ typedef EitherSingleActivityByIdModelOrActivitiesError
 typedef EitherActivitiesCreatedModelOrActivitiesError
     = Either<ActivitiesError, ActivityCreationModel>;
 typedef EitherReviewsErrorOrReviewsModel = Either<ReviewsError, ReviewsModel>;
+typedef EitherReviewsErrorOrReviewPostModel
+    = Either<ReviewsError, ReviewPostModel>;
+
+
+
+
 
 
 

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_created_model.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
 import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
@@ -59,31 +58,7 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
     on<ActivityEventCreateActivity>((event, emit) async {
       emit(ActivitiesStateIsLoading());
 
-      Map<String, dynamic> details = {};
-      for (var i in event.values) {
-        details = {...i};
-        logger.e(details);
-      }
-      final response = await repo.createActivity(
-        type: details["type"],
-        cancelledAt: details["cancelledAt"],
-        completed: details["completed"],
-        level: details["level"],
-        fee: details["fee"],
-        participantFee: details["participantFee"],
-        long: details["long"],
-        lat: details["lat"],
-        address: details["address"],
-        locationName: details["locationName"],
-        startDate: details["startDate"],
-        endTime: details["endTime"],
-        name: details["name"],
-        description: details["description"],
-        sportId: details["sportId"],
-        allowedGenders: details["allowedGenders"],
-        frequency: details["frequency"],
-        startTime: details["startTime"],
-      );
+      final response = await repo.createActivity(details: event.values);
 
       response.fold((l) => emit(ActivitiesStateError(error: l)),
           (r) => emit(ActivityStateActivityCreated(activityModel: r)));
