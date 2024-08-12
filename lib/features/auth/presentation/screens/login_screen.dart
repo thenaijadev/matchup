@@ -20,7 +20,21 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = false;
   String email = '';
+
   String password = '';
+  late GlobalKey<FormFieldState> passwordKey;
+  late GlobalKey<FormFieldState> emailKey;
+
+  @override
+  void initState() {
+    passwordKey = GlobalKey<FormFieldState>();
+    emailKey = GlobalKey<FormFieldState>();
+
+    super.initState();
+  }
+
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,28 +42,28 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-        leading: Transform.translate(
-          offset: const Offset(15, 0),
-          child: Transform.scale(
-            scale: 0.7,
-            child: GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.inverseSurface,
-                      width: 2),
-                ),
-                child: Image.asset(
-                  "assets/images/arrow_back_dark.png",
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
-              ),
-            ),
-          ),
-        ),
+        // leading: Transform.translate(
+        //   offset: const Offset(15, 0),
+        //   child: Transform.scale(
+        //     scale: 0.7,
+        //     child: GestureDetector(
+        //       onTap: () => Navigator.pop(context),
+        //       child: Container(
+        //         padding: const EdgeInsets.all(15),
+        //         decoration: BoxDecoration(
+        //           borderRadius: BorderRadius.circular(100),
+        //           border: Border.all(
+        //               color: Theme.of(context).colorScheme.inverseSurface,
+        //               width: 2),
+        //         ),
+        //         child: Image.asset(
+        //           "assets/images/arrow_back_dark.png",
+        //           color: Theme.of(context).colorScheme.inversePrimary,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         centerTitle: true,
         title: TextWidget(
           text: "Sign into account",
@@ -66,122 +80,134 @@ class _LoginScreenState extends State<LoginScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          children: [
-            InputFieldWidget(
-                hintSize: 12,
-                hintColor: Theme.of(context).colorScheme.inversePrimary,
-                hintText: "Email Address",
-                enabledBorderRadius: 10,
-                onChanged: (val) {
-                  setState(() {
-                    email = val ?? "";
-                  });
-                }),
-            InputFieldWidget(
-                hintColor: Theme.of(context).colorScheme.inversePrimary,
-                hintText: "Password",
-                hintSize: 12,
-                obscureText: obscureText,
-                suffixIcon: GestureDetector(
-                  onTap: () {
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              InputFieldWidget(
+                  hintSize: 12,
+                  hintColor: Theme.of(context).colorScheme.inversePrimary,
+                  hintText: "Email Address",
+                  enabledBorderRadius: 10,
+                  key: emailKey,
+                  validator: (val) {
+                    return Validator.validateEmail(val);
+                  },
+                  onChanged: (val) {
+                    formKey.currentState?.validate();
+
                     setState(() {
-                      obscureText = !obscureText;
+                      email = val ?? "";
                     });
+                  }),
+              InputFieldWidget(
+                  hintColor: Theme.of(context).colorScheme.inversePrimary,
+                  hintText: "Password",
+                  hintSize: 12,
+                  obscureText: obscureText,
+                  key: passwordKey,
+                  validator: (val) {
+                    return Validator.validatePassword(val);
                   },
-                  child: Icon(
-                    size: 17,
-                    obscureText
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                enabledBorderRadius: 10,
-                onChanged: (val) {
-                  setState(() {
-                    password = val ?? "";
-                  });
-                }),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(
-                        context, Routes.createAccount);
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "Don't have and account?   ",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: "satoshi",
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Sign Up',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: "satoshi",
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
+                    child: Icon(
+                      size: 17,
+                      obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                ),
-                TextWidget(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.forgotPassword);
-                  },
-                  text: "Forgot Password?",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                )
-              ],
-            ),
-            const Spacer(),
-            BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {
-                if (state is AuthStateError) {
-                  InfoSnackBar.showErrorSnackBar(
-                      context, state.error.errorMessage);
-                }
-                if (state is AuthStateIsLoggedIn) {
-                  Navigator.of(context).popAndPushNamed(
-                    Routes.home,
-                    arguments: state.user,
-                  );
-                }
-              },
-              builder: (context, state) {
-                return state is AuthStateIsLoading
-                    ? const LoadingWidget()
-                    : PrimaryButton(
-                        label: "Sign In",
-                        onPressed: () {
-                          final user =
-                              UserData(email: email, password: password);
-                          final bool formIsValid =
-                              Validator.validateForm(user, context);
-
-                          if (formIsValid) {
-                            context
-                                .read<AuthBloc>()
-                                .add(AuthEventLoginUser(userData: user));
-                          }
-                        },
-                        isEnabled: true);
-              },
-            )
-          ],
+                  enabledBorderRadius: 10,
+                  onChanged: (val) {
+                    setState(() {
+                      formKey.currentState?.validate();
+                      password = val ?? "";
+                    });
+                  }),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.createAccount);
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Don't have and account?   ",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: "satoshi",
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Sign Up',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: "satoshi",
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  TextWidget(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.forgotPassword);
+                    },
+                    text: "Forgot Password?",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  )
+                ],
+              ),
+              const Spacer(),
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthStateError) {
+                    InfoSnackBar.showErrorSnackBar(
+                        context, state.error.errorMessage);
+                  }
+                  if (state is AuthStateIsLoggedIn) {
+                    Navigator.of(context).popAndPushNamed(
+                      Routes.home,
+                      arguments: state.user,
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  return state is AuthStateIsLoading
+                      ? const LoadingWidget()
+                      : PrimaryButton(
+                          label: "Sign In",
+                          onPressed: () {
+                            final user =
+                                UserData(email: email, password: password);
+                            final bool formIsValid =
+                                formKey.currentState?.validate() ?? false;
+                            if (formIsValid) {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(AuthEventLoginUser(userData: user));
+                            }
+                          },
+                          isEnabled: true);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

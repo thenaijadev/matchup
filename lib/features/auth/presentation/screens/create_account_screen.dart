@@ -2,7 +2,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
-import 'package:matchup/core/validator/validator.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
@@ -314,8 +313,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 phoneNumber: phoneNumber ?? "",
                               );
 
-                              formIsValid =
-                                  Validator.validateForm(user!, context);
+                              // formIsValid =
+                              //     Validator.validateForm(user!, context);
                               if (!acceptTerms) {
                                 InfoSnackBar.showErrorSnackBar(context,
                                     "You have to accept the Terms of Use and Privacy Policy to proceed.");
