@@ -94,8 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     return Validator.validateEmail(val);
                   },
                   onChanged: (val) {
-                    formKey.currentState?.validate();
-
                     setState(() {
                       email = val ?? "";
                     });
@@ -126,7 +124,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   enabledBorderRadius: 10,
                   onChanged: (val) {
                     setState(() {
-                      formKey.currentState?.validate();
                       password = val ?? "";
                     });
                   }),

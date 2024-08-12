@@ -108,8 +108,6 @@ class Validator {
       return '$label cannot be empty';
     } else if (value.length < 3) {
       return "Your name is too short";
-    } else if (value.contains(" ")) {
-      return "$label cannot contain spaces";
     }
     return null;
   }
@@ -130,7 +128,7 @@ class Validator {
       return 'Please enter mobile number';
     } else if (!regExp.hasMatch(value)) {
       return 'Please enter valid mobile number';
-    } else if (value.length < 11) {
+    } else if (value.length < 10) {
       return 'Please enter valid mobile number';
     }
     return null;

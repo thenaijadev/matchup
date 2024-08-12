@@ -43,8 +43,7 @@ class AuthRepository {
     } on DioException catch (e) {
       return left(
         AuthError(
-          errorMessage:
-              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+          errorMessage: e.response?.statusMessage ?? "There has been an error",
         ),
       );
     } catch (e) {
