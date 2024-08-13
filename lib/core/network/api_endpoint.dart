@@ -10,4 +10,6 @@ class ApiRoutes {
   static const String getAllActivities = "/api/activities";
   static const String getAllUsers = "/api/users/cc";
   static const String createTeam = "/api/teams";
+  static const String requestOtp = "/api/password/send-otp";
+  static const String verifyOtp = "/api/password/verify-otp";
 }

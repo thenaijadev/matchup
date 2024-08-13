@@ -2,9 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
+import 'package:matchup/features/auth/data/models/otp_requested.dart';
+import 'package:matchup/features/auth/data/models/otp_verification_email.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
-
 import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
 
 part 'auth_event.dart';
@@ -59,6 +60,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       response.fold((l) => emit(AuthStateError(error: l)), (r) {
         emit(
           AuthStateUserProfileUpdated(updatedUser: r),
+        );
+      });
+    });
+
+    on<AuthEventRequestOtp>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final response = await authRepo.requestOtp(email: event.email);
+
+      response.fold((l) => emit(AuthStateError(error: l)), (r) {
+        emit(
+          AuthStateOtpRequestedSuccessfully(otpRequestModel: r),
+        );
+      });
+    });
+
+    on<AuthEventVerifyOtp>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final response =
+          await authRepo.verifyEmail(email: event.email, otp: event.otp);
+
+      response.fold((l) => emit(AuthStateError(error: l)), (r) {
+        emit(
+          AuthStateOtpVerificationSuccessfully(otpVerificationModel: r),
         );
       });
     });

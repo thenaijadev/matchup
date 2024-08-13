@@ -8,6 +8,8 @@ import 'package:matchup/features/activities/data/models/reviews/reviews_error.da
 import 'package:matchup/features/activities/data/models/reviews/reviews_model.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
+import 'package:matchup/features/auth/data/models/otp_requested.dart';
+import 'package:matchup/features/auth/data/models/otp_verification_email.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
 import 'package:matchup/features/news/data/models/news_error.dart';
 import 'package:matchup/features/news/data/models/news_model.dart';
@@ -52,8 +54,9 @@ typedef EitherReviewsErrorOrReviewsModel = Either<ReviewsError, ReviewsModel>;
 typedef EitherReviewsErrorOrReviewPostModel
     = Either<ReviewsError, ReviewPostModel>;
 
-
-
+typedef EitherAuthErrorOrOtpRequestedModel = Either<AuthError, OtpRequestModel>;
+typedef EitherAuthErrorOrOtpVerificationModel
+    = Either<AuthError, OtpVerificationModel>;
 
 
 

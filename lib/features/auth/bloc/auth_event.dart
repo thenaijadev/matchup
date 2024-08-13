@@ -28,3 +28,28 @@ class AuthEventUpdateProfile extends AuthEvent {
   const AuthEventUpdateProfile(
       {required this.userData, required this.authToken});
 }
+
+class AuthEventRequestOtp extends AuthEvent {
+  final String email;
+  const AuthEventRequestOtp({
+    required this.email,
+  });
+}
+
+class AuthEventVerifyOtp extends AuthEvent {
+  final String email;
+  final String otp;
+  const AuthEventVerifyOtp({
+    required this.otp,
+    required this.email,
+  });
+}
+
+class AuthEventChangePassord extends AuthEvent {
+  final String email;
+  final String password;
+  const AuthEventChangePassord({
+    required this.email,
+    required this.password,
+  });
+}

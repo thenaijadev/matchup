@@ -1,16 +1,24 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 
 class OTPScreen extends StatefulWidget {
-  const OTPScreen({super.key});
-
+  const OTPScreen({
+    super.key,
+    required this.email,
+  });
+  final String email;
   @override
   State<OTPScreen> createState() => _OTPScreenState();
 }
@@ -146,9 +154,9 @@ class _OTPScreenState extends State<OTPScreen> {
                   length: 4,
                   width: MediaQuery.of(context).size.width,
                   fieldWidth: 76,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary),
                   textFieldAlignment: MainAxisAlignment.spaceEvenly,
                   fieldStyle: FieldStyle.box,
                   onChanged: (val) {
@@ -174,26 +182,53 @@ class _OTPScreenState extends State<OTPScreen> {
                 const SizedBox(
                   width: 5,
                 ),
-                TextWidget(
-                  onTap: () {
-                    if (canResendCode) {
-                      resetTimer();
-                      startTimer();
-                    }
-                  },
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  text: "Send Again",
+                Opacity(
+                  opacity: canResendCode ? 1 : 0.5,
+                  child: TextWidget(
+                    onTap: () {
+                      if (canResendCode) {
+                        context
+                            .read<AuthBloc>()
+                            .add(AuthEventRequestOtp(email: widget.email));
+                        resetTimer();
+                        startTimer();
+                      }
+                    },
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    text: "Send Again",
+                  ),
                 ),
               ],
             ),
             const Spacer(),
-            PrimaryButton(
-                label: "Submit",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.newPassword);
-                },
-                isEnabled: true)
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthStateError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.error.errorMessage);
+                }
+
+                if (state is AuthStateOtpVerificationSuccessfully) {
+                  Navigator.pushReplacementNamed(context, Routes.newPassword,
+                      arguments: {
+                        "token": state.otpVerificationModel.token,
+                        "email": widget.email
+                      });
+                }
+              },
+              builder: (context, state) {
+                return state is AuthStateIsLoading
+                    ? const LoadingWidget()
+                    : PrimaryButton(
+                        label: "Submit",
+                        onPressed: () {
+                          context.read<AuthBloc>().add(AuthEventVerifyOtp(
+                              otp: otp, email: widget.email));
+                        },
+                        isEnabled: true);
+              },
+            )
           ],
         ),
       ),

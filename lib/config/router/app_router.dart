@@ -81,16 +81,23 @@ class AppRouter {
 
       case Routes.forgotPassword:
         return MaterialPageRoute(
-          builder: (_) => const ForgotPasswordScreen(),
+          builder: (_) => ForgotPasswordScreen(
+            settings: routeSettings,
+          ),
         );
 
       case Routes.otpScreen:
+        String email = routeSettings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => const OTPScreen(),
+          builder: (_) => OTPScreen(
+            email: email,
+          ),
         );
       case Routes.newPassword:
+        Map<String, dynamic> token =
+            routeSettings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder: (_) => const NewPasswordScreen(),
+          builder: (_) => NewPasswordScreen(token: token),
         );
 
       case Routes.sportChoice:

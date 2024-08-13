@@ -88,6 +88,37 @@ class AuthProvider {
     }
   }
 
+  Future<Map<String, dynamic>> requestOtp({
+    required String email,
+  }) async {
+    try {
+      final response = await DioClient.instance.post(
+        path: ApiRoutes.requestOtp,
+        data: {"email": email},
+      );
+
+      return response;
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> verifyOtp(
+      {required String otp, required String email}) async {
+    try {
+      final response = await DioClient.instance.post(
+        path: ApiRoutes.verifyOtp,
+        data: {"email": email, "otp": otp},
+      );
+
+      return response;
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
   // Future<Map<String, dynamic>> getSports() async {
   //   try {
   //     final response = await DioClient.instance.get(

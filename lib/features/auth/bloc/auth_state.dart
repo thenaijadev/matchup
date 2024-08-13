@@ -39,7 +39,23 @@ class AuthStateIsLoggedIn extends AuthState {
 
 class AuthStateUserProfileUpdated extends AuthState {
   final UpdatedUserModel updatedUser;
-  AuthStateUserProfileUpdated({
+  const AuthStateUserProfileUpdated({
     required this.updatedUser,
   });
 }
+
+class AuthStateOtpRequestedSuccessfully extends AuthState {
+  final OtpRequestModel otpRequestModel;
+  const AuthStateOtpRequestedSuccessfully({
+    required this.otpRequestModel,
+  });
+}
+
+class AuthStateOtpVerificationSuccessfully extends AuthState {
+  final OtpVerificationModel otpVerificationModel;
+  const AuthStateOtpVerificationSuccessfully({
+    required this.otpVerificationModel,
+  });
+}
+
+class AuthStatePasswordChanged extends AuthState {}

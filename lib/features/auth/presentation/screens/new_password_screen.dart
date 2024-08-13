@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/validator/validator.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
 class NewPasswordScreen extends StatefulWidget {
-  const NewPasswordScreen({super.key});
-
+  const NewPasswordScreen({super.key, required this.token});
+  final Map<String, dynamic> token;
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
 }
 
 class _NewPasswordScreenState extends State<NewPasswordScreen> {
   bool obscureText = false;
+  final formKey = GlobalKey<FormState>();
+  late GlobalKey<FormFieldState> passwordKey;
+  late GlobalKey<FormFieldState> confirmPasswordKey;
+
+  @override
+  void initState() {
+    passwordKey = GlobalKey<FormFieldState>();
+    confirmPasswordKey = GlobalKey<FormFieldState>();
+
+    super.initState();
+  }
+
+  String password = "";
+  String confirmPassword = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,69 +74,90 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
-              child: TextWidget(
-                  textAlign: TextAlign.center,
-                  color: Theme.of(context).colorScheme.secondary,
-                  text: "Enter your new password to update your password"),
-            ),
-            InputFieldWidget(
-                obscureText: obscureText,
-                hintColor: Theme.of(context).colorScheme.inversePrimary,
-                hintText: "New Password",
-                hintSize: 12,
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      obscureText = !obscureText;
-                    });
-                  },
-                  child: Icon(
-                    size: 17,
-                    obscureText
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
+                child: TextWidget(
+                    textAlign: TextAlign.center,
                     color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                enabledBorderRadius: 10,
-                onChanged: (val) {}),
-            InputFieldWidget(
-                obscureText: obscureText,
-                hintColor: Theme.of(context).colorScheme.inversePrimary,
-                hintText: "Confirm Password",
-                hintSize: 12,
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      obscureText = !obscureText;
-                    });
+                    text: "Enter your new password to update your password"),
+              ),
+              InputFieldWidget(
+                  hintColor: Theme.of(context).colorScheme.inversePrimary,
+                  hintText: "Password",
+                  hintSize: 12,
+                  obscureText: obscureText,
+                  key: passwordKey,
+                  validator: (val) {
+                    return Validator.validatePassword(val);
                   },
-                  child: Icon(
-                    size: 17,
-                    obscureText
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: Theme.of(context).colorScheme.secondary,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
+                    child: Icon(
+                      size: 17,
+                      obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
-                ),
-                enabledBorderRadius: 10,
-                onChanged: (val) {}),
-            const SizedBox(
-              height: 30,
-            ),
-            const Spacer(),
-            PrimaryButton(
-                label: "Submit",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Routes.login);
-                },
-                isEnabled: true)
-          ],
+                  enabledBorderRadius: 10,
+                  onChanged: (val) {
+                    setState(() {
+                      password = val ?? "";
+                      formKey.currentState?.validate();
+                    });
+                  }),
+              InputFieldWidget(
+                  validator: (val) {
+                    return Validator.validateConfirmPassword(
+                        firstPassword: password ?? "", value: val);
+                  },
+                  obscureText: obscureText,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
+                    child: Icon(
+                      size: 17,
+                      obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
+                  hintColor: Theme.of(context).colorScheme.inversePrimary,
+                  hintText: "Confirm Password",
+                  hintSize: 12,
+                  enabledBorderRadius: 10,
+                  onChanged: (val) {
+                    confirmPassword = val!;
+                    formKey.currentState?.validate();
+                  }),
+              const SizedBox(
+                height: 30,
+              ),
+              const Spacer(),
+              PrimaryButton(
+                  label: "Submit",
+                  onPressed: () {
+                    final formIsValid = formKey.currentState?.validate();
+                    if (formIsValid ?? false) {}
+                    Navigator.of(context).pushNamed(Routes.login);
+                  },
+                  isEnabled: true)
+            ],
+          ),
         ),
       ),
     );
