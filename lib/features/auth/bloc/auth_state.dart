@@ -64,3 +64,10 @@ class AuthStatePasswordChanged extends AuthState {
     required this.resetModel,
   });
 }
+
+class AuthStateFcmSent extends AuthState {
+  final Map<String, dynamic> response;
+  const AuthStateFcmSent({
+    required this.response,
+  });
+}

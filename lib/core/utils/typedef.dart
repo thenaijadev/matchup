@@ -60,6 +60,8 @@ typedef EitherAuthErrorOrOtpVerificationModel
     = Either<AuthError, OtpVerificationModel>;
 
 typedef EitherAuthErrorOrPasswordReset = Either<AuthError, PasswordResetModel>;
+typedef EitherAuthErrorOrMap = Either<AuthError, Map<String, dynamic>>;
+
 
 
 

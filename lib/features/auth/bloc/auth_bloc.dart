@@ -101,5 +101,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       });
     });
+
+    on<AuthEventSendFCM>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final response = await authRepo.sendFcm();
+
+      response.fold((l) => emit(AuthStateError(error: l)), (r) {
+        emit(
+          AuthStateFcmSent(response: r),
+        );
+      });
+    });
   }
 }

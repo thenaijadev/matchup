@@ -164,4 +164,19 @@ class AuthRepository {
       return left(AuthError(errorMessage: e.toString()));
     }
   }
+
+  Future<EitherAuthErrorOrMap> sendFcm() async {
+    try {
+      final res = await provider.sendFcm();
+
+      return right(res);
+    } on DioException catch (e) {
+      return left(AuthError(
+          errorMessage:
+              e.response?.statusMessage ?? "There has been an error"));
+    } catch (e) {
+      logger.e(e.toString());
+      return left(AuthError(errorMessage: e.toString()));
+    }
+  }
 }

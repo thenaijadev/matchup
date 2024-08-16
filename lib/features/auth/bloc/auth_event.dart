@@ -55,3 +55,5 @@ class AuthEventChangePassord extends AuthEvent {
     required this.password,
   });
 }
+
+class AuthEventSendFCM extends AuthEvent {}
