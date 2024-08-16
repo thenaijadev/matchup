@@ -4,6 +4,7 @@ import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/otp_requested.dart';
 import 'package:matchup/features/auth/data/models/otp_verification_email.dart';
+import 'package:matchup/features/auth/data/models/password_reset_model.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
 import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
@@ -78,11 +79,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventVerifyOtp>((event, emit) async {
       emit(AuthStateIsLoading());
       final response =
-          await authRepo.verifyEmail(email: event.email, otp: event.otp);
+          await authRepo.verifyOtp(email: event.email, otp: event.otp);
 
       response.fold((l) => emit(AuthStateError(error: l)), (r) {
         emit(
           AuthStateOtpVerificationSuccessfully(otpVerificationModel: r),
+        );
+      });
+    });
+
+    on<AuthEventChangePassord>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final response = await authRepo.changePassword(
+          token: event.token,
+          password: event.password,
+          confirmPassword: event.confirmPassword);
+
+      response.fold((l) => emit(AuthStateError(error: l)), (r) {
+        emit(
+          AuthStatePasswordChanged(resetModel: r),
         );
       });
     });

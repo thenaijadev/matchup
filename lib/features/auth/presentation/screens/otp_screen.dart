@@ -132,7 +132,7 @@ class _OTPScreenState extends State<OTPScreen> {
               child: TextWidget(
                   textAlign: TextAlign.center,
                   color: Theme.of(context).colorScheme.secondary,
-                  text: "We sent an OTP code via email to iamrapha3l@mail.com"),
+                  text: "We sent an OTP code via email to ${widget.email}"),
             ),
             const SizedBox(
               height: 30,
@@ -210,11 +210,11 @@ class _OTPScreenState extends State<OTPScreen> {
                 }
 
                 if (state is AuthStateOtpVerificationSuccessfully) {
-                  Navigator.pushReplacementNamed(context, Routes.newPassword,
-                      arguments: {
-                        "token": state.otpVerificationModel.token,
-                        "email": widget.email
-                      });
+                  Navigator.pushReplacementNamed(
+                    context,
+                    Routes.newPassword,
+                    arguments: state.otpVerificationModel.token,
+                  );
                 }
               },
               builder: (context, state) {

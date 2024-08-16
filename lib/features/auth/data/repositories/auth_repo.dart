@@ -8,6 +8,7 @@ import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/otp_requested.dart';
 import 'package:matchup/features/auth/data/models/otp_verification_email.dart';
+import 'package:matchup/features/auth/data/models/password_reset_model.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
@@ -131,7 +132,7 @@ class AuthRepository {
     }
   }
 
-  Future<EitherAuthErrorOrOtpVerificationModel> verifyEmail(
+  Future<EitherAuthErrorOrOtpVerificationModel> verifyOtp(
       {required String email, required String otp}) async {
     try {
       final res = await provider.verifyOtp(email: email, otp: otp);
@@ -139,6 +140,25 @@ class AuthRepository {
       return right(OtpVerificationModel.fromJson(res));
     } on DioException catch (e) {
       return left(AuthError(errorMessage: e.response?.statusMessage ?? ""));
+    } catch (e) {
+      logger.e(e.toString());
+      return left(AuthError(errorMessage: e.toString()));
+    }
+  }
+
+  Future<EitherAuthErrorOrPasswordReset> changePassword(
+      {required String password,
+      required String confirmPassword,
+      required String token}) async {
+    try {
+      final res = await provider.changePassword(
+          token: token, password: password, confirmPassword: confirmPassword);
+
+      return right(PasswordResetModel.fromJson(res));
+    } on DioException catch (e) {
+      return left(AuthError(
+          errorMessage:
+              e.response?.statusMessage ?? "There has been an error"));
     } catch (e) {
       logger.e(e.toString());
       return left(AuthError(errorMessage: e.toString()));

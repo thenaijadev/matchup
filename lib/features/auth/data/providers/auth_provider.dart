@@ -119,6 +119,24 @@ class AuthProvider {
     }
   }
 
+  Future<Map<String, dynamic>> changePassword(
+      {required String password,
+      required String confirmPassword,
+      required String token}) async {
+    try {
+      final response = await DioClient.instance.post(
+          path: ApiRoutes.resetPassword,
+          data: {"password": password, "password_confirmation": password},
+          options: Options(
+            headers: {"Authorization": "Bearer $token"},
+          ));
+
+      return response;
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
   // Future<Map<String, dynamic>> getSports() async {
   //   try {
   //     final response = await DioClient.instance.get(

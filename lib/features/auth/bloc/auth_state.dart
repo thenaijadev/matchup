@@ -58,4 +58,9 @@ class AuthStateOtpVerificationSuccessfully extends AuthState {
   });
 }
 
-class AuthStatePasswordChanged extends AuthState {}
+class AuthStatePasswordChanged extends AuthState {
+  final PasswordResetModel resetModel;
+  const AuthStatePasswordChanged({
+    required this.resetModel,
+  });
+}

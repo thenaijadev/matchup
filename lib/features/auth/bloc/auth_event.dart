@@ -46,10 +46,12 @@ class AuthEventVerifyOtp extends AuthEvent {
 }
 
 class AuthEventChangePassord extends AuthEvent {
-  final String email;
+  final String confirmPassword;
   final String password;
+  final String token;
   const AuthEventChangePassord({
-    required this.email,
+    required this.token,
+    required this.confirmPassword,
     required this.password,
   });
 }

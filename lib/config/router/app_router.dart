@@ -94,8 +94,7 @@ class AppRouter {
           ),
         );
       case Routes.newPassword:
-        Map<String, dynamic> token =
-            routeSettings.arguments as Map<String, dynamic>;
+        String token = routeSettings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => NewPasswordScreen(token: token),
         );

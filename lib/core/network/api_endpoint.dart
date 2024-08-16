@@ -12,4 +12,5 @@ class ApiRoutes {
   static const String createTeam = "/api/teams";
   static const String requestOtp = "/api/password/send-otp";
   static const String verifyOtp = "/api/password/verify-otp";
+  static const String resetPassword = "/api/password/reset";
 }

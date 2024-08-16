@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/validator/validator.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key, required this.token});
-  final Map<String, dynamic> token;
+  final String token;
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
 }
@@ -148,14 +152,37 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 height: 30,
               ),
               const Spacer(),
-              PrimaryButton(
-                  label: "Submit",
-                  onPressed: () {
-                    final formIsValid = formKey.currentState?.validate();
-                    if (formIsValid ?? false) {}
-                    Navigator.of(context).pushNamed(Routes.login);
-                  },
-                  isEnabled: true)
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthStatePasswordChanged) {
+                    Navigator.pushNamed(context, Routes.login);
+                  }
+
+                  if (state is AuthStateError) {
+                    InfoSnackBar.showErrorSnackBar(
+                        context, state.error.errorMessage);
+                  }
+                },
+                builder: (context, state) {
+                  return state is AuthStateIsLoading
+                      ? const LoadingWidget()
+                      : PrimaryButton(
+                          label: "Submit",
+                          onPressed: () {
+                            final formIsValid =
+                                formKey.currentState?.validate();
+                            if (formIsValid ?? false) {
+                              context.read<AuthBloc>().add(
+                                  AuthEventChangePassord(
+                                      token: widget.token,
+                                      confirmPassword: confirmPassword,
+                                      password: password));
+                            }
+                            // Navigator.of(context).pushNamed(Routes.login);
+                          },
+                          isEnabled: true);
+                },
+              )
             ],
           ),
         ),
