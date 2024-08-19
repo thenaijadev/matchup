@@ -14,4 +14,5 @@ class ApiRoutes {
   static const String verifyOtp = "/api/password/verify-otp";
   static const String resetPassword = "/api/password/reset";
   static const String sendFcm = "/api/set-token";
+  static const String getChat = "/api/messages";
 }

@@ -18,6 +18,9 @@ import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
+import 'package:matchup/features/chat/bloc/chat_bloc.dart';
+import 'package:matchup/features/chat/data/provider/chat_provider.dart';
+import 'package:matchup/features/chat/data/repository/chat_repository.dart';
 import 'package:matchup/features/news/bloc/news_bloc.dart';
 import 'package:matchup/features/news/data/providers/news_providers.dart';
 import 'package:matchup/features/news/data/repositories/news_repository.dart';
@@ -76,6 +79,13 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => ActivityDetailsBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ChatBloc(
+            repo: ChatRepository(
+              provider: ChatProvider(),
+            ),
+          ),
         ),
       ],
       child: GestureDetector(

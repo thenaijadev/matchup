@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:matchup/core/errors/message_error.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_created_model.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
 import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
@@ -61,6 +62,8 @@ typedef EitherAuthErrorOrOtpVerificationModel
 
 typedef EitherAuthErrorOrPasswordReset = Either<AuthError, PasswordResetModel>;
 typedef EitherAuthErrorOrMap = Either<AuthError, Map<String, dynamic>>;
+typedef EitherMessageErrorrOrMap = Either<MessageError, Map<String, dynamic>>;
+
 
 
 

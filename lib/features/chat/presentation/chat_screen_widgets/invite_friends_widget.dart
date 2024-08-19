@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/contact_widget.dart';
@@ -124,32 +125,36 @@ class _InviteFriendsWidgetState extends State<InviteFriendsWidget> {
                 height: 20,
               ),
               Expanded(
-                child: ListView(
-                  children: List.generate(
-                    snapShot.data?.length ?? 0,
-                    (index) => ContactWidget(
-                      name: snapShot.data?[index].displayName ?? "",
-                      number: snapShot.data == null
-                          ? ""
-                          : snapShot.data![index].phones.isEmpty
-                              ? ""
-                              : snapShot.data?[index].phones[0].number ?? "",
-                      // isInvited: true,
-                      isInvited:
-                          invitedContacts.contains(snapShot.data?[index]),
-                      profileImage: snapShot.data?[index].photo,
-                      onInvite: () {
-                        setState(() {
-                          if (invitedContacts.contains(snapShot.data?[index])) {
-                            invitedContacts.remove(snapShot.data?[index]);
-                          } else {
-                            invitedContacts.add(snapShot.data?[index]);
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                ),
+                child: !snapShot.hasData
+                    ? const LoadingWidget()
+                    : ListView(
+                        children: List.generate(
+                          snapShot.data?.length ?? 0,
+                          (index) => ContactWidget(
+                            name: snapShot.data?[index].displayName ?? "",
+                            number: snapShot.data == null
+                                ? ""
+                                : snapShot.data![index].phones.isEmpty
+                                    ? ""
+                                    : snapShot.data?[index].phones[0].number ??
+                                        "",
+                            // isInvited: true,
+                            isInvited:
+                                invitedContacts.contains(snapShot.data?[index]),
+                            profileImage: snapShot.data?[index].photo,
+                            onInvite: () {
+                              setState(() {
+                                if (invitedContacts
+                                    .contains(snapShot.data?[index])) {
+                                  invitedContacts.remove(snapShot.data?[index]);
+                                } else {
+                                  invitedContacts.add(snapShot.data?[index]);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ),
               ),
               if (invitedContacts.isNotEmpty)
                 PrimaryButton(label: "Done", onPressed: () {}, isEnabled: true),
