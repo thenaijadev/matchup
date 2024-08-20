@@ -167,9 +167,9 @@ class AuthRepository {
     }
   }
 
-  Future<EitherAuthErrorOrMap> sendFcm() async {
+  Future<EitherAuthErrorOrMap> sendFcm({required String fcm}) async {
     try {
-      final res = await provider.sendFcm();
+      final res = await provider.sendFcm(fcm: fcm);
 
       return right(res);
     } on DioException catch (e) {

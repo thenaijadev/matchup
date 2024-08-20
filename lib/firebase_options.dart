@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDhei1py8p6vuA9tk39emKBWIjLnYGJ-Kc',
-    appId: '1:877996814701:android:8471b620355e959222aa64',
-    messagingSenderId: '877996814701',
-    projectId: 'matchup-b1845',
-    storageBucket: 'matchup-b1845.appspot.com',
+    apiKey: 'AIzaSyA2g2Nqc_lg2F_boLFeMJvm_JrXb6qaUJc',
+    appId: '1:39795821408:android:eb80b0cb76cc7a2bfc2c05',
+    messagingSenderId: '39795821408',
+    projectId: 'matchup-2df60',
+    storageBucket: 'matchup-2df60.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBU1aKoqnzutMdWbUW6gjHF8oJ8bAjAKHU',
-    appId: '1:877996814701:ios:54cdbf717003a8be22aa64',
-    messagingSenderId: '877996814701',
-    projectId: 'matchup-b1845',
-    storageBucket: 'matchup-b1845.appspot.com',
-    iosBundleId: 'com.example.matchup',
+    apiKey: 'AIzaSyBvHGLWkCA0XmLT0feQzwx_bRUm6Sr151A',
+    appId: '1:39795821408:ios:96d496066d0489b3fc2c05',
+    messagingSenderId: '39795821408',
+    projectId: 'matchup-2df60',
+    storageBucket: 'matchup-2df60.appspot.com',
+    iosBundleId: 'com.experthub.matchup',
   );
 }

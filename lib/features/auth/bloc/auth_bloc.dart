@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:matchup/features/auth/data/models/auth_error.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/models/otp_requested.dart';
@@ -104,7 +105,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthEventSendFCM>((event, emit) async {
       emit(AuthStateIsLoading());
-      final response = await authRepo.sendFcm();
+      final fcm = await FirebaseMessaging.instance.getToken();
+
+      final response = await authRepo.sendFcm(fcm: fcm ?? "");
 
       response.fold((l) => emit(AuthStateError(error: l)), (r) {
         emit(

@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:matchup/app.dart';
 import 'package:matchup/core/utils/bloc_observer.dart';
+import 'package:matchup/core/utils/firebase_notifications.dart';
 
 import 'firebase_options.dart';
 
@@ -19,7 +19,6 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
   // final user = await LocalDataSource().getUser();
 
-  await FlutterContacts.requestPermission();
   runApp(const MyApp());
 }
 
@@ -36,5 +35,9 @@ appInitialization() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FlutterContacts.requestPermission();
+
+  await FirebaseAndPushNotificationService.initNotifications();
+  // await FirebaseAndPushNotificationService.localNotificationsInit();
   // await initializeDependencies();
 }

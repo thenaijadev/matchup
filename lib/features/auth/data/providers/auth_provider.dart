@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:matchup/core/network/api_endpoint.dart';
 import 'package:matchup/core/network/dio_client.dart';
@@ -140,10 +139,10 @@ class AuthProvider {
     }
   }
 
-  Future<Map<String, dynamic>> sendFcm() async {
+  Future<Map<String, dynamic>> sendFcm({required String fcm}) async {
     try {
       final user = await LocalDataSource().getUser();
-      final fcm = await FirebaseMessaging.instance.getToken();
+      logger.f({"FCM": fcm});
 
       final response = await DioClient.instance.post(
           path: ApiRoutes.sendFcm,
@@ -151,7 +150,7 @@ class AuthProvider {
           options: Options(
             headers: {"Authorization": "Bearer ${user?.token}"},
           ));
-
+      logger.f("Fcm sent successfully");
       return response;
     } catch (e) {
       logger.e(e.toString());

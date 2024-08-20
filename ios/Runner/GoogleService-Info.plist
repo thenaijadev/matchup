@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyBU1aKoqnzutMdWbUW6gjHF8oJ8bAjAKHU</string>
+	<string>AIzaSyBvHGLWkCA0XmLT0feQzwx_bRUm6Sr151A</string>
 	<key>GCM_SENDER_ID</key>
-	<string>877996814701</string>
+	<string>39795821408</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.matchup</string>
+	<string>com.experthub.matchup</string>
 	<key>PROJECT_ID</key>
-	<string>matchup-b1845</string>
+	<string>matchup-2df60</string>
 	<key>STORAGE_BUCKET</key>
-	<string>matchup-b1845.appspot.com</string>
+	<string>matchup-2df60.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:877996814701:ios:54cdbf717003a8be22aa64</string>
+	<string>1:39795821408:ios:96d496066d0489b3fc2c05</string>
 </dict>
 </plist>

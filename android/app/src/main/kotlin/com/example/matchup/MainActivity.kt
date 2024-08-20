@@ -1,4 +1,4 @@
-package com.example.matchup
+package com.experthub.matchup
 
 import io.flutter.embedding.android.FlutterActivity
 
