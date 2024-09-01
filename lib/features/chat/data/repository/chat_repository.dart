@@ -22,4 +22,18 @@ class ChatRepository {
       return left(MessageError(message: e.toString()));
     }
   }
+
+  Future<EitherMessageErrorrOrMap> sendChat(
+      {required String recieverId, required String message}) async {
+    try {
+      final res =
+          await provider.sendChat(recieverId: recieverId, message: message);
+      return right(res);
+    } on DioException catch (e) {
+      return left(MessageError(
+          message: e.response?.statusMessage ?? "There has been an error"));
+    } catch (e) {
+      return left(MessageError(message: e.toString()));
+    }
+  }
 }

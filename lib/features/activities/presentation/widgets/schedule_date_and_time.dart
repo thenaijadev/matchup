@@ -59,6 +59,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         _startAndEndTimeContainerWidget(context),
         SizedBox(
@@ -140,34 +141,32 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                         decoration: BoxDecoration(
                             color:
                                 Theme.of(context).colorScheme.inverseSurface),
-                        child: Expanded(
-                          child: CupertinoPicker(
-                            selectionOverlay:
-                                const CupertinoPickerDefaultSelectionOverlay(
-                              capEndEdge: false,
-                              capStartEdge: false,
-                              background: Colors.transparent,
-                            ),
-                            scrollController: FixedExtentScrollController(
-                                initialItem: _selectedDay - 1),
-                            itemExtent: 32.0,
-                            onSelectedItemChanged: (value) {
-                              setState(() {
-                                startTimeMin = value.toString();
-                              });
-                            },
-                            children: List.generate(
-                              60,
-                              (index) => Center(
-                                child: TextWidget(
-                                  text: index.toString().length == 1
-                                      ? '0$index'
-                                      : '$index',
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        child: CupertinoPicker(
+                          selectionOverlay:
+                              const CupertinoPickerDefaultSelectionOverlay(
+                            capEndEdge: false,
+                            capStartEdge: false,
+                            background: Colors.transparent,
+                          ),
+                          scrollController: FixedExtentScrollController(
+                              initialItem: _selectedDay - 1),
+                          itemExtent: 32.0,
+                          onSelectedItemChanged: (value) {
+                            setState(() {
+                              startTimeMin = value.toString();
+                            });
+                          },
+                          children: List.generate(
+                            60,
+                            (index) => Center(
+                              child: TextWidget(
+                                text: index.toString().length == 1
+                                    ? '0$index'
+                                    : '$index',
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -207,34 +206,32 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                         decoration: BoxDecoration(
                             color:
                                 Theme.of(context).colorScheme.inverseSurface),
-                        child: Expanded(
-                          child: CupertinoPicker(
-                            selectionOverlay:
-                                const CupertinoPickerDefaultSelectionOverlay(
-                              capEndEdge: false,
-                              capStartEdge: false,
-                              background: Colors.transparent,
-                            ),
-                            scrollController: FixedExtentScrollController(
-                                initialItem: _selectedDay - 1),
-                            itemExtent: 32.0,
-                            onSelectedItemChanged: (value) {
-                              setState(() {
-                                endTimeHour = value.toString();
-                              });
-                            },
-                            children: List.generate(
-                              24,
-                              (index) => Center(
-                                child: TextWidget(
-                                  text: index.toString().length == 1
-                                      ? '0$index'
-                                      : '$index',
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        child: CupertinoPicker(
+                          selectionOverlay:
+                              const CupertinoPickerDefaultSelectionOverlay(
+                            capEndEdge: false,
+                            capStartEdge: false,
+                            background: Colors.transparent,
+                          ),
+                          scrollController: FixedExtentScrollController(
+                              initialItem: _selectedDay - 1),
+                          itemExtent: 32.0,
+                          onSelectedItemChanged: (value) {
+                            setState(() {
+                              endTimeHour = value.toString();
+                            });
+                          },
+                          children: List.generate(
+                            24,
+                            (index) => Center(
+                              child: TextWidget(
+                                text: index.toString().length == 1
+                                    ? '0$index'
+                                    : '$index',
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -249,34 +246,32 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                         decoration: BoxDecoration(
                             color:
                                 Theme.of(context).colorScheme.inverseSurface),
-                        child: Expanded(
-                          child: CupertinoPicker(
-                            selectionOverlay:
-                                const CupertinoPickerDefaultSelectionOverlay(
-                              capEndEdge: false,
-                              capStartEdge: false,
-                              background: Colors.transparent,
-                            ),
-                            scrollController: FixedExtentScrollController(
-                                initialItem: _selectedDay - 1),
-                            itemExtent: 32.0,
-                            onSelectedItemChanged: (value) {
-                              setState(() {
-                                endTimeMin = value.toString();
-                              });
-                            },
-                            children: List.generate(
-                              60,
-                              (index) => Center(
-                                child: TextWidget(
-                                  text: index.toString().length == 1
-                                      ? '0$index'
-                                      : '$index',
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        child: CupertinoPicker(
+                          selectionOverlay:
+                              const CupertinoPickerDefaultSelectionOverlay(
+                            capEndEdge: false,
+                            capStartEdge: false,
+                            background: Colors.transparent,
+                          ),
+                          scrollController: FixedExtentScrollController(
+                              initialItem: _selectedDay - 1),
+                          itemExtent: 32.0,
+                          onSelectedItemChanged: (value) {
+                            setState(() {
+                              endTimeMin = value.toString();
+                            });
+                          },
+                          children: List.generate(
+                            60,
+                            (index) => Center(
+                              child: TextWidget(
+                                text: index.toString().length == 1
+                                    ? '0$index'
+                                    : '$index',
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -321,11 +316,11 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
             onPressed: () {
               final startTime = {
                 "start_time":
-                    "${controller.text} ${startTimeHour ?? "00"}:${startTimeMin ?? "00"}"
+                    "${controller.text} ${startTimeHour ?? "00"}:${startTimeMin ?? "00"}:00"
               };
               final endTime = {
                 "end_time":
-                    "${controller.text} ${endTimeHour ?? "00"}:${endTimeMin ?? "00"}"
+                    "${controller.text} ${endTimeHour ?? "00"}:${endTimeMin ?? "00"}:00"
               };
 
               context.read<ActivityDetailsBloc>().add(

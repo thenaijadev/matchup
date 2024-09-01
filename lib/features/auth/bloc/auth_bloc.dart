@@ -104,7 +104,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<AuthEventSendFCM>((event, emit) async {
-      emit(AuthStateIsLoading());
       final fcm = await FirebaseMessaging.instance.getToken();
 
       final response = await authRepo.sendFcm(fcm: fcm ?? "");

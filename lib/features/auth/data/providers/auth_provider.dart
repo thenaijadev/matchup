@@ -50,6 +50,7 @@ class AuthProvider {
         "password": password,
         "email": email,
       });
+      logger.e(response);
 
       return response;
     } catch (e) {
@@ -150,7 +151,7 @@ class AuthProvider {
           options: Options(
             headers: {"Authorization": "Bearer ${user?.token}"},
           ));
-      logger.f("Fcm sent successfully");
+      logger.f("Fcm sent");
       return response;
     } catch (e) {
       logger.e(e.toString());

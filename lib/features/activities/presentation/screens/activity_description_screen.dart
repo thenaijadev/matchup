@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
@@ -215,6 +216,7 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
                                                       descriptionController
                                                           .text,
                                                 }));
+                                        logger.f(state.formDetails);
 
                                         context.read<ActivitiesBloc>().add(
                                             ActivityEventCreateActivity(

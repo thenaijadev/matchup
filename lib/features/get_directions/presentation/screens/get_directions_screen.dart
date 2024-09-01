@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
 import 'package:matchup/features/get_directions/presentation/widgets/get_directions_bottom_sheet.dart';
@@ -38,6 +39,7 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
         );
       });
     });
+    logger.f({"Activity Screen": widget.activity});
 
     super.initState();
   }

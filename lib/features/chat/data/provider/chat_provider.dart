@@ -10,7 +10,28 @@ class ChatProvider {
       final AuthUser? user = await LocalDataSource().getUser();
 
       final response = DioClient.instance.get(
-        path: "${ApiRoutes.getChat}/$id",
+        path: "${ApiRoutes.chat}/$id",
+        options: Options(
+          headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
+        ),
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> sendChat(
+      {required String recieverId, required String message}) async {
+    try {
+      final AuthUser? user = await LocalDataSource().getUser();
+
+      final response = DioClient.instance.post(
+        data: {
+          "receiver_id": recieverId,
+          "message": message,
+        },
+        path: ApiRoutes.chat,
         options: Options(
           headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
         ),

@@ -45,16 +45,6 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
       );
     });
 
-    // on<ActivityEventGatherInfoEvent>((event, emit) async {
-    //   emit(const ActivitiesInfoGathering(values: []));
-    //   final state = this.state;
-    //   if (state is ActivitiesInfoGathering) {
-    //     final map = state.values;
-    //     map.add(event.keyValue);
-    //     emit(ActivitiesInfoGathering(values: map));
-    //   }
-    // });
-
     on<ActivityEventCreateActivity>((event, emit) async {
       emit(ActivitiesStateIsLoading());
 

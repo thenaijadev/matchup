@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -52,9 +53,9 @@ class _MapScreenBottomSheetState extends State<MapScreenBottomSheet> {
                 ),
                 TextWidget(
                   text: !locationPicked
-                      ? "Please enter your address"
+                      ? "Please enter the location of the activity"
                       : "Confirm your address",
-                  fontSize: 16,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),

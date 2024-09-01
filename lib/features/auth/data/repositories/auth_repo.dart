@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,7 +73,7 @@ class AuthRepository {
 
       return left(
         AuthError(
-          errorMessage: json.decode(e.response.toString())["message"],
+          errorMessage: e.response.toString(),
         ),
       );
     } catch (e) {

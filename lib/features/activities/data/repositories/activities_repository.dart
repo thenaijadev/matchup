@@ -21,9 +21,12 @@ class ActivitiesRepository {
     try {
       final Map<String, dynamic> response =
           await activitiesProvider.getActivities();
+      logger.f(response);
       final AllActivitiesModel model = AllActivitiesModel.fromJson(response);
       return right(model);
     } on DioException catch (e) {
+      logger.e(e.toString());
+
       return left(ActivitiesError(
           errorMessage:
               DioExceptionClass.handleStatusCode(e.response?.statusCode)));
@@ -71,16 +74,15 @@ class ActivitiesRepository {
     try {
       final response =
           await activitiesProvider.createActivity(details: details);
-
+      logger.f(response);
       return right(ActivityCreationModel.fromJson(response));
     } on DioException catch (e) {
-      logger.f(e.response!.statusMessage);
+      logger.e(e.response?.statusCode);
+      logger.e(e.toString());
 
       return left(
           ActivitiesError(errorMessage: e.response?.statusMessage ?? ""));
     } catch (e) {
-      logger.f(e);
-
       return left(ActivitiesError(errorMessage: e.toString()));
     }
   }

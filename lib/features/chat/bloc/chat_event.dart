@@ -14,3 +14,12 @@ class ChatEventGetChat extends ChatEvent {
     required this.id,
   });
 }
+
+class ChatEventPostChat extends ChatEvent {
+  final String recieverId;
+  final String message;
+  const ChatEventPostChat({
+    required this.recieverId,
+    required this.message,
+  });
+}

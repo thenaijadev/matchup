@@ -21,6 +21,8 @@ import 'package:matchup/features/profile/data/models/all_users_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
 import 'package:matchup/features/profile/data/models/profile_error_model.dart';
 import 'package:matchup/features/profile/data/models/user_profile_model.dart';
+import 'package:matchup/features/quiz/data/models/quiz_error.dart';
+import 'package:matchup/features/quiz/data/models/quiz_model.dart';
 import 'package:matchup/features/teams/data/models/team_creation_model.dart';
 import 'package:matchup/features/teams/data/models/team_error.dart';
 
@@ -63,6 +65,8 @@ typedef EitherAuthErrorOrOtpVerificationModel
 typedef EitherAuthErrorOrPasswordReset = Either<AuthError, PasswordResetModel>;
 typedef EitherAuthErrorOrMap = Either<AuthError, Map<String, dynamic>>;
 typedef EitherMessageErrorrOrMap = Either<MessageError, Map<String, dynamic>>;
+typedef EitherQuizErrorOrQuizModel = Either<QuizError, QuizModel>;
+
 
 
 
