@@ -25,3 +25,10 @@ class ChatStateChatsRecieved extends ChatState {
     required this.chats,
   });
 }
+
+class ChatStateMessageSent extends ChatState {
+  final SentChatModel sentChatModel;
+  const ChatStateMessageSent({
+    required this.sentChatModel,
+  });
+}

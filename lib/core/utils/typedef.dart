@@ -16,6 +16,7 @@ import 'package:matchup/features/chat/data/models/chat_model.dart';
 import 'package:matchup/features/chat/data/models/message_error.dart';
 import 'package:matchup/features/chat/data/models/participant_error.dart';
 import 'package:matchup/features/chat/data/models/participants_model.dart';
+import 'package:matchup/features/chat/data/models/send_chat_model.dart';
 import 'package:matchup/features/news/data/models/news_error.dart';
 import 'package:matchup/features/news/data/models/news_model.dart';
 import 'package:matchup/features/news/data/models/sport_news_model.dart';
@@ -68,6 +69,8 @@ typedef EitherAuthErrorOrOtpVerificationModel
 typedef EitherAuthErrorOrPasswordReset = Either<AuthError, PasswordResetModel>;
 typedef EitherAuthErrorOrMap = Either<AuthError, Map<String, dynamic>>;
 typedef EitherChatErrorOrChatModel = Either<ChatError, ChatModel>;
+typedef EitherChatErrorOrSentChatModel = Either<ChatError, SentChatModel>;
+
 typedef EitherQuizErrorOrQuizModel = Either<QuizError, QuizModel>;
 typedef EitherParticipantErrorOrParticipantModel
     = Either<ParticipantError, ParticipantsModel>;

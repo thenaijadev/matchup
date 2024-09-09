@@ -1,24 +1,18 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-class ChatModel {
-  ChatModel({
+class SentChatModel {
+  SentChatModel({
     required this.status,
     required this.message,
-    required this.data,
     required this.user,
   });
 
   final String? status;
   final String? message;
-  final List<Datum> data;
   final User? user;
 
-  factory ChatModel.fromJson(Map<String, dynamic> json) {
-    return ChatModel(
+  factory SentChatModel.fromJson(Map<String, dynamic> json) {
+    return SentChatModel(
       status: json["status"],
       message: json["message"],
-      data: json["data"] == null
-          ? []
-          : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
       user: json["user"] == null ? null : User.fromJson(json["user"]),
     );
   }
@@ -26,52 +20,8 @@ class ChatModel {
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": data.map((x) => x.toJson()).toList(),
         "user": user?.toJson(),
       };
-}
-
-class Datum {
-  Datum({
-    required this.id,
-    required this.senderId,
-    required this.receiverId,
-    required this.message,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  final int? id;
-  final int? senderId;
-  final int? receiverId;
-  final String? message;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
-  factory Datum.fromJson(Map<String, dynamic> json) {
-    return Datum(
-      id: json["id"],
-      senderId: json["sender_id"],
-      receiverId: json["receiver_id"],
-      message: json["message"],
-      createdAt: DateTime.tryParse(json["created_at"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updated_at"] ?? ""),
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "sender_id": senderId,
-        "receiver_id": receiverId,
-        "message": message,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-      };
-
-  @override
-  String toString() {
-    return 'Datum(id: $id, senderId: $senderId, receiverId: $receiverId, message: $message, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
 }
 
 class User {
@@ -104,10 +54,10 @@ class User {
   final String? email;
   final String? phoneCode;
   final String? phoneNumber;
-  final String? location;
-  final DateTime? dateOfBirth;
-  final String? gender;
-  final String? profileImage;
+  final dynamic location;
+  final dynamic dateOfBirth;
+  final dynamic gender;
+  final dynamic profileImage;
   final String? displayMode;
   final String? kycStatus;
   final dynamic fbProfile;
@@ -119,7 +69,7 @@ class User {
   final dynamic emailVerifiedAt;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final String? fcmDeviceToken;
+  final dynamic fcmDeviceToken;
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -129,7 +79,7 @@ class User {
       phoneCode: json["phone_code"],
       phoneNumber: json["phone_number"],
       location: json["location"],
-      dateOfBirth: DateTime.tryParse(json["date_of_birth"] ?? ""),
+      dateOfBirth: json["date_of_birth"],
       gender: json["gender"],
       profileImage: json["profile_image"],
       displayMode: json["display_mode"],
@@ -154,8 +104,7 @@ class User {
         "phone_code": phoneCode,
         "phone_number": phoneNumber,
         "location": location,
-        "date_of_birth":
-            "${dateOfBirth?.year.toString().padLeft(4, '0')}-${dateOfBirth?.month.toString().padLeft(2, '0')}-${dateOfBirth?.day.toString().padLeft(2, '0')}",
+        "date_of_birth": dateOfBirth,
         "gender": gender,
         "profile_image": profileImage,
         "display_mode": displayMode,

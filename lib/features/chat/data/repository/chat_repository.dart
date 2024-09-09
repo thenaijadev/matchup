@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:matchup/core/utils/typedef.dart';
 import 'package:matchup/features/chat/data/models/chat_model.dart';
 import 'package:matchup/features/chat/data/models/message_error.dart';
+import 'package:matchup/features/chat/data/models/send_chat_model.dart';
 import 'package:matchup/features/chat/data/provider/chat_provider.dart';
 
 class ChatRepository {
@@ -25,18 +26,18 @@ class ChatRepository {
     }
   }
 
-  // Future<EitherMessageErrorrOrMap> sendChat(
-  //     {required String recieverId, required String message}) async {
-  //   try {
-  //     final res =
-  //         await provider.sendChat(recieverId: recieverId, message: message);
-  //     return right(res);
-  //   } on DioException catch (e) {
-  //     return left(ChatError(
-  //         errorMessage:
-  //             e.response?.statusMessage ?? "There has been an error"));
-  //   } catch (e) {
-  //     return left(ChatError(errorMessage: e.toString()));
-  //   }
-  // }
+  Future<EitherChatErrorOrSentChatModel> sendChat(
+      {required String recieverId, required String message}) async {
+    try {
+      final res =
+          await provider.sendChat(recieverId: recieverId, message: message);
+      return right(SentChatModel.fromJson(res));
+    } on DioException catch (e) {
+      return left(ChatError(
+          errorMessage:
+              e.response?.statusMessage ?? "There has been an error"));
+    } catch (e) {
+      return left(ChatError(errorMessage: e.toString()));
+    }
+  }
 }

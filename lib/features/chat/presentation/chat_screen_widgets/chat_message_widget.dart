@@ -31,10 +31,16 @@ class ChatMessage extends StatelessWidget {
                 width: 40.w,
                 height: 40.h,
                 fit: BoxFit.fitWidth,
+                errorBuilder: ((context, error, stackTrace) {
+                  return const CircleAvatar(
+                    child: Icon(Icons.person),
+                  );
+                }),
                 loadingBuilder: (context, imageProvider, loadingProgress) {
                   if (loadingProgress == null) {
                     return imageProvider; // image is already loaded
                   }
+
                   return Center(
                       child: SpinKitChasingDots(
                     color: Theme.of(context).colorScheme.primary,
@@ -56,7 +62,7 @@ class ChatMessage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                     TextWidget(
-                      text: "How are you",
+                      text: participant.status ?? "",
                       fontSize: 10,
                       color: Theme.of(context).colorScheme.secondary,
                     ),

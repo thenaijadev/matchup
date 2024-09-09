@@ -8,6 +8,7 @@ import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/chat/bloc/chats/chat_bloc.dart';
 import 'package:matchup/features/chat/data/models/participants_model.dart';
 
@@ -32,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   bool showProfileOptions = true;
-
+  String message = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +93,12 @@ class _ChatScreenState extends State<ChatScreen> {
                           width: 60.w,
                           height: 60.h,
                           fit: BoxFit.fitWidth,
+                          errorBuilder: ((context, error, stackTrace) {
+                            return CircleAvatar(
+                              radius: 30.r,
+                              child: const Icon(Icons.person),
+                            );
+                          }),
                           loadingBuilder:
                               (context, imageProvider, loadingProgress) {
                             if (loadingProgress == null) {
@@ -195,75 +202,90 @@ class _ChatScreenState extends State<ChatScreen> {
                             child: LoadingWidget(),
                           )
                         : state is ChatStateChatsRecieved
-                            ? ListView(
-                                children: List.generate(
-                                    state.chats.data.length,
-                                    (index) => Padding(
-                                          padding: state.chats.data[index]
-                                                      .receiverId ==
-                                                  state.chats.data[index]
-                                                      .senderId
-                                              ? EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .5)
-                                              : EdgeInsets.only(
-                                                  right: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .5),
-                                          child: Container(
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 20),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 10),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                border: Border.all(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary)),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                    width: 150,
-                                                    child: TextWidget(
+                            ? RefreshIndicator(
+                                onRefresh: () async {
+                                  context.read<ChatBloc>().add(ChatEventGetChat(
+                                      id: widget.participants.id.toString()));
+                                },
+                                child: ListView(
+                                  children: List.generate(
+                                      state.chats.data.length, (index) {
+                                    return FutureBuilder(
+                                        future: LocalDataSource().getUser(),
+                                        builder: (context, snapshot) {
+                                          return Padding(
+                                            padding: state.chats.data[index]
+                                                        .senderId ==
+                                                    snapshot.data?.user?.id
+                                                ? EdgeInsets.only(
+                                                    left: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        .5)
+                                                : EdgeInsets.only(
+                                                    right:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            .5),
+                                            child: Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 20),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  border: Border.all(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary)),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
+                                                      width: 150,
+                                                      child: TextWidget(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .secondary,
+                                                          text: state
+                                                                  .chats
+                                                                  .data[index]
+                                                                  .message ??
+                                                              "")),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      TextWidget(
                                                         fontWeight:
                                                             FontWeight.bold,
+                                                        fontSize: 8,
                                                         color: Theme.of(context)
                                                             .colorScheme
                                                             .secondary,
-                                                        text: state
+                                                        text: DateFormat(
+                                                                'yyyy-MM-dd HH:mm')
+                                                            .format(state
                                                                 .chats
                                                                 .data[index]
-                                                                .message ??
-                                                            "")),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    TextWidget(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 8,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary,
-                                                      text: DateFormat(
-                                                              'yyyy-MM-dd HH:mm')
-                                                          .format(state
-                                                              .chats
-                                                              .data[index]
-                                                              .createdAt!),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
+                                                                .createdAt!),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        )),
+                                          );
+                                        });
+                                  }),
+                                ),
                               )
                             : Center(
                                 child: Column(
@@ -299,17 +321,58 @@ class _ChatScreenState extends State<ChatScreen> {
                     const SizedBox(
                       width: 15,
                     ),
-                    Expanded(
-                      child: InputFieldWidget(
-                          suffixIcon: Icon(
-                            Icons.send,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                          horizontalContentPadding: 20,
-                          hintSize: 12,
-                          hintColor: Theme.of(context).colorScheme.secondary,
-                          hintText: "Message",
-                          onChanged: (val) {}),
+                    BlocListener<ChatBloc, ChatState>(
+                      listener: (context, state) {
+                        if (state is ChatStateMessageSent) {
+                          context.read<ChatBloc>().add(ChatEventGetChat(
+                              id: widget.participants.id.toString()));
+                        }
+                      },
+                      child: BlocBuilder<ChatBloc, ChatState>(
+                        builder: (context, state) {
+                          return Expanded(
+                            child: InputFieldWidget(
+                                suffixIcon: state is ChatStateIsLoading
+                                    ? const Row(
+                                        children: [
+                                          Spacer(),
+                                          LoadingWidget(),
+                                          SizedBox(
+                                            width: 10,
+                                          )
+                                        ],
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {
+                                          if (state is ChatStateChatsRecieved) {
+                                            context.read<ChatBloc>().add(
+                                                ChatEventPostChat(
+                                                    recieverId: widget
+                                                        .participants.id
+                                                        .toString(),
+                                                    message: message));
+                                          }
+                                        },
+                                        child: Icon(
+                                          Icons.send,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .inversePrimary,
+                                        ),
+                                      ),
+                                horizontalContentPadding: 20,
+                                hintSize: 12,
+                                hintColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                hintText: "Message",
+                                onChanged: (val) {
+                                  setState(() {
+                                    message = val!;
+                                  });
+                                }),
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(
                       width: 15,
