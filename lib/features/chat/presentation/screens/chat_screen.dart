@@ -24,8 +24,10 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  late TextEditingController inputController;
   @override
   void initState() {
+    inputController = TextEditingController();
     context
         .read<ChatBloc>()
         .add(ChatEventGetChat(id: widget.participants.id.toString()));
@@ -237,6 +239,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                       vertical: 10,
                                                       horizontal: 10),
                                               decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .background,
                                                   borderRadius:
                                                       BorderRadius.circular(20),
                                                   border: Border.all(
@@ -326,6 +331,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         if (state is ChatStateMessageSent) {
                           context.read<ChatBloc>().add(ChatEventGetChat(
                               id: widget.participants.id.toString()));
+                          inputController.text = "";
                         }
                       },
                       child: BlocBuilder<ChatBloc, ChatState>(
@@ -362,6 +368,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       ),
                                 horizontalContentPadding: 20,
                                 hintSize: 12,
+                                controller: inputController,
                                 hintColor:
                                     Theme.of(context).colorScheme.secondary,
                                 hintText: "Message",
