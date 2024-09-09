@@ -14,10 +14,7 @@ Future<void> main() async {
 
   appInitialization();
 
-  // await LocationServiceClass.determinePosition();
-
   Bloc.observer = AppBlocObserver();
-  // final user = await LocalDataSource().getUser();
 
   runApp(const MyApp());
 }

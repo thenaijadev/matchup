@@ -16,4 +16,5 @@ class ApiRoutes {
   static const String sendFcm = "/api/set-token";
   static const String chat = "/api/messages";
   static const String quiz = "/api/quiz";
+  static const String participants = "/api/chat/participants";
 }

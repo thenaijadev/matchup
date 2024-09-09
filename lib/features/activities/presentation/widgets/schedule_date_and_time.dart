@@ -52,7 +52,16 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
   String? startTimeMin;
   String? endTimeHour;
   String? endTimeMin;
-  List<String> gameFrame = ["Daily", "Weekly", "Monthly"];
+  List<String> gameFrame = [
+    "ONE_OFF",
+    "DAILY",
+    "WEEKLY",
+    "MONTHLY",
+    "QUARTERLY",
+    "HALF_YEARLY",
+    "ANNUALLY",
+    "BI_ANNUALLY",
+  ];
   List<String> genders = ["Males", "Females", "Mixed"];
 
   @override

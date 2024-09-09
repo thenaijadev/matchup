@@ -64,6 +64,7 @@ class DioClient {
         logger.e(response.data);
         return response.data;
       }
+
       if (response.statusCode == 302) {
         logger.t("there is a 302");
       }

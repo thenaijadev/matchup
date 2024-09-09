@@ -1,7 +1,7 @@
 class Routes {
   //Auth
 
-  // static const String splash = '/';
+  static const String splash = '/';
   static const String onboardingScreen = '/onboardingScreen';
   static const String createAccount = '/createAccount';
   static const String dateOfBirth = '/dateOfBirth';

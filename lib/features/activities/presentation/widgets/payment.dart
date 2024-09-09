@@ -48,7 +48,7 @@ class _PaymentState extends State<Payment> {
         controller: paymentController,
         onChanged: (val) {
           context.read<ActivityDetailsBloc>().add(ActivityEventGatherInfoEvent(
-              keyValue: {"fee": paymentController.text}));
+              keyValue: {"fee": double.parse(paymentController.text)}));
         },
         keyboardType: TextInputType.number,
         enabledBorderRadius: 10,
@@ -76,8 +76,9 @@ class _PaymentState extends State<Payment> {
                 isAccepted = val;
                 paymentController.text = 0.toString();
                 context.read<ActivityDetailsBloc>().add(
-                    ActivityEventGatherInfoEvent(
-                        keyValue: {"fee": paymentController.text}));
+                        ActivityEventGatherInfoEvent(keyValue: {
+                      "fee": double.parse(paymentController.text)
+                    }));
               });
             },
           ),

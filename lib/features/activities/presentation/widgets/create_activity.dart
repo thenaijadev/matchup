@@ -32,8 +32,8 @@ class _CreateActivityState extends State<CreateActivity> {
   String? eventType;
   String? gender;
 
-  List<String> eventTypes = ["Games", "Exercises", "Just for fun"];
-  List<String> genders = ["Males", "Females", "Mixed"];
+  List<String> eventTypes = ["GAME", "EXERCISE", "EVENT"];
+  List<String> genders = ["MALE", "FEMALE", "ALL"];
 
   final List<Map<String, String>> items = [
     {"title": "Basketball", "image": "assets/images/basket_ball.png"},

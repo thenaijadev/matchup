@@ -18,9 +18,12 @@ import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/providers/auth_provider.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
-import 'package:matchup/features/chat/bloc/chat_bloc.dart';
+import 'package:matchup/features/chat/bloc/chats/chat_bloc.dart';
+import 'package:matchup/features/chat/bloc/participants/participants_bloc.dart';
 import 'package:matchup/features/chat/data/provider/chat_provider.dart';
+import 'package:matchup/features/chat/data/provider/participants_provider.dart';
 import 'package:matchup/features/chat/data/repository/chat_repository.dart';
+import 'package:matchup/features/chat/data/repository/participant_repository.dart';
 import 'package:matchup/features/news/bloc/news_bloc.dart';
 import 'package:matchup/features/news/data/providers/news_providers.dart';
 import 'package:matchup/features/news/data/repositories/news_repository.dart';
@@ -60,18 +63,23 @@ class _MyAppState extends State<MyApp> {
                   localDataSource: LocalDataSource())),
         ),
         BlocProvider(
-          create: (context) =>
-              ProfileBloc(repo: ProfileRepository(provider: ProfileProvider())),
+          create: (context) => ProfileBloc(
+            repo: ProfileRepository(
+              provider: ProfileProvider(),
+            ),
+          ),
         ),
         BlocProvider(
-          create: (context) =>
-              NewsBloc(repo: NewsRepository(newsProvider: NewsProvider())),
+          create: (context) => NewsBloc(
+            repo: NewsRepository(
+              newsProvider: NewsProvider(),
+            ),
+          ),
         ),
         BlocProvider(
-          create: (context) => ActivitiesBloc(
-              repo: ActivitiesRepository(
-                  activitiesProvider: ActivitiesProvider())),
-        ),
+            create: (context) => ActivitiesBloc(
+                repo: ActivitiesRepository(
+                    activitiesProvider: ActivitiesProvider()))),
         BlocProvider(
           create: (context) =>
               ReviewsBloc(repo: ReviewsRepository(provider: ReviewsProvider())),
@@ -94,6 +102,13 @@ class _MyAppState extends State<MyApp> {
           create: (context) => QuizBloc(
             repo: QuizRepository(
               provider: QuizProvider(),
+            ),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ParticipantsBloc(
+            repo: ParticipantRepository(
+              provider: ParticipantsProvider(),
             ),
           ),
         ),
@@ -121,8 +136,8 @@ class _MyAppState extends State<MyApp> {
                                 debugShowCheckedModeBanner: false,
                                 title: 'Flutter Demo',
                                 initialRoute: snapShot.hasData
-                                    ? Routes.quiz
-                                    : Routes.quiz,
+                                    ? Routes.home
+                                    : Routes.splash,
                                 onGenerateRoute: appRouter.onGenerateRoute,
                               );
                             },
@@ -138,8 +153,8 @@ class _MyAppState extends State<MyApp> {
                                 debugShowCheckedModeBanner: false,
                                 title: 'Flutter Demo',
                                 initialRoute: snapShot.hasData
-                                    ? Routes.quiz
-                                    : Routes.quiz,
+                                    ? Routes.home
+                                    : Routes.splash,
                                 onGenerateRoute: appRouter.onGenerateRoute,
                               );
                             },

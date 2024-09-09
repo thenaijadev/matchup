@@ -216,15 +216,12 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                               setState(() {
                                 tappedPoints.clear();
                                 tappedPoints.add(point);
-                                final longLat = {
-                                  "long_lat": {
-                                    "latitude": point.latitude,
-                                    "longitude": point.longitude,
-                                  },
-                                };
+
                                 context.read<ActivityDetailsBloc>().add(
-                                    ActivityEventGatherInfoEvent(
-                                        keyValue: longLat));
+                                        ActivityEventGatherInfoEvent(keyValue: {
+                                      "latitude": point.latitude.toString(),
+                                      "longitude": point.longitude.toString(),
+                                    }));
                               });
                             },
                             minZoom: 5,

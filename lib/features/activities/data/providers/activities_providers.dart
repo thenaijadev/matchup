@@ -6,23 +6,6 @@ import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/auth/data/providers/local_provider.dart';
 
 class ActivitiesProvider {
-  Future<Map<String, dynamic>> getActivities() async {
-    try {
-      final AuthUser? user = await LocalDataSource().getUser();
-
-      final response = await DioClient.instance.get(
-        path: ApiRoutes.getAllActivities,
-        options: Options(
-          headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
-        ),
-      );
-      logger.d(response);
-      return response;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   // Future<Map<String, dynamic>> createActivity({
   //   required Map<String, dynamic> details,
   // }) async {
@@ -45,19 +28,37 @@ class ActivitiesProvider {
   //     rethrow;
   //   }
   // }
+  Future<Map<String, dynamic>> getActivities() async {
+    try {
+      final AuthUser? user = await LocalDataSource().getUser();
+      logger.e("Called Get Activities");
+      final response = await DioClient.instance.get(
+        path: ApiRoutes.getAllActivities,
+        options: Options(
+          headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
+        ),
+      );
+      logger.d(response);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<Map<String, dynamic>> createActivity(
       {required Map<String, dynamic> details}) async {
+    final AuthUser? user = await LocalDataSource().getUser();
+
     final formData = FormData.fromMap({...details});
-    final authToken = await LocalDataSource().getUser();
-    final token = authToken?.token;
+
     try {
       final response = await DioClient.instance.post(
-          path: ApiRoutes.getAllActivities,
-          data: formData,
-          options: Options(
-            headers: {"Authorization": "Bearer $token"},
-          ));
+        path: ApiRoutes.getAllActivities,
+        data: formData,
+        options: Options(
+          headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
+        ),
+      );
 
       return response;
     } catch (e) {

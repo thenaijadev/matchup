@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/error_screen.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
-import 'package:matchup/features/activities/presentation/screens/activities_list._screen.dart';
+import 'package:matchup/features/activities/presentation/screens/activities_list_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/activity_description_screen.dart';
 import 'package:matchup/features/activities/presentation/screens/create_new_activity_screen.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
@@ -20,6 +20,7 @@ import 'package:matchup/features/chat/presentation/screens/chat_screen.dart';
 import 'package:matchup/features/get_directions/presentation/screens/get_directions_screen.dart';
 import 'package:matchup/features/home/presentation/screens/home_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
+import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
@@ -33,10 +34,10 @@ import 'package:matchup/features/teams/presentation/screens/pay_to_join_team.dar
 class AppRouter {
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      // case Routes.splash:
-      //   return MaterialPageRoute(
-      //     builder: (_) => const SplashScreen(),
-      //   );
+      case Routes.splash:
+        return MaterialPageRoute(
+          builder: (_) => const SplashScreen(),
+        );
       case Routes.onboardingScreen:
         return MaterialPageRoute(
           builder: (_) => const OnboardingScreen(),

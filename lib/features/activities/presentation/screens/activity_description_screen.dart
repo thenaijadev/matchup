@@ -20,11 +20,11 @@ class ActivityDescripitonScreen extends StatefulWidget {
 
 class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
   List<Map<String, dynamic>> emojis = [
-    {"name": "Terrible", "image": "😥"},
-    {"name": "Bad", "image": "☹️"},
-    {"name": "Okay", "image": "🙂"},
-    {"name": "Good", "image": "😎"},
-    {"name": "Amazing", "image": "🤗"},
+    {"name": "TERRIBLE", "image": "😥"},
+    {"name": "BAD", "image": "☹️"},
+    {"name": "OKAY", "image": "🙂"},
+    {"name": "GOOD", "image": "😎"},
+    {"name": "AMAZING", "image": "🤗"},
   ];
   int _selectedIndex = -1;
   final TextEditingController nameController = TextEditingController();

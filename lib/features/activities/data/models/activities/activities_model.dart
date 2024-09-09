@@ -13,7 +13,8 @@ class Activities {
     required this.startDate,
     required this.locationName,
     required this.address,
-    required this.longLat,
+    required this.longitude,
+    required this.latitude,
     required this.participantFee,
     required this.fee,
     required this.level,
@@ -36,7 +37,8 @@ class Activities {
   final DateTime? startDate;
   final String? locationName;
   final String? address;
-  final dynamic longLat;
+  final String? longitude;
+  final String? latitude;
   final String? participantFee;
   final String? fee;
   final String? level;
@@ -44,54 +46,6 @@ class Activities {
   final dynamic cancelledAt;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-
-  Activities copyWith({
-    int? id,
-    String? name,
-    String? description,
-    String? type,
-    String? poster,
-    int? sportId,
-    String? allowedGenders,
-    String? frequency,
-    DateTime? startTime,
-    DateTime? endTime,
-    DateTime? startDate,
-    String? locationName,
-    String? address,
-    dynamic longLat,
-    String? participantFee,
-    String? fee,
-    String? level,
-    int? completed,
-    dynamic cancelledAt,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    return Activities(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      type: type ?? this.type,
-      poster: poster ?? this.poster,
-      sportId: sportId ?? this.sportId,
-      allowedGenders: allowedGenders ?? this.allowedGenders,
-      frequency: frequency ?? this.frequency,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
-      startDate: startDate ?? this.startDate,
-      locationName: locationName ?? this.locationName,
-      address: address ?? this.address,
-      longLat: longLat ?? this.longLat,
-      participantFee: participantFee ?? this.participantFee,
-      fee: fee ?? this.fee,
-      level: level ?? this.level,
-      completed: completed ?? this.completed,
-      cancelledAt: cancelledAt ?? this.cancelledAt,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
 
   factory Activities.fromJson(Map<String, dynamic> json) {
     return Activities(
@@ -108,7 +62,8 @@ class Activities {
       startDate: DateTime.tryParse(json["start_date"] ?? ""),
       locationName: json["location_name"],
       address: json["address"],
-      longLat: json["long_lat"],
+      longitude: json["longitude"],
+      latitude: json["latitude"],
       participantFee: json["participant_fee"],
       fee: json["fee"],
       level: json["level"],
@@ -134,7 +89,8 @@ class Activities {
             "${startDate?.year.toString().padLeft(4, '0')}-${startDate?.month.toString().padLeft(2, '0')}-${startDate?.day.toString().padLeft(2, '0')}",
         "location_name": locationName,
         "address": address,
-        "long_lat": longLat,
+        "longitude": longitude,
+        "latitude": latitude,
         "participant_fee": participantFee,
         "fee": fee,
         "level": level,
@@ -143,9 +99,4 @@ class Activities {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
-
-  @override
-  String toString() {
-    return "$id, $name, $description, $type, $poster, $sportId, $allowedGenders, $frequency, $startTime, $endTime, $startDate, $locationName, $address, $longLat, $participantFee, $fee, $level, $completed, $cancelledAt, $createdAt, $updatedAt, ";
-  }
 }

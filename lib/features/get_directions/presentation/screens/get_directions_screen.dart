@@ -29,13 +29,8 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
           }));
       setState(() {
         tappedPoints.add(
-          LatLng(
-              widget.activity.longLat["latitude"] is String
-                  ? double.parse(widget.activity.longLat["latitude"])
-                  : widget.activity.longLat["latitude"],
-              widget.activity.longLat["longitude"] is String
-                  ? double.parse(widget.activity.longLat["longitude"])
-                  : widget.activity.longLat["longitude"]),
+          LatLng(double.parse(widget.activity.latitude ?? ""),
+              double.parse(widget.activity.longitude ?? "")),
         );
       });
     });
@@ -83,12 +78,8 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
                     minZoom: 5,
                     maxZoom: 18,
                     initialCenter: LatLng(
-                        widget.activity.longLat["latitude"] is String
-                            ? double.parse(widget.activity.longLat["latitude"])
-                            : widget.activity.longLat["latitude"],
-                        widget.activity.longLat["longitude"] is String
-                            ? double.parse(widget.activity.longLat["longitude"])
-                            : widget.activity.longLat["longitude"]),
+                        double.parse(widget.activity.latitude ?? ""),
+                        double.parse(widget.activity.longitude ?? "")),
                     initialZoom: 20),
                 children: [
                   TileLayer(

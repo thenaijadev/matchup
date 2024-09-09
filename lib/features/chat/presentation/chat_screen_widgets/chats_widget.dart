@@ -1,13 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/chat/data/models/participants_model.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_messages.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/no_messages_widget.dart';
 
 class ChatsWidget extends StatelessWidget {
-  const ChatsWidget({super.key});
-
+  const ChatsWidget({
+    super.key,
+    required this.participants,
+  });
+  final List<Participants> participants;
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> messages = [
@@ -86,7 +91,7 @@ class ChatsWidget extends StatelessWidget {
           height: 20,
         ),
         if (messages.isEmpty) const NoMessagesWidget(),
-        if (messages.isNotEmpty) ChatMessages(messages: messages),
+        if (participants.isNotEmpty) ChatMessages(participants: participants),
         const SizedBox(
           height: 10,
         )
