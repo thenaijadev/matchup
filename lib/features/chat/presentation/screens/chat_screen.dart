@@ -1,76 +1,38 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/chat/bloc/chats/chat_bloc.dart';
+import 'package:matchup/features/chat/data/models/participants_model.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({
+    super.key,
+    required this.participants,
+  });
+  final Participants participants;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    context
+        .read<ChatBloc>()
+        .add(ChatEventGetChat(id: widget.participants.id.toString()));
+    super.initState();
+  }
+
   bool showProfileOptions = true;
-  List<Map<String, dynamic>> messages = [
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": true,
-      "time": "2:30pn"
-    },
-    {"message": "Hi", "isMe": false, "time": "2:30pn"},
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": false,
-      "time": "2:30pn"
-    },
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": true,
-      "time": "2:30pn"
-    },
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": true,
-      "time": "2:30pn"
-    },
-    {"message": "Hi", "isMe": false, "time": "2:30pn"},
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": false,
-      "time": "2:30pn"
-    },
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": true,
-      "time": "2:30pn"
-    },
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": true,
-      "time": "2:30pn"
-    },
-    {"message": "Hi", "isMe": false, "time": "2:30pn"},
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": false,
-      "time": "2:30pn"
-    },
-    {
-      "message":
-          "Hi! Next week, we’ll start a new sport event. I’d tell you the details later.",
-      "isMe": true,
-      "time": "2:30pn"
-    },
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,15 +85,30 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                         ],
                       ),
-                      Image.asset(
-                        "assets/images/contact_image.png",
-                        width: 60,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.network(
+                          widget.participants.profileImage ?? "",
+                          width: 60.w,
+                          height: 60.h,
+                          fit: BoxFit.fitWidth,
+                          loadingBuilder:
+                              (context, imageProvider, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return imageProvider; // image is already loaded
+                            }
+                            return Center(
+                                child: SpinKitChasingDots(
+                              color: Theme.of(context).colorScheme.primary,
+                            ));
+                          },
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       TextWidget(
-                        text: "Ester Russel",
+                        text: widget.participants.name ?? "",
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.inversePrimary,
@@ -140,7 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         height: 0,
                       ),
                       TextWidget(
-                        text: "@estherrussell",
+                        text: widget.participants.email ?? "",
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.secondary,
@@ -211,53 +188,102 @@ class _ChatScreenState extends State<ChatScreen> {
                 ],
               ),
               Expanded(
-                child: ListView(
-                  children: List.generate(
-                      messages.length,
-                      (index) => Padding(
-                            padding: messages[index]["isMe"]
-                                ? EdgeInsets.only(
-                                    left:
-                                        MediaQuery.of(context).size.width * .5)
-                                : EdgeInsets.only(
-                                    right:
-                                        MediaQuery.of(context).size.width * .5),
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary)),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                      width: 150,
-                                      child: TextWidget(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          text: messages[index]["message"])),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      TextWidget(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 8,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          text: messages[index]["time"]),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          )),
+                child: BlocBuilder<ChatBloc, ChatState>(
+                  builder: (context, state) {
+                    return state is ChatStateIsLoading
+                        ? const Center(
+                            child: LoadingWidget(),
+                          )
+                        : state is ChatStateChatsRecieved
+                            ? ListView(
+                                children: List.generate(
+                                    state.chats.data.length,
+                                    (index) => Padding(
+                                          padding: state.chats.data[index]
+                                                      .receiverId ==
+                                                  state.chats.data[index]
+                                                      .senderId
+                                              ? EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .5)
+                                              : EdgeInsets.only(
+                                                  right: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .5),
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 20),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 10),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                border: Border.all(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary)),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                    width: 150,
+                                                    child: TextWidget(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary,
+                                                        text: state
+                                                                .chats
+                                                                .data[index]
+                                                                .message ??
+                                                            "")),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    TextWidget(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 8,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                      text: DateFormat(
+                                                              'yyyy-MM-dd HH:mm')
+                                                          .format(state
+                                                              .chats
+                                                              .data[index]
+                                                              .createdAt!),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                              )
+                            : Center(
+                                child: Column(
+                                  children: [
+                                    const TextWidget(
+                                        text: "There has been an error"),
+                                    TextWidget(
+                                      text: "Retry",
+                                      fontWeight: FontWeight.bold,
+                                      onTap: () {
+                                        context.read<ChatBloc>().add(
+                                            ChatEventGetChat(
+                                                id: widget.participants.id
+                                                    .toString()));
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                  },
                 ),
               ),
               Padding(

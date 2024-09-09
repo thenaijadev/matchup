@@ -18,7 +18,7 @@ class ChatMessage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         logger.e("Chat");
-        Navigator.pushNamed(context, Routes.chat);
+        Navigator.pushNamed(context, Routes.chat, arguments: participant);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),

@@ -16,6 +16,7 @@ import 'package:matchup/features/auth/presentation/screens/login_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/new_password_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/otp_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/profile_image_choice.dart';
+import 'package:matchup/features/chat/data/models/participants_model.dart';
 import 'package:matchup/features/chat/presentation/screens/chat_screen.dart';
 import 'package:matchup/features/get_directions/presentation/screens/get_directions_screen.dart';
 import 'package:matchup/features/home/presentation/screens/home_screen.dart';
@@ -122,8 +123,10 @@ class AppRouter {
         );
 
       case Routes.chat:
+        final Participants participant =
+            routeSettings.arguments as Participants;
         return MaterialPageRoute(
-          builder: (_) => const ChatScreen(),
+          builder: (_) => ChatScreen(participants: participant),
         );
       case Routes.createActivity:
         return MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:matchup/core/errors/message_error.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_created_model.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_error.dart';
 import 'package:matchup/features/activities/data/models/activities/all_activities_model.dart';
@@ -13,6 +12,8 @@ import 'package:matchup/features/auth/data/models/otp_requested.dart';
 import 'package:matchup/features/auth/data/models/otp_verification_email.dart';
 import 'package:matchup/features/auth/data/models/password_reset_model.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
+import 'package:matchup/features/chat/data/models/chat_model.dart';
+import 'package:matchup/features/chat/data/models/message_error.dart';
 import 'package:matchup/features/chat/data/models/participant_error.dart';
 import 'package:matchup/features/chat/data/models/participants_model.dart';
 import 'package:matchup/features/news/data/models/news_error.dart';
@@ -66,7 +67,7 @@ typedef EitherAuthErrorOrOtpVerificationModel
 
 typedef EitherAuthErrorOrPasswordReset = Either<AuthError, PasswordResetModel>;
 typedef EitherAuthErrorOrMap = Either<AuthError, Map<String, dynamic>>;
-typedef EitherMessageErrorrOrMap = Either<MessageError, Map<String, dynamic>>;
+typedef EitherChatErrorOrChatModel = Either<ChatError, ChatModel>;
 typedef EitherQuizErrorOrQuizModel = Either<QuizError, QuizModel>;
 typedef EitherParticipantErrorOrParticipantModel
     = Either<ParticipantError, ParticipantsModel>;
