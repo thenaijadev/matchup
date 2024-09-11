@@ -48,7 +48,7 @@ class ActivitiesProvider {
   Future<Map<String, dynamic>> createActivity(
       {required Map<String, dynamic> details}) async {
     final AuthUser? user = await LocalDataSource().getUser();
-
+    logger.f(details);
     final formData = FormData.fromMap({...details});
 
     try {

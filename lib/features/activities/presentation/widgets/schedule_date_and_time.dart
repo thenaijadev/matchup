@@ -52,6 +52,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
   String? startTimeMin;
   String? endTimeHour;
   String? endTimeMin;
+  String frequency = "";
   List<String> gameFrame = [
     "ONE_OFF",
     "DAILY",
@@ -331,10 +332,18 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                 "end_time":
                     "${controller.text} ${endTimeHour ?? "00"}:${endTimeMin ?? "00"}:00"
               };
+              final startDate = {"start_date": controller.text};
 
+              final freq = {"frequency": frequency};
+              final locationName = {"location_name": "nul"};
               context.read<ActivityDetailsBloc>().add(
-                  ActivityEventGatherInfoEvent(
-                      keyValue: {...startTime, ...endTime}));
+                      ActivityEventGatherInfoEvent(keyValue: {
+                    ...startTime,
+                    ...endTime,
+                    ...freq,
+                    ...startDate,
+                    ...locationName
+                  }));
               widget.pageController.nextPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.decelerate);
@@ -375,11 +384,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                               child: TextWidget(
                                 onTap: () {
                                   _eventController.collapse();
-                                  context.read<ActivityDetailsBloc>().add(
-                                          ActivityEventGatherInfoEvent(
-                                              keyValue: {
-                                            "frequency": gameFrame[index]
-                                          }));
+                                  frequency = gameFrame[index];
                                 },
                                 text: gameFrame[index],
                                 color: Theme.of(context).colorScheme.secondary,
