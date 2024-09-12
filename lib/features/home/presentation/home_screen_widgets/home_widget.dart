@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
+import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
 import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/activities_section_widget.dart';
@@ -10,6 +11,7 @@ import 'package:matchup/features/home/presentation/home_screen_widgets/events_ca
 import 'package:matchup/features/home/presentation/home_screen_widgets/events_section_widget.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/home_section_header_widget.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/news_section.dart';
+import 'package:matchup/features/news/bloc/news_bloc.dart';
 
 class HomeScreenWidget extends StatefulWidget {
   const HomeScreenWidget({
@@ -41,29 +43,37 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         builder: (context, state) {
           return state is AuthStateIsLoading
               ? const LoadingWidget()
-              : ListView(
-                  children: [
-                    HomeWidgetHeaderSection(
-                      user: widget.user,
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    SizedBox(
-                      height: 175,
-                      child: EventsCarousel(
-                          controller: PageController(
-                        initialPage: 0,
-                        viewportFraction: .95,
-                      )),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    NewsSectionWidget(user: widget.user),
-                    const ActivitiesSectionWidget(),
-                    const EventsSection()
-                  ],
+              : RefreshIndicator.adaptive(
+                  onRefresh: () async {
+                    context
+                        .read<ActivitiesBloc>()
+                        .add(ActivitiesEventGetAllActivities());
+                    context.read<NewsBloc>().add(NewsEventGetNews());
+                  },
+                  child: ListView(
+                    children: [
+                      HomeWidgetHeaderSection(
+                        user: widget.user,
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      SizedBox(
+                        height: 175,
+                        child: EventsCarousel(
+                            controller: PageController(
+                          initialPage: 0,
+                          viewportFraction: .95,
+                        )),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      NewsSectionWidget(user: widget.user),
+                      const ActivitiesSectionWidget(),
+                      const EventsSection()
+                    ],
+                  ),
                 );
         },
       ),

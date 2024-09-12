@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:matchup/core/utils/logger.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
@@ -192,6 +192,13 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
               ),
               BlocListener<ActivitiesBloc, ActivitiesState>(
                 listener: (context, state) {
+                  if (state is ActivityStateActivityCreated) {
+                    Navigator.popAndPushNamed(context, Routes.activities);
+                  }
+                  if (state is ActivitiesStateError) {
+                    InfoSnackBar.showErrorSnackBar(
+                        context, "There has been an error please try again");
+                  }
                   if (state is ActivitiesStateError) {
                     InfoSnackBar.showErrorSnackBar(
                         context, state.error.errorMessage);
@@ -216,7 +223,6 @@ class _ActivityDescripitonScreenState extends State<ActivityDescripitonScreen> {
                                                       descriptionController
                                                           .text,
                                                 }));
-                                        logger.f(state.formDetails);
 
                                         context.read<ActivitiesBloc>().add(
                                             ActivityEventCreateActivity(

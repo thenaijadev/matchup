@@ -71,40 +71,47 @@ class _SearchScreenWidgetState extends State<SearchScreenWidget> {
                     return state is ActivitiesStateIsLoading
                         ? const LoadingWidget()
                         : state is ActivitiesStateAllActivitiesRetreived
-                            ? ListView(
-                                children: List.generate(
-                                    filteredActivities
-                                        .length, // Use filteredActivities for display
-                                    (index) => GestureDetector(
-                                          onTap: () => Navigator.pushNamed(
-                                              context, Routes.getDirections,
-                                              arguments: state.activitiesModel
-                                                  .activities[index]),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 15.h),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                TextWidget(
-                                                  text:
-                                                      filteredActivities[index]
-                                                              .name ??
-                                                          "",
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary,
-                                                ),
-                                                Image.asset(
-                                                  "assets/images/go_icon.png",
-                                                  width: 10.w,
-                                                )
-                                              ],
+                            ? RefreshIndicator.adaptive(
+                                onRefresh: () async {
+                                  context
+                                      .read<ActivitiesBloc>()
+                                      .add(ActivitiesEventGetAllActivities());
+                                },
+                                child: ListView(
+                                  children: List.generate(
+                                      filteredActivities
+                                          .length, // Use filteredActivities for display
+                                      (index) => GestureDetector(
+                                            onTap: () => Navigator.pushNamed(
+                                                context, Routes.getDirections,
+                                                arguments: state.activitiesModel
+                                                    .activities[index]),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 15.h),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  TextWidget(
+                                                    text: filteredActivities[
+                                                                index]
+                                                            .name ??
+                                                        "",
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
+                                                  ),
+                                                  Image.asset(
+                                                    "assets/images/go_icon.png",
+                                                    width: 10.w,
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        )),
+                                          )),
+                                ),
                               )
                             : const SizedBox();
                   },

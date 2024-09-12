@@ -58,10 +58,10 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
+      logger.e({"response.data": response.data});
+      logger.e({"response": response});
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        logger.e(response.statusCode);
-        logger.e(response.data);
         return response.data;
       }
 

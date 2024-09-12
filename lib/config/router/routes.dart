@@ -26,4 +26,7 @@ class Routes {
   static const String payToJoinTeam = '/payToJoinTeam';
   static const String myTeam = '/myTeam';
   static const String quiz = '/quiz';
+  static const String location = '/locationScreen';
+  static const String editLocation = '/editLocation';
+  static const String createLocation = '/createLocation';
 }

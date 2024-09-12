@@ -20,6 +20,9 @@ import 'package:matchup/features/chat/data/models/participants_model.dart';
 import 'package:matchup/features/chat/presentation/screens/chat_screen.dart';
 import 'package:matchup/features/get_directions/presentation/screens/get_directions_screen.dart';
 import 'package:matchup/features/home/presentation/screens/home_screen.dart';
+import 'package:matchup/features/location/presetation/screens/create_location.dart';
+import 'package:matchup/features/location/presetation/screens/edit_location_screen.dart';
+import 'package:matchup/features/location/presetation/screens/location_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
@@ -180,10 +183,20 @@ class AppRouter {
             teamModel: team,
           ),
         );
-      // case Routes.setLocation:
-      //   return MaterialPageRoute(
-      //     builder: (_) => const SetLoactionScreen(),
-      //   );
+
+      case Routes.location:
+        return MaterialPageRoute(
+          builder: (_) => const LocationScreen(),
+        );
+
+      case Routes.editLocation:
+        return MaterialPageRoute(
+          builder: (_) => const EditLocationScreen(),
+        );
+      case Routes.createLocation:
+        return MaterialPageRoute(
+          builder: (_) => const CreateLocationScreen(),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => const ErrorScreen(),

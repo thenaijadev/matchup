@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
 import 'package:matchup/features/chat/presentation/chat_screen_widgets/chat_screen_widget.dart';
 import 'package:matchup/features/home/presentation/home_screen_widgets/home_widget.dart';
@@ -20,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     user = widget.user;
+    context.read<ActivitiesBloc>().add(ActivitiesEventGetAllActivities());
     // context
     //     .read<ProfileBloc>()
     //     .add(ProfileEventGetUser(authToken: widget.user.token ?? ""));

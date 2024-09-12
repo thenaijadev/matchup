@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/dark_mode/presentation/bloc/dark_mode_bloc.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/horizontal_divider.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
@@ -76,7 +77,9 @@ class SettingsMenuWidget extends StatelessWidget {
               ),
             ),
             SettingsItem(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, Routes.location);
+              },
               image: "assets/images/location_pin.png",
               title: "Location",
             ),

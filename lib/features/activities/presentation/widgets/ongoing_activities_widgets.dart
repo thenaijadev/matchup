@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/activities/data/models/activities/activities_model.dart';
@@ -44,54 +45,60 @@ class _OngoingActivitiesState extends State<OngoingActivities> {
         : ListView(
             shrinkWrap: true,
             children: List.generate(
-              10,
-              (index) => Container(
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                padding: const EdgeInsets.all(20),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                      width: 1,
-                      color: Theme.of(context).colorScheme.inverseSurface),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextWidget(
-                      text: "Indoor Friday Afternoon Games",
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextWidget(
-                      text: " Shooting Drills",
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.h, vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                width: 2,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inverseSurface),
-                          ),
-                          child: TextWidget(
-                            text: "Ongoing",
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
+              widget.activities.length,
+              (index) => GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.getDirections,
+                      arguments: widget.activities[index]);
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.all(20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.background,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                        width: 1,
+                        color: Theme.of(context).colorScheme.inverseSurface),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWidget(
+                        text: widget.activities[index].name ?? "",
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextWidget(
+                        text: widget.activities[index].description ?? "",
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.h, vertical: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                  width: 2,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inverseSurface),
+                            ),
+                            child: TextWidget(
+                              text: "Ongoing",
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

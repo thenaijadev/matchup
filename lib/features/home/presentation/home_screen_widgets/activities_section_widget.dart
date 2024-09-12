@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/activities/blocs/activities/activities_bloc.dart';
 
 class ActivitiesSectionWidget extends StatelessWidget {
   const ActivitiesSectionWidget({super.key});
@@ -46,10 +48,21 @@ class ActivitiesSectionWidget extends StatelessWidget {
               const SizedBox(
                 height: 13,
               ),
-              TextWidget(
-                text: "No Activities",
-                fontSize: 13,
-                color: Theme.of(context).colorScheme.secondary,
+              BlocBuilder<ActivitiesBloc, ActivitiesState>(
+                builder: (context, state) {
+                  return TextWidget(
+                    onTap: () {
+                      if (state is ActivitiesStateAllActivitiesRetreived) {
+                        Navigator.pushNamed(context, Routes.activities);
+                      }
+                    },
+                    text: state is ActivitiesStateAllActivitiesRetreived
+                        ? "${state.activitiesModel.activities.length} available"
+                        : "No Activities",
+                    fontSize: 13,
+                    color: Theme.of(context).colorScheme.secondary,
+                  );
+                },
               ),
               const SizedBox(
                 height: 13,
