@@ -24,6 +24,7 @@ import 'package:matchup/features/location/presetation/screens/create_location.da
 import 'package:matchup/features/location/presetation/screens/edit_location_screen.dart';
 import 'package:matchup/features/location/presetation/screens/location_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
+import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
@@ -39,10 +40,10 @@ import 'package:matchup/features/teams/presentation/screens/team_list_screen.dar
 class AppRouter {
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      // case Routes.splash:
-      //   return MaterialPageRoute(
-      //     builder: (_) => const SplashScreen(),
-      //   );
+      case Routes.splash:
+        return MaterialPageRoute(
+          builder: (_) => const SplashScreen(),
+        );
       case Routes.onboardingScreen:
         return MaterialPageRoute(
           builder: (_) => const OnboardingScreen(),
