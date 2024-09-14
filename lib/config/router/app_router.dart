@@ -24,24 +24,25 @@ import 'package:matchup/features/location/presetation/screens/create_location.da
 import 'package:matchup/features/location/presetation/screens/edit_location_screen.dart';
 import 'package:matchup/features/location/presetation/screens/location_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
-import 'package:matchup/features/onboarding/screens/splash_screen.dart';
 import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
 import 'package:matchup/features/quiz/presentation/screens/quiz_screen.dart';
+import 'package:matchup/features/sports/presentation/screens/sports_screen.dart';
 import 'package:matchup/features/teams/data/models/team_creation_model.dart';
 import 'package:matchup/features/teams/presentation/screens/add_team_members_screen.dart';
 import 'package:matchup/features/teams/presentation/screens/create_team_screen.dart';
 import 'package:matchup/features/teams/presentation/screens/my_team_screen.dart';
 import 'package:matchup/features/teams/presentation/screens/pay_to_join_team.dart';
+import 'package:matchup/features/teams/presentation/screens/team_list_screen.dart';
 
 class AppRouter {
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routes.splash:
-        return MaterialPageRoute(
-          builder: (_) => const SplashScreen(),
-        );
+      // case Routes.splash:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const SplashScreen(),
+      //   );
       case Routes.onboardingScreen:
         return MaterialPageRoute(
           builder: (_) => const OnboardingScreen(),
@@ -196,6 +197,16 @@ class AppRouter {
       case Routes.createLocation:
         return MaterialPageRoute(
           builder: (_) => const CreateLocationScreen(),
+        );
+
+      case Routes.mySports:
+        return MaterialPageRoute(
+          builder: (_) => const MySportsListScreen(),
+        );
+
+      case Routes.teamList:
+        return MaterialPageRoute(
+          builder: (_) => const TeamListScreen(),
         );
       default:
         return MaterialPageRoute(

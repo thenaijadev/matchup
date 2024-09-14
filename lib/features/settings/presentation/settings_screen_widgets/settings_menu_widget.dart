@@ -97,7 +97,9 @@ class SettingsMenuWidget extends StatelessWidget {
           header: "Resources",
           settingsItems: [
             SettingsItem(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, Routes.mySports);
+              },
               image: "assets/images/ball_icon.png",
               title: "My Sports",
             ),
