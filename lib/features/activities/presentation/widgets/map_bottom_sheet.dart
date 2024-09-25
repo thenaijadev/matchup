@@ -87,10 +87,13 @@ class _MapScreenBottomSheetState extends State<MapScreenBottomSheet> {
             PrimaryButton(
                 label: "Continue",
                 onPressed: () {
+                  final locationName = {"location_name": controller.text};
                   setState(() {
                     context.read<ActivityDetailsBloc>().add(
-                        ActivityEventGatherInfoEvent(
-                            keyValue: {"address": controller.text}));
+                            ActivityEventGatherInfoEvent(keyValue: {
+                          "address": controller.text,
+                          ...locationName
+                        }));
                     locationPicked = true;
                   });
 

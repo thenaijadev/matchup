@@ -72,7 +72,7 @@ class _ChooseSportLevelScreenState extends State<ChooseSportLevelScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: TextWidget(
                     textAlign: TextAlign.center,
                     color: Theme.of(context).colorScheme.secondary,

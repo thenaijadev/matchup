@@ -65,10 +65,6 @@ class DioClient {
         return response.data;
       }
 
-      if (response.statusCode == 302) {
-        logger.t("there is a 302");
-      }
-
       throw "something went wrong";
     } catch (e) {
       rethrow;

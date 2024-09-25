@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
 
@@ -67,7 +69,30 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                         color: Theme.of(context).colorScheme.primary)),
                 height: 50,
                 width: 50,
-                child: Image.asset(widget.sports[widget.index].image!),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.network(
+                    widget.sports[widget.index].image ?? "",
+                    width: 40.w,
+                    height: 40.h,
+                    fit: BoxFit.fitWidth,
+                    errorBuilder: ((context, error, stackTrace) {
+                      return const CircleAvatar(
+                        child: Icon(Icons.person),
+                      );
+                    }),
+                    loadingBuilder: (context, imageProvider, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return imageProvider; // image is already loaded
+                      }
+
+                      return Center(
+                          child: SpinKitChasingDots(
+                        color: Theme.of(context).colorScheme.primary,
+                      ));
+                    },
+                  ),
+                ),
               ),
               const SizedBox(
                 width: 10,

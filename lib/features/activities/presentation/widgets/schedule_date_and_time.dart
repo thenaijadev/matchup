@@ -335,14 +335,14 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
               final startDate = {"start_date": controller.text};
 
               final freq = {"frequency": frequency};
-              final locationName = {"location_name": "nul"};
-              context.read<ActivityDetailsBloc>().add(
-                      ActivityEventGatherInfoEvent(keyValue: {
+
+              context
+                  .read<ActivityDetailsBloc>()
+                  .add(ActivityEventGatherInfoEvent(keyValue: {
                     ...startTime,
                     ...endTime,
                     ...freq,
                     ...startDate,
-                    ...locationName
                   }));
               widget.pageController.nextPage(
                   duration: const Duration(milliseconds: 500),

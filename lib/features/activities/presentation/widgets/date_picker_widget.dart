@@ -96,7 +96,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             children: List.generate(
                 100,
                 (index) =>
-                    Center(child: Text('${_selectedDate.year - index}'))),
+                    Center(child: Text('${_selectedDate.year + index}'))),
           ),
         ),
       ],

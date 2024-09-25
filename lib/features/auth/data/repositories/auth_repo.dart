@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,9 +46,14 @@ class AuthRepository {
           dateOfBirth: dateOfBirth);
       return right(AuthUser.fromJson(response));
     } on DioException catch (e) {
+      final jsonData =
+          jsonDecode(e.response.toString()) as Map<String, dynamic>;
+      logger.e(
+        jsonData,
+      );
       return left(
         AuthError(
-          errorMessage: e.response?.statusMessage ?? "There has been an error",
+          errorMessage: jsonData['message'] ?? "There has been an error",
         ),
       );
     } catch (e) {
