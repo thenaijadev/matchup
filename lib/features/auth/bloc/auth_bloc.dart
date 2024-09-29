@@ -59,7 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           gender: event.userData.gender ?? "",
           profileImage: event.userData.profileImage!);
 
-      response.fold((l) => emit(AuthStateError(error: l)), (r) {
+      response.fold((l) => emit(AuthStateErrorFileUploadError(error: l)), (r) {
         emit(
           AuthStateUserProfileUpdated(updatedUser: r),
         );

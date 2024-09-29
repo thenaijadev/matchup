@@ -7,6 +7,7 @@ import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
@@ -179,6 +180,10 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
                 if (state is AuthStateUserProfileUpdated) {
                   Navigator.pushNamed(context, Routes.sportChoice,
                       arguments: widget.user);
+                }
+                if (state is AuthStateErrorFileUploadError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, "The image size is too big");
                 }
               },
               builder: (context, state) {

@@ -19,6 +19,13 @@ class AuthStateError extends AuthState {
   });
 }
 
+class AuthStateErrorFileUploadError extends AuthState {
+  final AuthError error;
+  const AuthStateErrorFileUploadError({
+    required this.error,
+  });
+}
+
 class AuthStateUserIsRegistered extends AuthState {
   final AuthUser user;
   final UserData userData;
