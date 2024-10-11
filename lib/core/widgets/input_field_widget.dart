@@ -23,7 +23,7 @@ class InputFieldWidget extends StatelessWidget {
       this.labelColor = AppColors.primary,
       this.labelFontSize = 16,
       this.enabledBorderRadius = 30,
-      this.verticalContentPadding = 0,
+      this.verticalContentPadding = 15,
       this.controller,
       this.horizontalContentPadding = 10,
       this.labelPadding =
