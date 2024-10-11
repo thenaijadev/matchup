@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
@@ -173,8 +175,9 @@ class _LoginScreenState extends State<LoginScreen> {
               BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   if (state is AuthStateError) {
-                    InfoSnackBar.showErrorSnackBar(
-                        context, state.error.errorMessage);
+                    InfoSnackBar.showErrorSnackBar(context,
+                        jsonDecode(state.error.errorMessage)["message"]);
+                    // logger.e(jsonDecode(state.error.errorMessage)["message"]);
                   }
                   if (state is AuthStateIsLoggedIn) {
                     Navigator.of(context).popAndPushNamed(

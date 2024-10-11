@@ -206,7 +206,7 @@ class _OTPScreenState extends State<OTPScreen> {
               listener: (context, state) {
                 if (state is AuthStateError) {
                   InfoSnackBar.showErrorSnackBar(
-                      context, state.error.errorMessage);
+                      context, "Incorrect or expired OTP code");
                 }
 
                 if (state is AuthStateOtpVerificationSuccessfully) {

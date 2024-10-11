@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.popAndPushNamed(
         context,
-        Routes.login,
+        Routes.onboardingScreen,
       );
     });
     super.initState();
