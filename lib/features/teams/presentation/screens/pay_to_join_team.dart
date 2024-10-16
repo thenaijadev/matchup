@@ -35,7 +35,7 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: Transform.translate(
           offset: const Offset(15, 0),
           child: Transform.scale(
@@ -69,7 +69,7 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
@@ -125,12 +125,12 @@ class _PayToJoinTeamState extends State<PayToJoinTeam> {
                   scale: 0.7,
                   child: Switch(
                     value: isFree,
-                    trackColor: MaterialStatePropertyAll(
-                        Theme.of(context).colorScheme.background),
+                    trackColor: WidgetStatePropertyAll(
+                        Theme.of(context).colorScheme.surface),
                     inactiveThumbColor: Theme.of(context).colorScheme.primary,
                     activeColor: Theme.of(context).colorScheme.primary,
-                    trackOutlineWidth: const MaterialStatePropertyAll(2),
-                    trackOutlineColor: MaterialStatePropertyAll(
+                    trackOutlineWidth: const WidgetStatePropertyAll(2),
+                    trackOutlineColor: WidgetStatePropertyAll(
                         Theme.of(context).colorScheme.inverseSurface),
                     onChanged: (val) {
                       setState(() {

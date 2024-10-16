@@ -46,7 +46,7 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: Transform.translate(
           offset: const Offset(15, 0),
           child: Transform.scale(
@@ -77,7 +77,7 @@ class _SportChoiceScreenState extends State<SportChoiceScreen> {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: const BoxDecoration(

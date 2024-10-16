@@ -53,9 +53,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: Transform.translate(
           offset: const Offset(15, 0),
           child: Transform.scale(
@@ -97,7 +97,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(0.0),
             child: Form(
               key: formKey,
               child: Column(

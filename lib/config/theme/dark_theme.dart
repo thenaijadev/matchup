@@ -13,7 +13,7 @@ ThemeData darkTheme() {
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.light(
         brightness: Brightness.dark,
-        background: Color(0xFF1A1617),
+        surface: Color(0xFF1A1617),
         primary: Color(0xFFFE6008),
         secondary: AppColors.textSecondaryDark,
         inversePrimary: AppColors.textPrimaryDark,

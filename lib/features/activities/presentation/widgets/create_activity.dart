@@ -67,9 +67,8 @@ class _CreateActivityState extends State<CreateActivity> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .secondary),
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ExpansionTile(
@@ -245,9 +244,8 @@ class _CreateActivityState extends State<CreateActivity> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .secondary),
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ExpansionTile(

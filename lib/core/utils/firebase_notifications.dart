@@ -1,14 +1,14 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FirebaseAndPushNotificationService {
-  static final _firebaseMessaging = FirebaseMessaging.instance;
+  // static final _firebaseMessaging = FirebaseMessaging.instance;
   static final FlutterLocalNotificationsPlugin
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   static late String? fCMToken;
   static Future<void> initNotifications() async {
-    await _firebaseMessaging.requestPermission();
-    fCMToken = await _firebaseMessaging.getToken();
+    // await _firebaseMessaging.requestPermission();
+    // fCMToken = await _firebaseMessaging.getToken();
   }
 
   static Future localNotificationsInit() async {

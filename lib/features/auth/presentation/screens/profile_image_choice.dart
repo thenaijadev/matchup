@@ -35,9 +35,9 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: Transform.translate(
           offset: const Offset(11, 0),
           child: Transform.scale(
@@ -102,7 +102,7 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
                     isScrollControlled: true,
                     scrollControlDisabledMaxHeightRatio: (1 / 2.5),
                     showDragHandle: true,
-                    backgroundColor: Theme.of(context).colorScheme.background,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     context: context,
                     builder: ((sheetContext) {
                       return PictureBottomSheet(

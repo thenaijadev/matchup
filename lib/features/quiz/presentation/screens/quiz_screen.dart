@@ -69,9 +69,9 @@ class _LoginScreenState extends State<QuizScreen> {
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           leading: Transform.translate(
             offset: const Offset(15, 0),
             child: Transform.scale(
@@ -212,7 +212,7 @@ class _LoginScreenState extends State<QuizScreen> {
                                       decoration: BoxDecoration(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .background,
+                                              .surface,
                                           border: Border.all(
                                               color: Theme.of(context)
                                                   .colorScheme

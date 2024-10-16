@@ -186,7 +186,7 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
                 height: 100.h,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10.h),
                 decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(10.sp),
                     border: Border.all(
                       color: Theme.of(context).colorScheme.inverseSurface,

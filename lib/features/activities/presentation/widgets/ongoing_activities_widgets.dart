@@ -56,7 +56,7 @@ class _OngoingActivitiesState extends State<OngoingActivities> {
                   padding: const EdgeInsets.all(20),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         width: 1,

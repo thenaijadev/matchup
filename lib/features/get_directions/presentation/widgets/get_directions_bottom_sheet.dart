@@ -130,13 +130,13 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                       scale: 0.7,
                       child: Switch(
                         value: isAccepted,
-                        trackColor: MaterialStatePropertyAll(
-                            Theme.of(context).colorScheme.background),
+                        trackColor: WidgetStatePropertyAll(
+                            Theme.of(context).colorScheme.surface),
                         inactiveThumbColor:
                             Theme.of(context).colorScheme.primary,
                         activeColor: Theme.of(context).colorScheme.primary,
-                        trackOutlineWidth: const MaterialStatePropertyAll(2),
-                        trackOutlineColor: MaterialStatePropertyAll(
+                        trackOutlineWidth: const WidgetStatePropertyAll(2),
+                        trackOutlineColor: WidgetStatePropertyAll(
                             Theme.of(context).colorScheme.inverseSurface),
                         onChanged: (val) {
                           setState(() {

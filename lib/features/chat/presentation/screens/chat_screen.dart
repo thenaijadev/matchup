@@ -39,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         padding: const EdgeInsets.all(20).copyWith(bottom: 0),
         decoration: const BoxDecoration(
@@ -241,7 +241,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
                                                       .colorScheme
-                                                      .background,
+                                                      .surface,
                                                   borderRadius:
                                                       BorderRadius.circular(20),
                                                   border: Border.all(

@@ -10,7 +10,7 @@ void changeCountry(context, onSelect) {
             TextStyle(color: Theme.of(context).colorScheme.secondary),
         flagSize: 25,
 
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         textStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
         bottomSheetHeight: 350, // Optional. Country list modal height
         //Optional. Sets the border radius for the bottomsheet.

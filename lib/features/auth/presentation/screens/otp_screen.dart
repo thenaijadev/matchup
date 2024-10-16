@@ -84,7 +84,7 @@ class _OTPScreenState extends State<OTPScreen> {
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: Transform.translate(
           offset: const Offset(15, 0),
           child: Transform.scale(
@@ -115,7 +115,7 @@ class _OTPScreenState extends State<OTPScreen> {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
@@ -144,7 +144,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   obscureText: true,
                   spaceBetween: MediaQuery.of(context).size.width * .01,
                   otpFieldStyle: OtpFieldStyle(
-                    backgroundColor: Theme.of(context).colorScheme.background,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     borderColor: Theme.of(context).colorScheme.inverseSurface,
                     enabledBorderColor:
                         Theme.of(context).colorScheme.inverseSurface,

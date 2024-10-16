@@ -93,7 +93,7 @@ class _AppearanceWidgetState extends State<AppearanceWidget> {
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  // color: Theme.of(context).colorScheme.background,
+                  // color: Theme.of(context).colorScheme.surface,
                   border: Border(
                     bottom: BorderSide(
                       width: 2,

@@ -52,7 +52,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
   String? startTimeMin;
   String? endTimeHour;
   String? endTimeMin;
-  String frequency = "";
+  String? frequency;
   List<String> gameFrame = [
     "ONE_OFF",
     "DAILY",
@@ -78,7 +78,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(10.r),
               border: Border.all(
                   color: Theme.of(context).colorScheme.inverseSurface)),
@@ -344,6 +344,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                     ...freq,
                     ...startDate,
                   }));
+
               widget.pageController.nextPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.decelerate);
@@ -361,7 +362,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                 decoration: BoxDecoration(
                   border: Border.all(
                       width: 1, color: Theme.of(context).colorScheme.secondary),
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ExpansionTile(
@@ -370,7 +371,7 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                       borderRadius: BorderRadius.circular(10)),
                   collapsedIconColor: Theme.of(context).colorScheme.secondary,
                   title: TextWidget(
-                    text: state.formDetails["frequency"] ?? "Frequency",
+                    text: frequency ?? "Frequency",
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                   children: List.generate(
@@ -383,8 +384,12 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                                   const EdgeInsets.symmetric(vertical: 10.0),
                               child: TextWidget(
                                 onTap: () {
+                                  setState(() {
+                                    frequency = gameFrame[index];
+
+                                    print(frequency);
+                                  });
                                   _eventController.collapse();
-                                  frequency = gameFrame[index];
                                 },
                                 text: gameFrame[index],
                                 color: Theme.of(context).colorScheme.secondary,

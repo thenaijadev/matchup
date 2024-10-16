@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ];
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Container(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             decoration: const BoxDecoration(

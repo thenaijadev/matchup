@@ -29,7 +29,7 @@ class SportItemWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.inverseSurface),
           color: isSelected
               ? const Color.fromARGB(22, 254, 94, 8)
-              : Theme.of(context).colorScheme.background,
+              : Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(

@@ -33,7 +33,7 @@ class _MySportsListScreenState extends State<MySportsListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(

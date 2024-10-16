@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -26,6 +25,11 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
   @override
   void initState() {
     _controller = PageController();
+    DefaultAssetBundle.of(context)
+        .loadString("i_theme/dark_theme_json.json")
+        .then((value) {
+      themeForMap = value;
+    });
     super.initState();
   }
 
@@ -35,26 +39,30 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
     super.dispose();
   }
 
+  String themeForMap = "";
+
   bool isPageTwo = false;
 
   int page = 0;
-  final MapController controller = MapController();
+
   List<LatLng> tappedPoints = [
     const LatLng(50.5, -0.09),
     const LatLng(51.5006678, -0.09724),
   ];
+  static const _pGooglePlex = LatLng(6.5244, 3.3792);
+  LatLng? tappedPoint;
   @override
   Widget build(BuildContext context) {
-    final List<Marker> markers = tappedPoints.map((latLng) {
-      return Marker(
-          point: latLng,
-          child: Icon(
-            Icons.pin_drop,
-            color: Theme.of(context).colorScheme.primary,
-          ));
-    }).toList();
+    final Set<Marker> markers = {
+      Marker(
+          position: tappedPoint ?? const LatLng(50.5, -0.09),
+          markerId: const MarkerId(
+            "_currentLocation",
+          ),
+          icon: BitmapDescriptor.defaultMarker)
+    };
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -123,7 +131,7 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                                 .copyWith(top: 0),
                             child: Center(
                               child: SmoothPageIndicator(
-                                  controller: _controller, // PageController
+                                  controller: _controller,
                                   count: 4,
                                   effect: ExpandingDotsEffect(
                                       radius: 10,
@@ -131,7 +139,7 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                                       dotHeight: 6,
                                       activeDotColor: Theme.of(context)
                                           .colorScheme
-                                          .primary), // your preferred effect
+                                          .primary),
                                   onDotClicked: (index) {
                                     _controller.animateToPage(index,
                                         duration:
@@ -196,7 +204,6 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                           }
                         },
                         isEnabled: true),
-                  // if (page == 2)
                 ],
               ),
             ),
@@ -209,33 +216,27 @@ class _CreateNewActivityScreenState extends State<CreateNewActivityScreen> {
                 width: double.infinity,
                 child: Stack(
                   children: [
-                    FlutterMap(
-                        mapController: controller,
-                        options: MapOptions(
-                            onTap: (tapPosition, point) {
-                              setState(() {
-                                tappedPoints.clear();
-                                tappedPoints.add(point);
+                    GoogleMap(
+                      style: themeForMap,
+                      markers: markers,
+                      zoomControlsEnabled: false,
+                      initialCameraPosition:
+                          const CameraPosition(target: _pGooglePlex, zoom: 13),
+                      onTap: (point) {
+                        setState(() {
+                          tappedPoints.clear();
+                          tappedPoints.add(point);
+                          tappedPoint = point;
 
-                                context.read<ActivityDetailsBloc>().add(
-                                        ActivityEventGatherInfoEvent(keyValue: {
-                                      "latitude": point.latitude.toString(),
-                                      "longitude": point.longitude.toString(),
-                                    }));
-                              });
-                            },
-                            minZoom: 5,
-                            maxZoom: 18,
-                            initialCenter: const LatLng(1.509364, -0.128928),
-                            initialZoom: 10),
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            userAgentPackageName: "com.matchup.com",
-                          ),
-                          MarkerLayer(markers: markers)
-                        ]),
+                          context
+                              .read<ActivityDetailsBloc>()
+                              .add(ActivityEventGatherInfoEvent(keyValue: {
+                                "latitude": point.latitude.toString(),
+                                "longitude": point.longitude.toString(),
+                              }));
+                        });
+                      },
+                    ),
                     SafeArea(
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),

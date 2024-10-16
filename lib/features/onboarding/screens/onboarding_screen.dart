@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/constants/app_colors.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
@@ -98,7 +99,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           scrollControlDisabledMaxHeightRatio: (1 / 2.5),
                           showDragHandle: true,
                           backgroundColor:
-                              Theme.of(context).colorScheme.background,
+                              Theme.of(context).colorScheme.surface,
                           context: context,
                           builder: ((context) {
                             return const BottomSheetWidget();
@@ -109,8 +110,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Center(
+                  Center(
                     child: TextWidget(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.login);
+                      },
                       text: "I already have an account",
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
