@@ -48,7 +48,7 @@ class LocationItem extends StatelessWidget {
                 },
                 child: CircleAvatar(
                   radius: 15,
-                  backgroundColor: const Color(0xff2D2627),
+                  backgroundColor: const Color(0xffD9D9D9),
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Center(
@@ -61,7 +61,7 @@ class LocationItem extends StatelessWidget {
               ),
               CircleAvatar(
                 radius: 15,
-                backgroundColor: const Color(0xff2D2627),
+                backgroundColor: const Color(0xffD9D9D9),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Center(

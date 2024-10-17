@@ -29,6 +29,11 @@ class AuthEventUpdateProfile extends AuthEvent {
       {required this.userData, required this.authToken});
 }
 
+class AuthEventUpdateAddress extends AuthEvent {
+  final String address;
+  const AuthEventUpdateAddress({required this.address});
+}
+
 class AuthEventRequestOtp extends AuthEvent {
   final String email;
   const AuthEventRequestOtp({

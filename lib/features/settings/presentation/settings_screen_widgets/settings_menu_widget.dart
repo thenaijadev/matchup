@@ -104,12 +104,16 @@ class SettingsMenuWidget extends StatelessWidget {
               title: "My Sports",
             ),
             SettingsItem(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, Routes.teamList);
+              },
               image: "assets/images/people_icon.png",
               title: "Clubs",
             ),
             SettingsItem(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, Routes.activities);
+              },
               image: "assets/images/note_icon.png",
               title: "Activities",
             )

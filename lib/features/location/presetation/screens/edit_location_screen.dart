@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
+import 'package:matchup/core/utils/logger.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
+import 'package:matchup/core/widgets/snackbar.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/bloc/auth_bloc.dart';
 
-class EditLocationScreen extends StatelessWidget {
+class EditLocationScreen extends StatefulWidget {
   const EditLocationScreen({super.key});
 
+  @override
+  State<EditLocationScreen> createState() => _EditLocationScreenState();
+}
+
+class _EditLocationScreenState extends State<EditLocationScreen> {
+  String location = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,10 +92,38 @@ class EditLocationScreen extends StatelessWidget {
                     enabledBorderRadius: 10,
                     hintColor: Theme.of(context).colorScheme.secondary,
                     hintText: "Location",
-                    onChanged: (val) {})
+                    onChanged: (val) {
+                      setState(() {
+                        location = val!;
+                      });
+                    })
               ],
             ),
-            PrimaryButton(label: "Submit", onPressed: () {}, isEnabled: true)
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthStateError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.error.errorMessage);
+                  logger.f(state);
+                }
+                if (state is AuthStateUserProfileUpdated) {
+                  Navigator.pushReplacementNamed(
+                      context, Routes.location); // popped from LoginScreen().
+                }
+              },
+              builder: (context, state) {
+                return state is AuthStateIsLoading
+                    ? const LoadingWidget()
+                    : PrimaryButton(
+                        label: "Submit",
+                        onPressed: () {
+                          context
+                              .read<AuthBloc>()
+                              .add(AuthEventUpdateAddress(address: location));
+                        },
+                        isEnabled: true);
+              },
+            )
           ],
         ),
       ),

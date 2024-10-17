@@ -124,6 +124,32 @@ class AuthRepository {
     }
   }
 
+  Future<EitherUpdatedUserModelOrAuthError> updateAddres(
+      {required String address}) async {
+    try {
+      final response = await provider.updateAddress(address: address);
+      final user = await LocalDataSource().getUser();
+      final newLovation =
+          user?.copyWith(user: user.user?.copyWith(location: address));
+      LocalDataSource().saveUser(newLovation!);
+      return right(UpdatedUserModel.fromJson(response));
+    } on DioException catch (e) {
+      logger.f(e.response?.data);
+      return left(
+        AuthError(
+          errorMessage:
+              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+        ),
+      );
+    } catch (e) {
+      return left(
+        AuthError(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
   Future<EitherAuthErrorOrOtpRequestedModel> requestOtp({
     required String email,
   }) async {

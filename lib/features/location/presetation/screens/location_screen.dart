@@ -2,13 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/location/presetation/widgets/location_item.dart';
 
-class LocationScreen extends StatelessWidget {
+class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});
 
   @override
+  State<LocationScreen> createState() => _LocationScreenState();
+}
+
+class _LocationScreenState extends State<LocationScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Timer.periodic(const Duration(seconds: 33), (timer) {
+    //   setState(() {});
+    // });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -59,16 +73,23 @@ class LocationScreen extends StatelessWidget {
           children: [
             ListView(
               shrinkWrap: true,
-              children: const [
-                LocationItem(
-                  location: "75, ST Palmer Avenue Enugu State Nigeria",
-                ),
+              children: [
+                FutureBuilder(
+                    future: LocalDataSource().getUser(),
+                    builder: (context, snapshot) {
+                      return LocationItem(
+                        location: snapshot.hasData
+                            ? snapshot.data?.user?.location ?? ""
+                            : "",
+                      );
+                    }),
               ],
             ),
             PrimaryButton(
                 label: "Add new address",
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.createLocation);
+                onPressed: () async {
+                  var data =
+                      await Navigator.pushNamed(context, Routes.createLocation);
                 },
                 isEnabled: true)
           ],

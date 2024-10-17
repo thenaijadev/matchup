@@ -8,6 +8,7 @@ import 'package:matchup/features/auth/data/models/otp_verification_email.dart';
 import 'package:matchup/features/auth/data/models/password_reset_model.dart';
 import 'package:matchup/features/auth/data/models/updated_user_model.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
+import 'package:matchup/features/auth/data/providers/local_provider.dart';
 import 'package:matchup/features/auth/data/repositories/auth_repo.dart';
 
 part 'auth_event.dart';
@@ -66,6 +67,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
     });
 
+//TODO --------------------------------------------------UPDATE PROFILE------------------------------------------------------------
+
+    on<AuthEventUpdateAddress>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final response = await authRepo.updateAddres(address: event.address);
+
+      response.fold((l) => emit(AuthStateError(error: l)), (r) {
+        emit(
+          AuthStateUserProfileUpdated(updatedUser: r),
+        );
+      });
+    });
+
     on<AuthEventRequestOtp>((event, emit) async {
       emit(AuthStateIsLoading());
       final response = await authRepo.requestOtp(email: event.email);
@@ -104,7 +118,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<AuthEventSendFCM>((event, emit) async {
-      final fcm = "";
+      const fcm = "";
       // await FirebaseMessaging.instance.getToken();
 
       final response = await authRepo.sendFcm(fcm: fcm ?? "");

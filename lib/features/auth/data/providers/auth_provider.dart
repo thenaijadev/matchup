@@ -90,6 +90,28 @@ class AuthProvider {
     }
   }
 
+  Future<Map<String, dynamic>> updateAddress({required String address}) async {
+    final formData = FormData.fromMap({
+      "location": address,
+    });
+
+    final user = await LocalDataSource().getUser();
+
+    try {
+      final response = await DioClient.instance.post(
+          path: ApiRoutes.updateProfile,
+          data: formData,
+          options: Options(
+            headers: {"Authorization": "Bearer ${user?.token}"},
+          ));
+
+      return response;
+    } catch (e) {
+      logger.e(e.toString());
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> requestOtp({
     required String email,
   }) async {
