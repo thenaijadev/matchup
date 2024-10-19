@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/activities/blocs/bloc/activity_details_bloc.dart';
+import 'package:matchup/features/places/bloc/places_bloc.dart';
 
 class MapScreenBottomSheet extends StatefulWidget {
   const MapScreenBottomSheet(
@@ -78,11 +80,93 @@ class _MapScreenBottomSheetState extends State<MapScreenBottomSheet> {
                 hintColor: Theme.of(context).colorScheme.secondary,
                 // hintText: "Search for location or venue",
                 hintText: "Enter your address",
-                onChanged: (val) {}),
+                onChanged: (val) {
+                  context
+                      .read<PlacesBloc>()
+                      .add(PlacesEventGetSuggestions(query: controller.text));
+                }),
           if (!locationPicked)
             const SizedBox(
               height: 40,
             ),
+          if (!locationPicked)
+            BlocConsumer<PlacesBloc, PlacesState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                return state is PlacesStateSuccess
+                    ? state is PlacesStateIsLoading
+                        ? const SizedBox(width: 100, child: LoadingWidget())
+                        : SizedBox(
+                            height: 200,
+                            child: ListView(
+                              children: [
+                                Row(
+                                  children: [
+                                    TextWidget(
+                                        textAlign: TextAlign.center,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        fontSize: 12,
+                                        text: "Search Results"),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ...List.generate(
+                                    state.places.predictionsMap["predictions"]
+                                        .length, (index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        controller.text = state.places
+                                                .predictionsMap['predictions']
+                                            [index]["description"];
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/pin.png",
+                                            width: 14,
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .7,
+                                            child: TextWidget(
+                                                textAlign: TextAlign.start,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .inversePrimary,
+                                                fontSize: 12,
+                                                text:
+                                                    state.places.predictionsMap[
+                                                            'predictions']
+                                                        [index]["description"]),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
+                          )
+                    : const SizedBox();
+              },
+            ),
+          const SizedBox(
+            height: 30,
+          ),
           if (!locationPicked)
             PrimaryButton(
                 label: "Continue",
@@ -100,10 +184,6 @@ class _MapScreenBottomSheetState extends State<MapScreenBottomSheet> {
                   // Navigator.pop(context);
                 },
                 isEnabled: true),
-          if (!locationPicked)
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .5,
-            ),
           if (locationPicked)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -129,52 +209,6 @@ class _MapScreenBottomSheetState extends State<MapScreenBottomSheet> {
                 ],
               ),
             ),
-          // ...List.generate(
-          //   3,
-          //   (index) => GestureDetector(
-          //     onTap: () {
-          //       setState(() {
-          //         locationPicked = true;
-          //       });
-          //     },
-          //     child: Padding(
-          //       padding: const EdgeInsets.symmetric(vertical: 10.0),
-          //       child: Row(
-          //         children: [
-          //           CircleAvatar(
-          //             backgroundColor:
-          //                 Theme.of(context).colorScheme.inverseSurface,
-          //             radius: 15,
-          //             child: Padding(
-          //               padding: const EdgeInsets.all(5.0),
-          //               child: Image.asset("assets/images/location_pin.png"),
-          //             ),
-          //           ),
-          //           const SizedBox(
-          //             width: 20,
-          //           ),
-          //           Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               TextWidget(
-          //                 text: "Computer games",
-          //                 fontWeight: FontWeight.bold,
-          //                 color: Theme.of(context).colorScheme.inversePrimary,
-          //               ),
-          //               TextWidget(
-          //                 text:
-          //                     "08 festac avenue, ikate, surulere, lagos state",
-          //                 color: Theme.of(context).colorScheme.secondary,
-          //                 fontWeight: FontWeight.bold,
-          //                 fontSize: 11,
-          //               ),
-          //             ],
-          //           )
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
           const SizedBox(
             height: 50,
           ),

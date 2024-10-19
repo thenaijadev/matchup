@@ -19,7 +19,11 @@ class _PaymentState extends State<Payment> {
     super.initState();
   }
 
+  List<String> currencies = ["Dollars", "Naira"];
+  String? currency;
   bool isAccepted = false;
+  final ExpansionTileController expansionTileController =
+      ExpansionTileController();
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -42,6 +46,43 @@ class _PaymentState extends State<Payment> {
       const SizedBox(
         height: 20,
       ),
+      Container(
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.inverseSurface,
+              )),
+          child: ExpansionTile(
+              controller: expansionTileController,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: TextWidget(
+                text: currency ?? "Currency",
+                color: Colors.black,
+              ),
+              children: List.generate(currencies.length, (index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: TextWidget(
+                          onTap: () {
+                            setState(() {
+                              currency = currencies[index];
+                              expansionTileController.collapse();
+                            });
+                          },
+                          text: currencies[index],
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }))),
       InputFieldWidget(
         hintColor: Theme.of(context).colorScheme.secondary,
         hintText: "",

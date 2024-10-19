@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
+import 'package:matchup/core/widgets/loading_widget.dart';
 import 'package:matchup/core/widgets/primary_button.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/data/models/user_data.dart';
+import 'package:matchup/features/places/bloc/places_bloc.dart';
 
 class LocationSearchScreen extends StatefulWidget {
   const LocationSearchScreen({super.key, required this.user});
@@ -13,12 +16,14 @@ class LocationSearchScreen extends StatefulWidget {
 }
 
 class _LocationSearchScreenState extends State<LocationSearchScreen> {
+  final TextEditingController _controller = TextEditingController();
   int choice = 1;
   bool showGender = false;
   String location = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -73,6 +78,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                       "To give you the best experience possible, we’d like to know a little about you."),
             ),
             InputFieldWidget(
+                controller: _controller,
                 hintColor: Theme.of(context).colorScheme.secondary,
                 hintText: "Eg: Agege, Lagos Nigeria",
                 prefixicon: Icon(
@@ -83,11 +89,17 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                 onChanged: (val) {
                   setState(() {
                     location = val!;
+                    Future.delayed(const Duration(seconds: 1), () {
+                      context
+                          .read<PlacesBloc>()
+                          .add(PlacesEventGetSuggestions(query: val));
+                    });
                   });
                 }),
             const SizedBox(
               height: 30,
             ),
+
             // GestureDetector(
             //   onTap: () {},
             //   child: Row(
@@ -111,41 +123,88 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
             //   thickness: 0.2,
             //   paddingVertical: 20,
             // ),
-            // Column(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     TextWidget(
-            //         textAlign: TextAlign.center,
-            //         color: Theme.of(context).colorScheme.secondary,
-            //         fontSize: 12,
-            //         text: "Search Results"),
-            //     const SizedBox(
-            //       height: 20,
-            //     ),
-            //     Row(
-            //       children: [
-            //         Image.asset(
-            //           "assets/images/pin.png",
-            //           width: 14,
-            //         ),
-            //         const SizedBox(
-            //           width: 20,
-            //         ),
-            //         TextWidget(
-            //             textAlign: TextAlign.center,
-            //             color: Theme.of(context).colorScheme.inversePrimary,
-            //             fontSize: 12,
-            //             text: "75, ST Palmer Avenue, Enugu"),
-            //       ],
-            //     )
-            //   ],
-            // ),
+            BlocConsumer<PlacesBloc, PlacesState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                return state is PlacesStateSuccess
+                    ? state is PlacesStateIsLoading
+                        ? const SizedBox(width: 100, child: LoadingWidget())
+                        : SizedBox(
+                            height: 150,
+                            child: ListView(
+                              children: [
+                                Row(
+                                  children: [
+                                    TextWidget(
+                                        textAlign: TextAlign.center,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        fontSize: 12,
+                                        text: "Search Results"),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ...List.generate(
+                                    state.places.predictionsMap["predictions"]
+                                        .length, (index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        _controller.text = state.places
+                                                .predictionsMap['predictions']
+                                            [index]["description"];
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/pin.png",
+                                            width: 14,
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .7,
+                                            child: TextWidget(
+                                                textAlign: TextAlign.start,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .inversePrimary,
+                                                fontSize: 12,
+                                                text:
+                                                    state.places.predictionsMap[
+                                                            'predictions']
+                                                        [index]["description"]),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
+                          )
+                    : const SizedBox();
+              },
+            ),
+
             const Spacer(),
             PrimaryButton(
                 label: "Continue",
                 onPressed: () {
                   Navigator.of(context).pushNamed(Routes.addProfileImage,
-                      arguments: widget.user.copyWith(location: location));
+                      arguments:
+                          widget.user.copyWith(location: _controller.text));
                 },
                 isEnabled: location != "")
           ],

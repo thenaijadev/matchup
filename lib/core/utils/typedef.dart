@@ -20,6 +20,8 @@ import 'package:matchup/features/chat/data/models/send_chat_model.dart';
 import 'package:matchup/features/news/data/models/news_error.dart';
 import 'package:matchup/features/news/data/models/news_model.dart';
 import 'package:matchup/features/news/data/models/sport_news_model.dart';
+import 'package:matchup/features/places/data/models/places_error.dart';
+import 'package:matchup/features/places/data/models/places_success.dart';
 import 'package:matchup/features/profile/data/models/all_sports_model.dart';
 import 'package:matchup/features/profile/data/models/all_users_model.dart';
 import 'package:matchup/features/profile/data/models/create_user_sport_model.dart';
@@ -75,12 +77,7 @@ typedef EitherQuizErrorOrQuizModel = Either<QuizError, QuizModel>;
 typedef EitherParticipantErrorOrParticipantModel
     = Either<ParticipantError, ParticipantsModel>;
 
-
-
-
-
-
-
+typedef EitherPlacesErrorOrPlacesModel = Either<PlacesError, PlacesSuccess>;
 
 
 

@@ -182,8 +182,8 @@ class _ProfileImageChoiceScreenState extends State<ProfileImageChoiceScreen> {
                       arguments: widget.user);
                 }
                 if (state is AuthStateErrorFileUploadError) {
-                  InfoSnackBar.showErrorSnackBar(
-                      context, "The image size is too big");
+                  InfoSnackBar.showErrorSnackBar(context,
+                      "The location field must not be greater than 50 characters.");
                 }
               },
               builder: (context, state) {

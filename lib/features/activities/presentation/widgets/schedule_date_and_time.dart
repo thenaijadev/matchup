@@ -103,84 +103,104 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                       )
                     ],
                   ),
-                  Row(
+                  Column(
                     children: [
-                      Container(
-                        width: 30.w,
-                        height: 25.h,
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.inverseSurface),
-                        child: CupertinoPicker(
-                          selectionOverlay:
-                              const CupertinoPickerDefaultSelectionOverlay(
-                            capEndEdge: false,
-                            capStartEdge: false,
-                            background: Colors.transparent,
-                          ),
-                          scrollController: FixedExtentScrollController(
-                              initialItem: _selectedDay - 1),
-                          itemExtent: 32.0,
-                          onSelectedItemChanged: (value) {
-                            setState(() {
-                              startTimeHour = value.toString();
-                            });
-                          },
-                          children: List.generate(
-                            24,
-                            (index) => Center(
-                              child: TextWidget(
-                                text: index.toString().length == 1
-                                    ? '0$index'
-                                    : '$index',
+                      Row(
+                        children: [
+                          Container(
+                            width: 30.w,
+                            height: 25.h,
+                            decoration: BoxDecoration(
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .inversePrimary,
-                                fontWeight: FontWeight.bold,
+                                    .inverseSurface),
+                            child: CupertinoPicker(
+                              selectionOverlay:
+                                  const CupertinoPickerDefaultSelectionOverlay(
+                                capEndEdge: false,
+                                capStartEdge: false,
+                                background: Colors.transparent,
+                              ),
+                              scrollController: FixedExtentScrollController(
+                                  initialItem: _selectedDay - 1),
+                              itemExtent: 32.0,
+                              onSelectedItemChanged: (value) {
+                                setState(() {
+                                  startTimeHour = value.toString();
+                                });
+                              },
+                              children: List.generate(
+                                24,
+                                (index) => Center(
+                                  child: TextWidget(
+                                    text: index.toString().length == 1
+                                        ? '0$index'
+                                        : '$index',
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .inversePrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: 30.w,
-                        height: 25.h,
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.inverseSurface),
-                        child: CupertinoPicker(
-                          selectionOverlay:
-                              const CupertinoPickerDefaultSelectionOverlay(
-                            capEndEdge: false,
-                            capStartEdge: false,
-                            background: Colors.transparent,
+                          const SizedBox(
+                            width: 10,
                           ),
-                          scrollController: FixedExtentScrollController(
-                              initialItem: _selectedDay - 1),
-                          itemExtent: 32.0,
-                          onSelectedItemChanged: (value) {
-                            setState(() {
-                              startTimeMin = value.toString();
-                            });
-                          },
-                          children: List.generate(
-                            60,
-                            (index) => Center(
-                              child: TextWidget(
-                                text: index.toString().length == 1
-                                    ? '0$index'
-                                    : '$index',
+                          Container(
+                            width: 30.w,
+                            height: 25.h,
+                            decoration: BoxDecoration(
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .inversePrimary,
-                                fontWeight: FontWeight.bold,
+                                    .inverseSurface),
+                            child: CupertinoPicker(
+                              selectionOverlay:
+                                  const CupertinoPickerDefaultSelectionOverlay(
+                                capEndEdge: false,
+                                capStartEdge: false,
+                                background: Colors.transparent,
+                              ),
+                              scrollController: FixedExtentScrollController(
+                                  initialItem: _selectedDay - 1),
+                              itemExtent: 32.0,
+                              onSelectedItemChanged: (value) {
+                                setState(() {
+                                  startTimeMin = value.toString();
+                                });
+                              },
+                              children: List.generate(
+                                60,
+                                (index) => Center(
+                                  child: TextWidget(
+                                    text: index.toString().length == 1
+                                        ? '0$index'
+                                        : '$index',
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .inversePrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.arrow_upward,
+                                size: 15,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              Icon(
+                                Icons.arrow_downward,
+                                size: 15,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -286,6 +306,20 @@ class _ScheduleDateAndTimeState extends State<ScheduleDateAndTime> {
                             ),
                           ),
                         ),
+                      ),
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.arrow_upward,
+                            size: 15,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Icon(
+                            Icons.arrow_downward,
+                            size: 15,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ],
                       ),
                     ],
                   ),

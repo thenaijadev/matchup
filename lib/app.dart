@@ -27,6 +27,9 @@ import 'package:matchup/features/chat/data/repository/participant_repository.dar
 import 'package:matchup/features/news/bloc/news_bloc.dart';
 import 'package:matchup/features/news/data/providers/news_providers.dart';
 import 'package:matchup/features/news/data/repositories/news_repository.dart';
+import 'package:matchup/features/places/bloc/places_bloc.dart';
+import 'package:matchup/features/places/data/provider/places_provider.dart';
+import 'package:matchup/features/places/data/repositories/places_repository.dart';
 import 'package:matchup/features/profile/bloc/profile_bloc.dart';
 import 'package:matchup/features/profile/data/providers/profile_provider.dart';
 import 'package:matchup/features/profile/data/repositories/profile_repositories.dart';
@@ -109,6 +112,13 @@ class _MyAppState extends State<MyApp> {
           create: (context) => ParticipantsBloc(
             repo: ParticipantRepository(
               provider: ParticipantsProvider(),
+            ),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => PlacesBloc(
+            repository: PlacesRepository(
+              provider: PlacesProvider(),
             ),
           ),
         ),
