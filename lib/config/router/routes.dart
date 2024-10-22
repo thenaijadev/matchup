@@ -31,4 +31,6 @@ class Routes {
   static const String createLocation = '/createLocation';
   static const String mySports = '/mySports';
   static const String teamList = '/teamList';
+  static const String security = '/security';
+  static const String pinLock = '/pinLock';
 }

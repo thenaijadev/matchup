@@ -37,7 +37,9 @@ class SettingsMenuWidget extends StatelessWidget {
           header: "Security",
           settingsItems: [
             SettingsItem(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed(Routes.security);
+                },
                 image: "assets/images/security_icon.png",
                 title: "Account security"),
             SettingsItem(

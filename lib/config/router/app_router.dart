@@ -29,6 +29,8 @@ import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
 import 'package:matchup/features/quiz/presentation/screens/quiz_screen.dart';
+import 'package:matchup/features/security/presentation/account_security_screen.dart';
+import 'package:matchup/features/security/presentation/passcode_lock_screen.dart';
 import 'package:matchup/features/sports/presentation/screens/sports_screen.dart';
 import 'package:matchup/features/teams/data/models/team_creation_model.dart';
 import 'package:matchup/features/teams/presentation/screens/add_team_members_screen.dart';
@@ -208,6 +210,16 @@ class AppRouter {
       case Routes.teamList:
         return MaterialPageRoute(
           builder: (_) => const TeamListScreen(),
+        );
+
+      case Routes.security:
+        return MaterialPageRoute(
+          builder: (_) => const AccountSecurityScreen(),
+        );
+
+      case Routes.pinLock:
+        return MaterialPageRoute(
+          builder: (_) => const PasscodeLockScreen(),
         );
       default:
         return MaterialPageRoute(
