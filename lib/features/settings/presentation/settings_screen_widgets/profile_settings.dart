@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/input_field_widget.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 import 'package:matchup/features/auth/data/models/auth_user.dart';
@@ -35,11 +36,10 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
   @override
   void initState() {
     // context.read<ProfileBloc>().add(const ProfileEventGetUser());
-
+    _phoneNumberController = TextEditingController();
     _nameController = TextEditingController(text: widget.user.user?.name);
     _emailController = TextEditingController(text: widget.user.user?.email);
-    _phoneNumberController =
-        TextEditingController(text: widget.user.user?.phoneNumber ?? "");
+    _phoneNumberController.text = widget.user.user?.phoneNumber ?? "";
     super.initState();
   }
 
@@ -228,9 +228,14 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.inversePrimary,
               ),
-              const CircleAvatar(
-                radius: 32,
-                child: Icon(Icons.add),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.createTeam);
+                },
+                child: const CircleAvatar(
+                  radius: 32,
+                  child: Icon(Icons.add),
+                ),
               )
             ],
           ),
@@ -258,13 +263,16 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
             hintColor: Theme.of(context).colorScheme.inversePrimary,
             enabledBorderRadius: 10.r,
             hintText: "Email Address",
+            readOnly: true,
             controller: _emailController,
             onChanged: (val) {}),
         InputFieldWidget(
+          // controller: _phoneNumberController,
+
           enabledBorderRadius: 10,
           hintColor: Theme.of(context).colorScheme.inversePrimary,
-
-          initialValue: "",
+          readOnly: true,
+          initialValue: widget.user.user?.phoneNumber ?? "",
           // initialValue: formatPhoneNumber(widget.data[0], widget.data[1]),
 
           prefixicon: Padding(
@@ -315,8 +323,9 @@ class _ProfileSettingsWidgetState extends State<ProfileSettingsWidget> {
             color: Theme.of(context).colorScheme.secondary,
           ),
           hintText: "",
-          keyboardType: TextInputType.number,
 
+          keyboardType: TextInputType.number,
+          // controller: _phoneNumberController,
           hintSize: 20,
           onChanged: (val) {
             setState(() {});

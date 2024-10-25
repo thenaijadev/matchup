@@ -259,12 +259,19 @@ class _GetDirectionsBottomSheetState extends State<GetDirectionsBottomSheet> {
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.inversePrimary,
                       ),
-                      CircleAvatar(
-                          radius: 32,
-                          child: Image.asset(
-                            "assets/images/chat_white.png",
-                            width: 24,
-                          ))
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(
+                            context,
+                          );
+                        },
+                        child: CircleAvatar(
+                            radius: 32,
+                            child: Image.asset(
+                              "assets/images/chat_white.png",
+                              width: 24,
+                            )),
+                      )
                     ],
                   ),
                 ),
