@@ -8,8 +8,10 @@ class HomeWidgetHeaderSection extends StatelessWidget {
   const HomeWidgetHeaderSection({
     super.key,
     required this.user,
+    required this.onTap,
   });
   final AuthUser user;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -57,20 +59,23 @@ class HomeWidgetHeaderSection extends StatelessWidget {
         ),
         Row(
           children: [
-            Container(
-              height: 40,
-              width: 40,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                    color: Theme.of(context).colorScheme.inverseSurface,
-                    width: 2),
-              ),
-              child: Image.asset(
-                color: Theme.of(context).colorScheme.inversePrimary,
-                width: 50,
-                "assets/images/search.png",
+            GestureDetector(
+              onTap: onTap,
+              child: Container(
+                height: 40,
+                width: 40,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.inverseSurface,
+                      width: 2),
+                ),
+                child: Image.asset(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  width: 50,
+                  "assets/images/search.png",
+                ),
               ),
             ),
             const SizedBox(

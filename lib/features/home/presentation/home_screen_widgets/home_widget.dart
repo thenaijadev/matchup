@@ -17,9 +17,10 @@ class HomeScreenWidget extends StatefulWidget {
   const HomeScreenWidget({
     super.key,
     required this.user,
+    required this.searchOnTap,
   });
   final AuthUser user;
-
+  final VoidCallback searchOnTap;
   @override
   State<HomeScreenWidget> createState() => _HomeScreenWidgetState();
 }
@@ -53,6 +54,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   child: ListView(
                     children: [
                       HomeWidgetHeaderSection(
+                        onTap: widget.searchOnTap,
                         user: widget.user,
                       ),
                       const SizedBox(
