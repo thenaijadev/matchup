@@ -18,6 +18,7 @@ import 'package:matchup/features/auth/presentation/screens/otp_screen.dart';
 import 'package:matchup/features/auth/presentation/screens/profile_image_choice.dart';
 import 'package:matchup/features/chat/data/models/participants_model.dart';
 import 'package:matchup/features/chat/presentation/screens/chat_screen.dart';
+import 'package:matchup/features/friend_request_invitation/invitation_list_screen.dart';
 import 'package:matchup/features/get_directions/presentation/screens/get_directions_screen.dart';
 import 'package:matchup/features/home/presentation/screens/home_screen.dart';
 import 'package:matchup/features/location/presetation/screens/create_location.dart';
@@ -25,6 +26,7 @@ import 'package:matchup/features/location/presetation/screens/edit_location_scre
 import 'package:matchup/features/location/presetation/screens/location_screen.dart';
 import 'package:matchup/features/onboarding/screens/onboarding_screen.dart';
 import 'package:matchup/features/onboarding/screens/splash_screen.dart';
+import 'package:matchup/features/privacy/privacy_screen.dart';
 import 'package:matchup/features/profile/data/models/data_transfer_model.dart';
 import 'package:matchup/features/profile/presentation/screens/choose_sport_level_screen.dart';
 import 'package:matchup/features/profile/presentation/screens/sport_choice_screen.dart';
@@ -220,6 +222,14 @@ class AppRouter {
       case Routes.pinLock:
         return MaterialPageRoute(
           builder: (_) => const PasscodeLockScreen(),
+        );
+      case Routes.privacy:
+        return MaterialPageRoute(
+          builder: (_) => const PrivacyScreen(),
+        );
+      case Routes.invititionListScreen:
+        return MaterialPageRoute(
+          builder: (_) => const InvitationListScreen(),
         );
       default:
         return MaterialPageRoute(

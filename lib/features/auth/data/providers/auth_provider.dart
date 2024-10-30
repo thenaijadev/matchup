@@ -76,11 +76,12 @@ class AuthProvider {
     });
 
     try {
+      final user = await LocalDataSource().getUser();
       final response = await DioClient.instance.post(
           path: ApiRoutes.updateProfile,
           data: formData,
           options: Options(
-            headers: {"Authorization": "Bearer $authToken"},
+            headers: {"Authorization": "Bearer ${user?.token ?? ""}"},
           ));
 
       return response;

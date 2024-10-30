@@ -33,4 +33,6 @@ class Routes {
   static const String teamList = '/teamList';
   static const String security = '/security';
   static const String pinLock = '/pinLock';
+  static const String privacy = '/privacy';
+  static const String invititionListScreen = '/invititionListScreen';
 }

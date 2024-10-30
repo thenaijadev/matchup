@@ -49,7 +49,9 @@ class SettingsMenuWidget extends StatelessWidget {
               trailing: const VerifiedBadgeWidget(),
             ),
             SettingsItem(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, Routes.privacy);
+              },
               image: "assets/images/shield_icon.png",
               title: "Privacy",
             )
@@ -128,7 +130,9 @@ class SettingsMenuWidget extends StatelessWidget {
           header: "Others",
           settingsItems: [
             SettingsItem(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, Routes.invititionListScreen);
+              },
               image: "assets/images/smile_emoji_icon.png",
               title: "Leave us a review",
             ),

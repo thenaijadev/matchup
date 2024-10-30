@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matchup/config/router/routes.dart';
 import 'package:matchup/core/widgets/text_widget.dart';
 
-class AccountSecurityScreen extends StatefulWidget {
-  const AccountSecurityScreen({super.key});
+class PrivacyScreen extends StatefulWidget {
+  const PrivacyScreen({super.key});
 
   @override
-  State<AccountSecurityScreen> createState() => _AccountSecurityScreenState();
+  State<PrivacyScreen> createState() => _PrivacyScreenState();
 }
 
-class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
+class _PrivacyScreenState extends State<PrivacyScreen> {
   bool isEnabled = false;
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     width: 30.w,
                   ),
                   TextWidget(
-                    text: "Account Security",
+                    text: "Privacy",
                     fontWeight: FontWeight.bold,
                     fontSize: 20.sp,
                     color: Theme.of(context).colorScheme.inversePrimary,
@@ -63,23 +63,43 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
               const SizedBox(
                 height: 40,
               ),
+              TextWidget(
+                text:
+                    "Control your privacy and choose the rightpeople to see you",
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.w500,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
                 padding: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                        width: 0.5,
-                        color: Theme.of(context).colorScheme.inversePrimary),
-                  ),
+                decoration: const BoxDecoration(
+                  border: Border(),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextWidget(
-                      text: "Enable passcode protect",
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      fontWeight: FontWeight.w500,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          text: "Choose who can see you",
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: TextWidget(
+                            text:
+                                "If turned off, no one will be ableto see if you are online or offline",
+                            fontSize: 12,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ],
                     ),
                     Transform.scale(
                       scale: 0.7,

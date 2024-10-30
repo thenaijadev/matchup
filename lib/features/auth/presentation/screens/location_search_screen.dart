@@ -132,7 +132,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                     ? state is PlacesStateIsLoading
                         ? const SizedBox(width: 100, child: LoadingWidget())
                         : SizedBox(
-                            height: 150,
+                            height: MediaQuery.of(context).size.height * .5,
                             child: ListView(
                               children: [
                                 Row(

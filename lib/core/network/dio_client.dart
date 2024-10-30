@@ -10,6 +10,7 @@ class DioClient {
 
   final Dio _dio = Dio(BaseOptions(
       baseUrl: "http://matchup.experthub.ng",
+      // baseUrl: "http://matchup.housexplorer.com",
       connectTimeout: const Duration(seconds: 60),
       receiveTimeout: const Duration(seconds: 60),
       responseType: ResponseType.json));
@@ -53,7 +54,7 @@ class DioClient {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: Options(headers: {"Accept": "application/json"}),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
